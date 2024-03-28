@@ -7,7 +7,6 @@ package GUI.Panel;
 import GUI.Component.SideMenuItem;
 import GUI.Main;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -29,6 +28,10 @@ public class SideMenu extends javax.swing.JPanel {
         {"Thống kê", "thongKe", "sideMenu_thongKe.svg"}
     };
     public SideMenuItem menuItems[];
+    Color itemBgColor = new Color(255, 255, 255);
+    Color itemFontColor = new Color(0, 0, 0);
+    Color selectedItemBgColor = new Color(189, 198, 252);
+    Color selectedItemFontColor = new Color(255, 255, 255);
     
     /**
      * Creates new form MenuBar
@@ -43,7 +46,30 @@ public class SideMenu extends javax.swing.JPanel {
         menuItems = new SideMenuItem[menuSt.length];
         for(int i=0; i<menuSt.length; i++) {
             menuItems[i] = new SideMenuItem(main, menuSt[i][0], menuSt[i][1], menuSt[i][2]);
+            menuItems[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent evt) {
+                    selectingMenuItem(evt);
+                }
+            });
             centerPanel.add(menuItems[i]);
+        }
+        menuItems[0].isSelected = true;
+        menuItems[0].setBackground(selectedItemBgColor);
+        menuItems[0].setForeground(selectedItemFontColor);
+    }
+    
+    public void selectingMenuItem(MouseEvent evt) {
+        for (int i = 0; i < menuSt.length; i++) {
+            if (evt.getSource() == menuItems[i]) {
+                menuItems[i].isSelected = true;
+                menuItems[i].setBackground(selectedItemBgColor);
+                menuItems[i].setForeground(selectedItemFontColor);
+            } else {
+                menuItems[i].isSelected = false;
+                menuItems[i].setBackground(itemBgColor);
+                menuItems[i].setForeground(itemFontColor);
+            }
         }
     }
 
@@ -85,13 +111,13 @@ public class SideMenu extends javax.swing.JPanel {
         topPanelLayout.setHorizontalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(48, 48, 48)
                 .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userName)
                     .addComponent(userRole))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

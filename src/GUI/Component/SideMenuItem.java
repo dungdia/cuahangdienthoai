@@ -20,6 +20,8 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
     Main main;
     String name;
     String target;
+    public boolean isSelected;
+    
     /**
      * Creates new form SideMenuItem1
      */
@@ -57,7 +59,6 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
         icon = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         setPreferredSize(new java.awt.Dimension(250, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -83,11 +84,9 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -115,12 +114,16 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        setBackground(new Color(200, 200, 200));
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        if(!isSelected) {
+            setBackground(new Color(222, 222, 222));
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        setBackground(new Color(255, 255, 255));
+        if(!isSelected) {
+            setBackground(new Color(255, 255, 255));
+        }
     }
 }
