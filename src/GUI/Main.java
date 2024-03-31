@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import config.DBConnector;
+import java.sql.*;
 
 /**
  *
@@ -117,7 +119,15 @@ public class Main extends javax.swing.JFrame {
         }
         //</editor-fold>
         UIManager.setLookAndFeel(new FlatIntelliJLaf());
-
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String sql = "SELECT * FROM taikhoan WHERE manv=?";
+            DBConnector.closeConnection(conn);
+        } catch (Exception e) {
+            System.out.print("connection failed");
+        }
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
