@@ -4,19 +4,38 @@
  */
 package GUI.Panel;
 
+import BUS.NhanVienBUS;
+import DTO.NhanVienDTO;
+import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class NhanVien extends javax.swing.JPanel {
 
+    private DefaultTableModel model;
+    private final NhanVienBUS nvBUS = new NhanVienBUS();
+    private ArrayList<NhanVienDTO> nhanVienList = nvBUS.getAll();
     /**
      * Creates new form NhanVien
      */
     public NhanVien() {
         initComponents();
+        nvTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
+        model = (DefaultTableModel) nvTable.getModel();
+        loadDataToTable();
     }
-
+    
+    public void loadDataToTable(){
+        model.setRowCount(0);
+        for(NhanVienDTO i : nhanVienList){
+            model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getChucVu()});
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,22 +45,87 @@ public class NhanVien extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(102, 255, 102));
-        setPreferredSize(new java.awt.Dimension(1030, 720));
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        nvTable = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1030, 720));
+        setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 908, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        nvTable.setAutoCreateRowSorter(true);
+        nvTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        nvTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã", "Họ", "Tên", "Giới tính", "Số điện thoại", "Chức vụ"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        nvTable.setRowHeight(32);
+        nvTable.setShowGrid(true);
+        nvTable.setShowHorizontalLines(true);
+        nvTable.setShowVerticalLines(true);
+        nvTable.getTableHeader().setResizingAllowed(false);
+        nvTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(nvTable);
+        if (nvTable.getColumnModel().getColumnCount() > 0) {
+            nvTable.getColumnModel().getColumn(0).setResizable(false);
+            nvTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            nvTable.getColumnModel().getColumn(1).setResizable(false);
+            nvTable.getColumnModel().getColumn(1).setPreferredWidth(250);
+            nvTable.getColumnModel().getColumn(2).setResizable(false);
+            nvTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+            nvTable.getColumnModel().getColumn(3).setResizable(false);
+            nvTable.getColumnModel().getColumn(3).setPreferredWidth(150);
+            nvTable.getColumnModel().getColumn(4).setResizable(false);
+            nvTable.getColumnModel().getColumn(4).setPreferredWidth(190);
+            nvTable.getColumnModel().getColumn(5).setResizable(false);
+            nvTable.getColumnModel().getColumn(5).setPreferredWidth(190);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+        );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable nvTable;
     // End of variables declaration//GEN-END:variables
 }
