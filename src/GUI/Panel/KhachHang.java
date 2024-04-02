@@ -4,17 +4,40 @@
  */
 package GUI.Panel;
 
+import BUS.KhachHangBUS;
+import DTO.KhachHangDTO;
+import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class KhachHang extends javax.swing.JPanel {
-
+    
+    private DefaultTableModel model;
+    private final KhachHangBUS khBUS = new KhachHangBUS();
+    private ArrayList<KhachHangDTO> khachHangList = khBUS.getAll();
     /**
      * Creates new form KhachHang
      */
     public KhachHang() {
         initComponents();
+        khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
+        khBUS.printAll();
+        model = (DefaultTableModel) khTable.getModel();
+        loadDataToTable();
+    }
+    
+    public void loadDataToTable() {
+        model.setRowCount(0);
+        for(KhachHangDTO i : khachHangList) {
+            model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
+        }
     }
 
     /**
@@ -26,22 +49,84 @@ public class KhachHang extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(255, 153, 0));
-        setPreferredSize(new java.awt.Dimension(1030, 720));
+        topPanel = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        khTable = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1030, 720));
+        setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1030, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        khTable.setAutoCreateRowSorter(true);
+        khTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        khTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã", "Họ", "Tên", "Số điện thoại"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        khTable.setToolTipText("");
+        khTable.setPreferredSize(new java.awt.Dimension(1030, 64));
+        khTable.setRowHeight(32);
+        khTable.setSelectionBackground(new java.awt.Color(238, 238, 238));
+        khTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        khTable.setShowGrid(true);
+        khTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(khTable);
+        if (khTable.getColumnModel().getColumnCount() > 0) {
+            khTable.getColumnModel().getColumn(0).setResizable(false);
+            khTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            khTable.getColumnModel().getColumn(1).setResizable(false);
+            khTable.getColumnModel().getColumn(1).setPreferredWidth(300);
+            khTable.getColumnModel().getColumn(2).setResizable(false);
+            khTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+            khTable.getColumnModel().getColumn(3).setResizable(false);
+            khTable.getColumnModel().getColumn(3).setPreferredWidth(530);
+        }
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+        );
+
+        add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable khTable;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author Admin
  */
 public class DBConnector {
-    private static String url = "jdbc:mysql://localhost:3306/test";
+    private static String url = "jdbc:mysql://localhost:3306/cuahangdienthoai";
     private static String userName = "root";
     private static String passWord = "";
     

@@ -113,11 +113,7 @@ public class SanPham extends javax.swing.JPanel {
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn kho", "Giá sản phẩm"
