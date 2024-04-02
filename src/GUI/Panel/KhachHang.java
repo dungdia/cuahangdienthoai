@@ -93,7 +93,6 @@ public class KhachHang extends javax.swing.JPanel {
         khTable.setPreferredSize(new java.awt.Dimension(1030, 64));
         khTable.setRowHeight(32);
         khTable.setSelectionBackground(new java.awt.Color(238, 238, 238));
-        khTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         khTable.setShowGrid(true);
         khTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(khTable);
