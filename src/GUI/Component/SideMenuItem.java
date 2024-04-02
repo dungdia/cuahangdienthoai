@@ -59,6 +59,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
         icon = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(221, 221, 221)));
         setPreferredSize(new java.awt.Dimension(250, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
