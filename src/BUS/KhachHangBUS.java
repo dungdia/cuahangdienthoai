@@ -24,9 +24,13 @@ public class KhachHangBUS {
         return this.khachHangList;
     }
     
-    public void printAll() {
-        for(int i=0; i< khachHangList.size(); i++) {
-            System.out.println(khachHangList.get(i));
+    public ArrayList<KhachHangDTO> search(String text) {
+        ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
+        text.toLowerCase();
+        for(KhachHangDTO i : this.khachHangList) {
+            if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text))
+                result.add(i);
         }
+        return result;
     }
 }

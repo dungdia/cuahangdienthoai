@@ -6,6 +6,9 @@ package GUI.Panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -18,6 +21,21 @@ public class SanPham extends javax.swing.JPanel {
      */
     public SanPham() {
         initComponents();
+        
+        addBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                    setBackground(new Color(222, 222, 222));
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                    setBackground(new Color(255, 255, 255));
+            }
+        });
+        
+        addBtn.putClientProperty("JButton.buttonType", "toolBarButton");
     }
 
     /**
@@ -68,6 +86,11 @@ public class SanPham extends javax.swing.JPanel {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 searchTextFieldFocusLost(evt);
+            }
+        });
+        searchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchTextFieldKeyReleased(evt);
             }
         });
 
@@ -138,7 +161,7 @@ public class SanPham extends javax.swing.JPanel {
     private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
         // TODO add your handling code here:
         if("Nhập nội dung cần tìm kiếm".equals(searchTextField.getText()))
-            searchTextField.setText("");
+        searchTextField.setText("");
         searchTextField.selectAll();
         searchTextField.setForeground(new Color(50,50,50));
     }//GEN-LAST:event_searchTextFieldFocusGained
@@ -150,6 +173,10 @@ public class SanPham extends javax.swing.JPanel {
             searchTextField.setForeground(new Color(150,150,150));
         }
     }//GEN-LAST:event_searchTextFieldFocusLost
+
+    private void searchTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextFieldKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTextFieldKeyReleased
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

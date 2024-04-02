@@ -6,6 +6,8 @@ package GUI.Panel;
 
 import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
+import GUI.Component.ToolBarButton;
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JLabel;
@@ -28,14 +30,20 @@ public class KhachHang extends javax.swing.JPanel {
     public KhachHang() {
         initComponents();
         khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
-        khBUS.printAll();
+        toolBar.add(new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail"));
+        toolBar.add(new ToolBarButton("Thêm", "toolBar_add.svg", "add"));
+        toolBar.add(new ToolBarButton("Sửa", "toolBar_edit.svg", "edit"));
+        toolBar.add(new ToolBarButton("Xóa", "toolBar_delete.svg", "delete"));
         model = (DefaultTableModel) khTable.getModel();
-        loadDataToTable();
+        
+        txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
+        txtSearch.putClientProperty("JTextField.showClearButton", true);
+        loadDataToTable(khachHangList);
     }
     
-    public void loadDataToTable() {
+    public void loadDataToTable(ArrayList<KhachHangDTO> khList) {
         model.setRowCount(0);
-        for(KhachHangDTO i : khachHangList) {
+        for(KhachHangDTO i : khList) {
             model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
         }
     }
@@ -50,6 +58,9 @@ public class KhachHang extends javax.swing.JPanel {
     private void initComponents() {
 
         topPanel = new javax.swing.JPanel();
+        toolBar = new javax.swing.JToolBar();
+        jPanel2 = new javax.swing.JPanel();
+        txtSearch = new javax.swing.JTextField();
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         khTable = new javax.swing.JTable();
@@ -58,16 +69,42 @@ public class KhachHang extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
-        topPanel.setLayout(topPanelLayout);
-        topPanelLayout.setHorizontalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1030, Short.MAX_VALUE)
+        topPanel.setPreferredSize(new java.awt.Dimension(1030, 100));
+        topPanel.setLayout(new java.awt.BorderLayout());
+
+        toolBar.setBackground(new java.awt.Color(238, 238, 238));
+        toolBar.setRollover(true);
+        toolBar.setPreferredSize(new java.awt.Dimension(400, 100));
+        topPanel.add(toolBar, java.awt.BorderLayout.LINE_END);
+
+        jPanel2.setBackground(new java.awt.Color(238, 238, 238));
+        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(221, 221, 221)));
+
+        txtSearch.setPreferredSize(new java.awt.Dimension(250, 44));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(349, Short.MAX_VALUE))
         );
-        topPanelLayout.setVerticalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
+
+        topPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         add(topPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -122,11 +159,19 @@ public class KhachHang extends javax.swing.JPanel {
         add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        String searchText = txtSearch.getText();
+        loadDataToTable(khBUS.search(searchText));
+    }//GEN-LAST:event_txtSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable khTable;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JToolBar toolBar;
     private javax.swing.JPanel topPanel;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
