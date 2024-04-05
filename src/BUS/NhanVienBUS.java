@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class NhanVienBUS {
     private final NhanVienDAO nvDAO = new NhanVienDAO();
-    public ArrayList<NhanVienDTO> nhanVienList = new ArrayList<>();
+    public ArrayList<NhanVienDTO> nhanVienList = new ArrayList<NhanVienDTO>();
     
     public NhanVienBUS(){
         nhanVienList = nvDAO.selectAll();

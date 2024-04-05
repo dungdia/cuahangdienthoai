@@ -24,14 +24,15 @@ public class SideMenu extends javax.swing.JPanel {
         {"Phiếu xuất", "phieuXuat", "sideMenu_phieuXuat.svg"},
         {"Khách hàng", "khachHang", "sideMenu_khachHang.svg"},
         {"Nhân viên", "nhanVien", "sideMenu_nhanVien.svg"},
+        {"Nhà cung cấp", "nhaCungCap", "sideMenu_nhaCungCap.svg"},
         {"Phân quyền", "phanQuyen", "sideMenu_phanQuyen.svg"},
         {"Thống kê", "thongKe", "sideMenu_thongKe.svg"}
     };
     public SideMenuItem menuItems[];
     Color itemBgColor = new Color(255, 255, 255);
     Color itemFontColor = new Color(0, 0, 0);
-    Color selectedItemBgColor = new Color(189, 198, 252);
-    Color selectedItemFontColor = new Color(255, 255, 255);
+    Color selectedItemBgColor = new Color(190, 215, 220);
+    Color selectedItemFontColor = new Color(0, 0, 0);
     
     /**
      * Creates new form MenuBar
@@ -56,7 +57,7 @@ public class SideMenu extends javax.swing.JPanel {
         }
         menuItems[0].isSelected = true;
         menuItems[0].setBackground(selectedItemBgColor);
-        menuItems[0].setForeground(selectedItemFontColor);
+        menuItems[0].text.setForeground(selectedItemFontColor);
     }
     
     public void selectingMenuItem(MouseEvent evt) {
@@ -64,11 +65,11 @@ public class SideMenu extends javax.swing.JPanel {
             if (evt.getSource() == menuItems[i]) {
                 menuItems[i].isSelected = true;
                 menuItems[i].setBackground(selectedItemBgColor);
-                menuItems[i].setForeground(selectedItemFontColor);
+                menuItems[i].text.setForeground(selectedItemFontColor);
             } else {
                 menuItems[i].isSelected = false;
                 menuItems[i].setBackground(itemBgColor);
-                menuItems[i].setForeground(itemFontColor);
+                menuItems[i].text.setForeground(itemFontColor);
             }
         }
     }

@@ -29,6 +29,7 @@ public class Main extends javax.swing.JFrame {
     public PhieuXuat phieuXuat;
     public KhachHang khachHang;
     public NhanVien nhanVien;
+    public NhaCungCap nhaCungCap;
     public PhanQuyen phanQuyen;
     public ThongKe thongKe;
     private Color MainColor = new Color(255, 255, 255);
@@ -38,13 +39,14 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        
+        DBConnector.checkConnection();
         home = new Home();
-        sanPham = new SanPham();
+        sanPham = new SanPham(this);
         phieuNhap = new PhieuNhap();
         phieuXuat = new PhieuXuat();
         khachHang = new KhachHang();
         nhanVien = new NhanVien();
+        nhaCungCap = new NhaCungCap();
         phanQuyen = new PhanQuyen();
         thongKe = new ThongKe();
         
@@ -66,6 +68,7 @@ public class Main extends javax.swing.JFrame {
         Content.add(phieuXuat, "phieuXuat");
         Content.add(khachHang, "khachHang");
         Content.add(nhanVien, "nhanVien");
+        Content.add(nhaCungCap, "nhaCungCap");
         Content.add(phanQuyen, "phanQuyen");
         Content.add(thongKe, "thongKe");
 

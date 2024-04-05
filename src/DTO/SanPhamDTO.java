@@ -12,13 +12,25 @@ public class SanPhamDTO {
     private int id;
     private String ten;
     private String hinhAnh;
+    private String kichThuocMan;
+    private String cameraSau;
+    private String cameraTruoc;
+    private String chipXuLy;
+    private String heDieuHanh;
+    private String dungLuongPin;
     private int idThuongHieu;
     private int trangThai;
 
-    public SanPhamDTO(int id, String ten, String hinhAnh, int idThuongHieu, int trangThai) {
+    public SanPhamDTO(int id, String ten, String hinhAnh, String kichThuocMan, String cameraSau, String cameraTruoc, String chipXuLy, String heDieuHanh, String dungLuongPin, int idThuongHieu, int trangThai) {
         this.id = id;
         this.ten = ten;
         this.hinhAnh = hinhAnh;
+        this.kichThuocMan = kichThuocMan;
+        this.cameraSau = cameraSau;
+        this.cameraTruoc = cameraTruoc;
+        this.chipXuLy = chipXuLy;
+        this.heDieuHanh = heDieuHanh;
+        this.dungLuongPin = dungLuongPin;
         this.idThuongHieu = idThuongHieu;
         this.trangThai = trangThai;
     }
@@ -27,7 +39,7 @@ public class SanPhamDTO {
         return id;
     }
 
-    public void getId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,6 +59,54 @@ public class SanPhamDTO {
         this.hinhAnh = hinhAnh;
     }
 
+    public String getKichThuocMan() {
+        return kichThuocMan;
+    }
+
+    public void setKichThuocMan(String kichThuocMan) {
+        this.kichThuocMan = kichThuocMan;
+    }
+
+    public String getCameraSau() {
+        return cameraSau;
+    }
+
+    public void setCameraSau(String cameraSau) {
+        this.cameraSau = cameraSau;
+    }
+
+    public String getCameraTruoc() {
+        return cameraTruoc;
+    }
+
+    public void setCameraTruoc(String cameraTruoc) {
+        this.cameraTruoc = cameraTruoc;
+    }
+
+    public String getChipXuLy() {
+        return chipXuLy;
+    }
+
+    public void setChipXuLy(String chipXuLy) {
+        this.chipXuLy = chipXuLy;
+    }
+
+    public String getHeDieuHanh() {
+        return heDieuHanh;
+    }
+
+    public void setHeDieuHanh(String heDieuHanh) {
+        this.heDieuHanh = heDieuHanh;
+    }
+
+    public String getDungLuongPin() {
+        return dungLuongPin;
+    }
+
+    public void setDungLuongPin(String dungLuongPin) {
+        this.dungLuongPin = dungLuongPin;
+    }
+
     public int getIdThuongHieu() {
         return idThuongHieu;
     }
@@ -63,5 +123,5 @@ public class SanPhamDTO {
         this.trangThai = trangThai;
     }
 
-    
+        
 }

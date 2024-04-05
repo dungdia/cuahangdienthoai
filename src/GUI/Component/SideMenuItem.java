@@ -33,7 +33,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
         initComponents();
         this.main = main;
         this.target = target;
-        jLabel1.setText(name);
+        text.setText(name);
         addMouseListener(this);
     }
     
@@ -41,7 +41,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
         initComponents();
         this.main = main;
         this.target = target;
-        jLabel1.setText(name);
+        text.setText(name);
         icon.setIcon(new FlatSVGIcon("./image/icon/" + imageLink));
         addMouseListener(this);
     }
@@ -55,18 +55,18 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        text = new javax.swing.JLabel();
         icon = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(221, 221, 221)));
         setPreferredSize(new java.awt.Dimension(250, 50));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Item's Text");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jLabel1.setPreferredSize(new java.awt.Dimension(85, 32));
+        text.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        text.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        text.setText("Item's Text");
+        text.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        text.setPreferredSize(new java.awt.Dimension(85, 32));
 
         icon.setPreferredSize(new java.awt.Dimension(32, 32));
 
@@ -78,7 +78,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
                 .addGap(29, 29, 29)
                 .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(text, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
@@ -86,7 +86,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
         );
@@ -94,8 +94,8 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel icon;
-    private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel icon;
+    public javax.swing.JLabel text;
     // End of variables declaration//GEN-END:variables
 
     @Override
