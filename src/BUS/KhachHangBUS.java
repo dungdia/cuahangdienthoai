@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class KhachHangBUS {
     private final KhachHangDAO khDAO = new KhachHangDAO();
-    public ArrayList<KhachHangDTO> khachHangList = new ArrayList<>();
+    public ArrayList<KhachHangDTO> khachHangList = new ArrayList<KhachHangDTO>();
     
     public KhachHangBUS(){
         khachHangList = khDAO.selectAll();

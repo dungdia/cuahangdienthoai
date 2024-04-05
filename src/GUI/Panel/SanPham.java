@@ -4,31 +4,87 @@
  */
 package GUI.Panel;
 
+import BUS.SanPhamBUS;
+import DTO.SanPhamDTO;
 import GUI.Component.ToolBarButton;
+import GUI.Dialog.SanPhamDialog;
+import GUI.Dialog.testDialog;
+import GUI.Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Admin
  */
-public class SanPham extends javax.swing.JPanel {
+public class SanPham extends javax.swing.JPanel implements ActionListener {
 
+    private DefaultTableModel model;
+    private final SanPhamBUS spBUS = new SanPhamBUS();
+    private ArrayList<SanPhamDTO> sanPhamList = spBUS.getAll();
+    private Main main;
+    
+    ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
+    ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
+    ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
+    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     /**
      * Creates new form SanPham
      */
-    public SanPham() {
+    public SanPham(Main main) {
         initComponents();
-        
+        this.main = main;
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        toolBar.add(new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail"));
-        toolBar.add(new ToolBarButton("Thêm", "toolBar_add.svg", "add"));
-        toolBar.add(new ToolBarButton("Sửa", "toolBar_edit.svg", "edit"));
-        toolBar.add(new ToolBarButton("Xóa", "toolBar_delete.svg", "delete"));
+        
+        toolBar.add(chiTietBtn);
+        toolBar.add(themBtn);
+        toolBar.add(suaBtn);
+        toolBar.add(xoaBtn);
+        
+        productTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        model = (DefaultTableModel) productTable.getModel();
+        loadDataToTable(sanPhamList);
+        
+        chiTietBtn.addActionListener(this);
+        themBtn.addActionListener(this);
+        suaBtn.addActionListener(this);
+        xoaBtn.addActionListener(this);
+    }
+    
+    public void loadDataToTable(ArrayList<SanPhamDTO> spList) {
+        model.setRowCount(0);
+        for(SanPhamDTO i : spList) {
+            model.addRow(new Object[]{i.getId(), i.getTen(), i.getKichThuocMan(), i.getCameraSau(), i.getCameraTruoc(), i.getChipXuLy(), i.getHeDieuHanh(), i.getDungLuongPin()});
+        }
+    }
+    
+    public int getSelectedRow() {
+        int index = productTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return index;
+    }
+    
+    public void chiTietBtnOnClick() {
+//        System.out.print("test");
+        JDialog jDialog = new JDialog(main, "test", true);
+        jDialog.setSize(200, 200);
+        jDialog.setLocationRelativeTo(null);
+        jDialog.setVisible(true);
         
     }
 
@@ -99,10 +155,37 @@ public class SanPham extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn kho", "Giá sản phẩm"
+                "Mã", "Tên", "Kích thước màn", "Camera sau", "Camera trước", "Chip xử lý", "Hệ điều hành", "Dung lượng pin"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        productTable.setRowHeight(32);
+        productTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        productTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        productTable.setShowGrid(true);
         jScrollPane1.setViewportView(productTable);
+        if (productTable.getColumnModel().getColumnCount() > 0) {
+            productTable.getColumnModel().getColumn(0).setResizable(false);
+            productTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            productTable.getColumnModel().getColumn(1).setResizable(false);
+            productTable.getColumnModel().getColumn(1).setPreferredWidth(140);
+            productTable.getColumnModel().getColumn(2).setResizable(false);
+            productTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+            productTable.getColumnModel().getColumn(3).setResizable(false);
+            productTable.getColumnModel().getColumn(4).setResizable(false);
+            productTable.getColumnModel().getColumn(5).setResizable(false);
+            productTable.getColumnModel().getColumn(6).setResizable(false);
+            productTable.getColumnModel().getColumn(6).setPreferredWidth(40);
+            productTable.getColumnModel().getColumn(7).setResizable(false);
+            productTable.getColumnModel().getColumn(7).setPreferredWidth(40);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -119,8 +202,8 @@ public class SanPham extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-//        String searchText = txtSearch.getText();
-//        loadDataToTable(khBUS.search(searchText));
+        String searchText = txtSearch.getText();
+        loadDataToTable(spBUS.search(searchText));
     }//GEN-LAST:event_txtSearchKeyReleased
     
 
@@ -133,4 +216,16 @@ public class SanPham extends javax.swing.JPanel {
     private javax.swing.JPanel topPanel;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == chiTietBtn) {            
+            int index = getSelectedRow();
+            if (index != -1) {
+                SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
+                spDialog.setVisible(true);
+            }
+        }
+        
+    }
 }

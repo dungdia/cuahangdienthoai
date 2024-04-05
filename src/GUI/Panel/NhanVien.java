@@ -20,6 +20,11 @@ public class NhanVien extends javax.swing.JPanel {
     private DefaultTableModel model;
     private final NhanVienBUS nvBUS = new NhanVienBUS();
     private ArrayList<NhanVienDTO> nhanVienList = nvBUS.getAll();
+    
+    ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
+    ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
+    ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
+    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     /**
      * Creates new form NhanVien
      */
@@ -28,10 +33,11 @@ public class NhanVien extends javax.swing.JPanel {
         
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        toolBar.add(new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail"));
-        toolBar.add(new ToolBarButton("Thêm", "toolBar_add.svg", "add"));
-        toolBar.add(new ToolBarButton("Sửa", "toolBar_edit.svg", "edit"));
-        toolBar.add(new ToolBarButton("Xóa", "toolBar_delete.svg", "delete"));
+        
+        toolBar.add(chiTietBtn);
+        toolBar.add(themBtn);
+        toolBar.add(suaBtn);
+        toolBar.add(xoaBtn);
         
         nvTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         model = (DefaultTableModel) nvTable.getModel();
@@ -126,6 +132,8 @@ public class NhanVien extends javax.swing.JPanel {
             }
         });
         nvTable.setRowHeight(32);
+        nvTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        nvTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         nvTable.setShowGrid(true);
         nvTable.getTableHeader().setResizingAllowed(false);
         nvTable.getTableHeader().setReorderingAllowed(false);

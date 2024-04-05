@@ -24,6 +24,11 @@ public class KhachHang extends javax.swing.JPanel {
     private DefaultTableModel model;
     private final KhachHangBUS khBUS = new KhachHangBUS();
     private ArrayList<KhachHangDTO> khachHangList = khBUS.getAll();
+    
+    ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
+    ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
+    ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
+    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     /**
      * Creates new form KhachHang
      */
@@ -32,10 +37,11 @@ public class KhachHang extends javax.swing.JPanel {
         
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        toolBar.add(new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail"));
-        toolBar.add(new ToolBarButton("Thêm", "toolBar_add.svg", "add"));
-        toolBar.add(new ToolBarButton("Sửa", "toolBar_edit.svg", "edit"));
-        toolBar.add(new ToolBarButton("Xóa", "toolBar_delete.svg", "delete"));
+        
+        toolBar.add(chiTietBtn);
+        toolBar.add(themBtn);
+        toolBar.add(suaBtn);
+        toolBar.add(xoaBtn);
         
         khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         model = (DefaultTableModel) khTable.getModel();
@@ -48,6 +54,8 @@ public class KhachHang extends javax.swing.JPanel {
             model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
         }
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,7 +138,8 @@ public class KhachHang extends javax.swing.JPanel {
         khTable.setToolTipText("");
         khTable.setPreferredSize(new java.awt.Dimension(1030, 64));
         khTable.setRowHeight(32);
-        khTable.setSelectionBackground(new java.awt.Color(238, 238, 238));
+        khTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        khTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         khTable.setShowGrid(true);
         khTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(khTable);
