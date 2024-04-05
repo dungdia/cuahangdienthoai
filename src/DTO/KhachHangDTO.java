@@ -12,14 +12,14 @@ public class KhachHangDTO {
     private int id;
     private String ho;
     private String ten;
-    private String gioiTinh;
+    private String diaChi;
     private String soDienThoai;
 
-    public KhachHangDTO(int id, String ho, String ten, String gioiTinh, String soDienThoai) {
+    public KhachHangDTO(int id, String ho, String ten, String diaChi, String soDienThoai) {
         this.id = id;
         this.ho = ho;
         this.ten = ten;
-        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
     }
 
@@ -47,12 +47,12 @@ public class KhachHangDTO {
         this.ten = ten;
     }
 
-    public String getGioiTinh() {
-        return gioiTinh;
+    public String getDiaChi() {
+        return diaChi;
     }
 
-    public void setGioiTinh(String gioiTinh) {
-        this.gioiTinh = gioiTinh;
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
     }
 
     public String getSoDienThoai() {
@@ -65,7 +65,7 @@ public class KhachHangDTO {
 
     @Override
     public String toString() {
-        return "KhachHangDTO{" + "id=" + id + ", ho=" + ho + ", ten=" + ten + ", gioiTinh=" + gioiTinh + ", soDienThoai=" + soDienThoai + '}';
+        return "KhachHangDTO{" + "id=" + id + ", ho=" + ho + ", ten=" + ten + ", diaChi=" + diaChi + ", soDienThoai=" + soDienThoai + '}';
     }
     
 }

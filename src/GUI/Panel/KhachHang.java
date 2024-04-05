@@ -29,15 +29,16 @@ public class KhachHang extends javax.swing.JPanel {
      */
     public KhachHang() {
         initComponents();
-        khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
+        
+        txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
+        txtSearch.putClientProperty("JTextField.showClearButton", true);
         toolBar.add(new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail"));
         toolBar.add(new ToolBarButton("Thêm", "toolBar_add.svg", "add"));
         toolBar.add(new ToolBarButton("Sửa", "toolBar_edit.svg", "edit"));
         toolBar.add(new ToolBarButton("Xóa", "toolBar_delete.svg", "delete"));
-        model = (DefaultTableModel) khTable.getModel();
         
-        txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
-        txtSearch.putClientProperty("JTextField.showClearButton", true);
+        khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
+        model = (DefaultTableModel) khTable.getModel();
         loadDataToTable(khachHangList);
     }
     
@@ -58,9 +59,9 @@ public class KhachHang extends javax.swing.JPanel {
     private void initComponents() {
 
         topPanel = new javax.swing.JPanel();
-        toolBar = new javax.swing.JToolBar();
         jPanel2 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
+        toolBar = new javax.swing.JToolBar();
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         khTable = new javax.swing.JTable();
@@ -71,11 +72,6 @@ public class KhachHang extends javax.swing.JPanel {
 
         topPanel.setPreferredSize(new java.awt.Dimension(1030, 100));
         topPanel.setLayout(new java.awt.BorderLayout());
-
-        toolBar.setBackground(new java.awt.Color(238, 238, 238));
-        toolBar.setRollover(true);
-        toolBar.setPreferredSize(new java.awt.Dimension(400, 100));
-        topPanel.add(toolBar, java.awt.BorderLayout.LINE_END);
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(221, 221, 221)));
@@ -105,6 +101,11 @@ public class KhachHang extends javax.swing.JPanel {
         );
 
         topPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        toolBar.setBackground(new java.awt.Color(238, 238, 238));
+        toolBar.setRollover(true);
+        toolBar.setPreferredSize(new java.awt.Dimension(400, 100));
+        topPanel.add(toolBar, java.awt.BorderLayout.LINE_END);
 
         add(topPanel, java.awt.BorderLayout.PAGE_START);
 

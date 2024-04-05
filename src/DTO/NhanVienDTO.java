@@ -14,14 +14,16 @@ public class NhanVienDTO {
     private String ten;
     private String gioiTinh;
     private String soDienThoai;
+    private String email;
     private String chucVu;
 
-    public NhanVienDTO(int id, String ho, String ten, String gioiTinh, String soDienThoai, String chucVu) {
+    public NhanVienDTO(int id, String ho, String ten, String gioiTinh, String soDienThoai, String email, String chucVu) {
         this.id = id;
         this.ho = ho;
         this.ten = ten;
         this.gioiTinh = gioiTinh;
         this.soDienThoai = soDienThoai;
+        this.email = email;
         this.chucVu = chucVu;
     }
 
@@ -65,6 +67,14 @@ public class NhanVienDTO {
         this.soDienThoai = soDienThoai;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getChucVu() {
         return chucVu;
     }
@@ -73,4 +83,5 @@ public class NhanVienDTO {
         this.chucVu = chucVu;
     }
 
+    
 }
