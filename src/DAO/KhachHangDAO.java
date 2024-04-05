@@ -28,8 +28,9 @@ public class KhachHangDAO {
                 int id = rs.getInt("id");
                 String ho = rs.getString("ho");
                 String ten = rs.getString("ten");
+                String diaChi = rs.getString("diaChi");
                 String sdt = rs.getString("soDienThoai");
-                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, "Nam", sdt);
+                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, diaChi, sdt);
                 result.add(kh);
             }
             DBConnector.closeConnection(conn);

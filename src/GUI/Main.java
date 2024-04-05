@@ -118,16 +118,7 @@ public class Main extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        try {
-            Connection conn = (Connection) DBConnector.getConnection();
-            String sql = "SELECT * FROM taikhoan WHERE manv=?";
-            DBConnector.closeConnection(conn);
-        } catch (Exception e) {
-            System.out.print("connection failed");
-        }
-        
-        
+        UIManager.setLookAndFeel(new FlatIntelliJLaf());        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

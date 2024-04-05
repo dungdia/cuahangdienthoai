@@ -29,8 +29,9 @@ public class NhanVienDAO {
                 String ten = rs.getNString("ten");
                 String gioiTinh = rs.getString("gioitinh");
                 String sdt = rs.getString("soDienThoai");
+                String email = rs.getString("email");
                 String chucVu = rs.getString("chucVu");
-                NhanVienDTO nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, chucVu);
+                NhanVienDTO nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, email, chucVu);
                 result.add(nv);
             }
             DBConnector.closeConnection(conn);

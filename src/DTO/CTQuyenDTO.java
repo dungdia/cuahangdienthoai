@@ -11,10 +11,12 @@ package DTO;
 public class CTQuyenDTO {
     private int idQuyen;
     private int idChucNang;
+    private String hanhDong;
 
-    public CTQuyenDTO(int idQuyen, int idChucNang) {
+    public CTQuyenDTO(int idQuyen, int idChucNang, String hanhDong) {
         this.idQuyen = idQuyen;
         this.idChucNang = idChucNang;
+        this.hanhDong = hanhDong;
     }
 
     public int getIdQuyen() {
@@ -32,6 +34,13 @@ public class CTQuyenDTO {
     public void setIdChucNang(int idChucNang) {
         this.idChucNang = idChucNang;
     }
-    
+
+    public String getHanhDong() {
+        return hanhDong;
+    }
+
+    public void setHanhDong(String hanhDong) {
+        this.hanhDong = hanhDong;
+    }
     
 }

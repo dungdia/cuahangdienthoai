@@ -24,9 +24,13 @@ public class NhanVienBUS {
         return this.nhanVienList;
     }
     
-    public void printAll(){
-        for(int i = 0; i < nhanVienList.size(); i++){
-            System.out.println(nhanVienList.get(i));
+    public ArrayList<NhanVienDTO> search(String text) {
+        ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
+        text.toLowerCase();
+        for(NhanVienDTO i : nhanVienList) {
+            if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getGioiTinh().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text))
+               result.add(i);
         }
+        return result;
     }
 }
