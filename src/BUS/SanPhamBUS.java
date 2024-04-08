@@ -29,7 +29,7 @@ public class SanPhamBUS {
         ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         text.toLowerCase();
         for(SanPhamDTO i : sanPhamList) {
-            if(Integer.toString(i.getId()).contains(text) || i.getTen().toLowerCase().contains(text) || i.getKichThuocMan().toLowerCase().contains(text) || i.getCameraSau().toLowerCase().contains(text) || i.getCameraTruoc().toLowerCase().contains(text) || i.getChipXuLy().toLowerCase().contains(text) || i.getHeDieuHanh().toLowerCase().contains(text) || i.getDungLuongPin().toLowerCase().contains(text))
+            if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || Float.toString(i.getKichThuocMan()).toLowerCase().contains(text) || i.getCameraSau().toLowerCase().contains(text) || i.getCameraTruoc().toLowerCase().contains(text) || i.getChipXuLy().toLowerCase().contains(text) || i.getHeDieuHanh().toLowerCase().contains(text) || Integer.toString(i.getDungLuongPin()).toLowerCase().contains(text))
                 result.add(i);
         }
         return result;

@@ -28,12 +28,12 @@ public class SanPhamDAO {
                 int id = rs.getInt("id");
                 String ten = rs.getString("ten");
                 String hinhAnh = rs.getString("hinhAnh");
-                String kichThuocMan = rs.getString("kichThuocMan");
+                float kichThuocMan = rs.getFloat("kichThuocMan");
                 String cameraSau = rs.getString("cameraSau");
                 String cameraTruoc = rs.getString("cameraTruoc");
                 String chipXuLy = rs.getString("chipXuLy");
                 String heDieuHanh = rs.getString("heDieuHanh");
-                String dungLuongPin = rs.getString("dungLuongPin");
+                int dungLuongPin = rs.getInt("dungLuongPin");
                 int thuongHieu_id = rs.getInt("thuongHieu_id");
                 int trangThai = rs.getInt("trangThai");
                 SanPhamDTO sp = new SanPhamDTO(id, ten, hinhAnh, kichThuocMan, cameraSau, cameraTruoc, chipXuLy, heDieuHanh, dungLuongPin, thuongHieu_id, trangThai);

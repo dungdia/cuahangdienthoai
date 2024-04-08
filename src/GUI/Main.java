@@ -26,7 +26,7 @@ public class Main extends javax.swing.JFrame {
     public Home home;
     public SanPham sanPham;
     public PhieuNhap phieuNhap;
-    public PhieuXuat phieuXuat;
+    public HoaDon hoaDon;
     public KhachHang khachHang;
     public NhanVien nhanVien;
     public NhaCungCap nhaCungCap;
@@ -43,10 +43,10 @@ public class Main extends javax.swing.JFrame {
         home = new Home();
         sanPham = new SanPham(this);
         phieuNhap = new PhieuNhap();
-        phieuXuat = new PhieuXuat();
-        khachHang = new KhachHang();
-        nhanVien = new NhanVien();
-        nhaCungCap = new NhaCungCap();
+        hoaDon = new HoaDon();
+        khachHang = new KhachHang(this);
+        nhanVien = new NhanVien(this);
+        nhaCungCap = new NhaCungCap(this);
         phanQuyen = new PhanQuyen();
         thongKe = new ThongKe();
         
@@ -57,7 +57,6 @@ public class Main extends javax.swing.JFrame {
         sideMenu = new SideMenu(this);
         getContentPane().add(sideMenu, BorderLayout.WEST);
         
-//        Content = new JPanel();
         Content.setSize(new Dimension(1030, 720));
         Content.setBackground(MainColor);
         Content.setLayout(new CardLayout(0, 0));
@@ -65,7 +64,7 @@ public class Main extends javax.swing.JFrame {
         Content.add(home, "home");
         Content.add(sanPham, "sanPham");
         Content.add(phieuNhap, "phieuNhap");
-        Content.add(phieuXuat, "phieuXuat");
+        Content.add(hoaDon, "hoaDon");
         Content.add(khachHang, "khachHang");
         Content.add(nhanVien, "nhanVien");
         Content.add(nhaCungCap, "nhaCungCap");

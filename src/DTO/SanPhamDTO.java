@@ -12,16 +12,16 @@ public class SanPhamDTO {
     private int id;
     private String ten;
     private String hinhAnh;
-    private String kichThuocMan;
+    private float kichThuocMan;
     private String cameraSau;
     private String cameraTruoc;
     private String chipXuLy;
     private String heDieuHanh;
-    private String dungLuongPin;
+    private int dungLuongPin;
     private int idThuongHieu;
     private int trangThai;
 
-    public SanPhamDTO(int id, String ten, String hinhAnh, String kichThuocMan, String cameraSau, String cameraTruoc, String chipXuLy, String heDieuHanh, String dungLuongPin, int idThuongHieu, int trangThai) {
+    public SanPhamDTO(int id, String ten, String hinhAnh, float kichThuocMan, String cameraSau, String cameraTruoc, String chipXuLy, String heDieuHanh, int dungLuongPin, int idThuongHieu, int trangThai) {
         this.id = id;
         this.ten = ten;
         this.hinhAnh = hinhAnh;
@@ -59,11 +59,11 @@ public class SanPhamDTO {
         this.hinhAnh = hinhAnh;
     }
 
-    public String getKichThuocMan() {
+    public float getKichThuocMan() {
         return kichThuocMan;
     }
 
-    public void setKichThuocMan(String kichThuocMan) {
+    public void setKichThuocMan(float kichThuocMan) {
         this.kichThuocMan = kichThuocMan;
     }
 
@@ -99,11 +99,11 @@ public class SanPhamDTO {
         this.heDieuHanh = heDieuHanh;
     }
 
-    public String getDungLuongPin() {
+    public int getDungLuongPin() {
         return dungLuongPin;
     }
 
-    public void setDungLuongPin(String dungLuongPin) {
+    public void setDungLuongPin(int dungLuongPin) {
         this.dungLuongPin = dungLuongPin;
     }
 

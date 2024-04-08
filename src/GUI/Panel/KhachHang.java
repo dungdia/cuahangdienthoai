@@ -7,10 +7,15 @@ package GUI.Panel;
 import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
 import GUI.Component.ToolBarButton;
+import GUI.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -19,12 +24,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class KhachHang extends javax.swing.JPanel {
+public class KhachHang extends javax.swing.JPanel implements ActionListener{
     
-    private DefaultTableModel model;
     private final KhachHangBUS khBUS = new KhachHangBUS();
     private ArrayList<KhachHangDTO> khachHangList = khBUS.getAll();
+    private Main main;
     
+    private DefaultTableModel tableModel;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
@@ -32,31 +38,44 @@ public class KhachHang extends javax.swing.JPanel {
     /**
      * Creates new form KhachHang
      */
-    public KhachHang() {
+    public KhachHang(Main main) {
         initComponents();
-        
+        initComponentsCustom();
+        this.main = main;
+        loadDataToTable(khachHangList);
+    }
+    
+    public void initComponentsCustom() {
+        lamMoiBtn.setIcon(new FlatSVGIcon("./image/icon/toolBar_refresh.svg"));
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
         toolBar.add(suaBtn);
         toolBar.add(xoaBtn);
-        
-        khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
-        model = (DefaultTableModel) khTable.getModel();
-        loadDataToTable(khachHangList);
+        chiTietBtn.addActionListener(this);
+        themBtn.addActionListener(this);
+        suaBtn.addActionListener(this);
+        xoaBtn.addActionListener(this);
+        khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        tableModel = (DefaultTableModel) khTable.getModel();
     }
     
     public void loadDataToTable(ArrayList<KhachHangDTO> khList) {
-        model.setRowCount(0);
+        tableModel.setRowCount(0);
         for(KhachHangDTO i : khList) {
-            model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
+            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
         }
     }
     
+    public int getSelectedRow() {
+        int index = khTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return index;
+    }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,6 +88,7 @@ public class KhachHang extends javax.swing.JPanel {
         topPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
+        lamMoiBtn = new javax.swing.JButton();
         toolBar = new javax.swing.JToolBar();
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -91,6 +111,19 @@ public class KhachHang extends javax.swing.JPanel {
             }
         });
 
+        lamMoiBtn.setBackground(new java.awt.Color(255, 255, 255));
+        lamMoiBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lamMoiBtn.setText("Làm mới");
+        lamMoiBtn.setAlignmentY(0.0F);
+        lamMoiBtn.setFocusPainted(false);
+        lamMoiBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lamMoiBtn.setPreferredSize(new java.awt.Dimension(115, 44));
+        lamMoiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lamMoiBtnMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -98,13 +131,17 @@ public class KhachHang extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
 
@@ -118,7 +155,6 @@ public class KhachHang extends javax.swing.JPanel {
         add(topPanel, java.awt.BorderLayout.PAGE_START);
 
         khTable.setAutoCreateRowSorter(true);
-        khTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         khTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -173,14 +209,32 @@ public class KhachHang extends javax.swing.JPanel {
         loadDataToTable(khBUS.search(searchText));
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void lamMoiBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lamMoiBtnMousePressed
+        txtSearch.setText("");
+        loadDataToTable(khachHangList);
+    }//GEN-LAST:event_lamMoiBtnMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable khTable;
+    private javax.swing.JButton lamMoiBtn;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JPanel topPanel;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == chiTietBtn) {            
+//            int index = getSelectedRow();
+//            if (index != -1) {
+//                SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
+//                spDialog.setVisible(true);
+//            }
+        }  
+    }
+    
 }
