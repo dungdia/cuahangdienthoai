@@ -21,7 +21,7 @@ public class SideMenu extends javax.swing.JPanel {
         {"Trang chủ", "home", "sideMenu_home.svg"},
         {"Sản phẩm", "sanPham", "sideMenu_sanPham.svg"},
         {"Phiếu nhập", "phieuNhap", "sideMenu_phieuNhap.svg"},
-        {"Phiếu xuất", "phieuXuat", "sideMenu_phieuXuat.svg"},
+        {"Hóa đơn", "hoaDon", "sideMenu_hoaDon.svg"},
         {"Khách hàng", "khachHang", "sideMenu_khachHang.svg"},
         {"Nhân viên", "nhanVien", "sideMenu_nhanVien.svg"},
         {"Nhà cung cấp", "nhaCungCap", "sideMenu_nhaCungCap.svg"},

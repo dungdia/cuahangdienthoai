@@ -7,20 +7,26 @@ package GUI.Panel;
 import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
 import GUI.Component.ToolBarButton;
+import GUI.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Admin
  */
-public class NhanVien extends javax.swing.JPanel {
+public class NhanVien extends javax.swing.JPanel implements ActionListener {
 
-    private DefaultTableModel model;
     private final NhanVienBUS nvBUS = new NhanVienBUS();
     private ArrayList<NhanVienDTO> nhanVienList = nvBUS.getAll();
+    private Main main;
     
+    private DefaultTableModel tableModel;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
@@ -28,27 +34,42 @@ public class NhanVien extends javax.swing.JPanel {
     /**
      * Creates new form NhanVien
      */
-    public NhanVien() {
+    public NhanVien(Main main) {
         initComponents();
-        
+        initComponentsCustom();
+        this.main = main;
+        loadDataToTable(this.nhanVienList);
+    }
+    
+    public void initComponentsCustom() {
+        lamMoiBtn.setIcon(new FlatSVGIcon("./image/icon/toolBar_refresh.svg"));
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
         toolBar.add(suaBtn);
         toolBar.add(xoaBtn);
-        
-        nvTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
-        model = (DefaultTableModel) nvTable.getModel();
-        loadDataToTable(this.nhanVienList);
+        chiTietBtn.addActionListener(this);
+        themBtn.addActionListener(this);
+        suaBtn.addActionListener(this);
+        xoaBtn.addActionListener(this);
+        nvTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        tableModel = (DefaultTableModel) nvTable.getModel();
     }
     
     public void loadDataToTable(ArrayList<NhanVienDTO> nvList){
-        model.setRowCount(0);
+        tableModel.setRowCount(0);
         for(NhanVienDTO i : nvList){
-            model.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail(), i.getChucVu()});
+            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail(), i.getChucVu()});
         }
+    }
+    
+    public int getSelectedRow() {
+        int index = nvTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return index;
     }
     
     /**
@@ -63,6 +84,7 @@ public class NhanVien extends javax.swing.JPanel {
         topPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
+        lamMoiBtn = new javax.swing.JButton();
         toolBar = new javax.swing.JToolBar();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -85,6 +107,19 @@ public class NhanVien extends javax.swing.JPanel {
             }
         });
 
+        lamMoiBtn.setBackground(new java.awt.Color(255, 255, 255));
+        lamMoiBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lamMoiBtn.setText("Làm mới");
+        lamMoiBtn.setAlignmentY(0.0F);
+        lamMoiBtn.setFocusPainted(false);
+        lamMoiBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lamMoiBtn.setPreferredSize(new java.awt.Dimension(115, 44));
+        lamMoiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lamMoiBtnMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -92,13 +127,17 @@ public class NhanVien extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
 
@@ -114,7 +153,6 @@ public class NhanVien extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(1030, 620));
 
         nvTable.setAutoCreateRowSorter(true);
-        nvTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         nvTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -174,14 +212,32 @@ public class NhanVien extends javax.swing.JPanel {
         loadDataToTable(nvBUS.search(searchText));
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void lamMoiBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lamMoiBtnMousePressed
+        txtSearch.setText("");
+        loadDataToTable(nhanVienList);
+    }//GEN-LAST:event_lamMoiBtnMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton lamMoiBtn;
     private javax.swing.JTable nvTable;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JPanel topPanel;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == chiTietBtn) {            
+//            int index = getSelectedRow();
+//            if (index != -1) {
+//                SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
+//                spDialog.setVisible(true);
+//            }
+        }  
+    }
+    
 }

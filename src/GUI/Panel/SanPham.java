@@ -10,6 +10,7 @@ import GUI.Component.ToolBarButton;
 import GUI.Dialog.SanPhamDialog;
 import GUI.Dialog.testDialog;
 import GUI.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,12 +31,12 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class SanPham extends javax.swing.JPanel implements ActionListener {
-
-    private DefaultTableModel model;
+    
     private final SanPhamBUS spBUS = new SanPhamBUS();
     private ArrayList<SanPhamDTO> sanPhamList = spBUS.getAll();
     private Main main;
     
+    private DefaultTableModel tableModel;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
@@ -45,34 +46,36 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
      */
     public SanPham(Main main) {
         initComponents();
+        initComponentsCustom();
         this.main = main;
+        loadDataToTable(sanPhamList);
+    }
+    
+    public void initComponentsCustom() {
+        lamMoiBtn.setIcon(new FlatSVGIcon("./image/icon/toolBar_refresh.svg"));
         txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
         txtSearch.putClientProperty("JTextField.showClearButton", true);
-        
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
         toolBar.add(suaBtn);
         toolBar.add(xoaBtn);
-        
-        productTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
-        model = (DefaultTableModel) productTable.getModel();
-        loadDataToTable(sanPhamList);
-        
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        spTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        tableModel = (DefaultTableModel) spTable.getModel(); 
     }
     
     public void loadDataToTable(ArrayList<SanPhamDTO> spList) {
-        model.setRowCount(0);
+        tableModel.setRowCount(0);
         for(SanPhamDTO i : spList) {
-            model.addRow(new Object[]{i.getId(), i.getTen(), i.getKichThuocMan(), i.getCameraSau(), i.getCameraTruoc(), i.getChipXuLy(), i.getHeDieuHanh(), i.getDungLuongPin()});
+            tableModel.addRow(new Object[]{i.getId(), i.getTen(), i.getKichThuocMan()+"\"", i.getCameraSau(), i.getCameraTruoc(), i.getChipXuLy(), i.getHeDieuHanh(), i.getDungLuongPin()+" mAh"});
         }
     }
     
     public int getSelectedRow() {
-        int index = productTable.getSelectedRow();
+        int index = spTable.getSelectedRow();
         if (index == -1) {
             JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -100,10 +103,11 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         topPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
+        lamMoiBtn = new javax.swing.JButton();
         toolBar = new javax.swing.JToolBar();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        productTable = new javax.swing.JTable();
+        spTable = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1030, 720));
@@ -122,6 +126,19 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             }
         });
 
+        lamMoiBtn.setBackground(new java.awt.Color(255, 255, 255));
+        lamMoiBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lamMoiBtn.setText("Làm mới");
+        lamMoiBtn.setAlignmentY(0.0F);
+        lamMoiBtn.setFocusPainted(false);
+        lamMoiBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lamMoiBtn.setPreferredSize(new java.awt.Dimension(115, 44));
+        lamMoiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lamMoiBtnMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -129,13 +146,17 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
 
@@ -150,7 +171,8 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1030, 620));
 
-        productTable.setModel(new javax.swing.table.DefaultTableModel(
+        spTable.setAutoCreateRowSorter(true);
+        spTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -166,25 +188,28 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
                 return canEdit [columnIndex];
             }
         });
-        productTable.setRowHeight(32);
-        productTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
-        productTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        productTable.setShowGrid(true);
-        jScrollPane1.setViewportView(productTable);
-        if (productTable.getColumnModel().getColumnCount() > 0) {
-            productTable.getColumnModel().getColumn(0).setResizable(false);
-            productTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-            productTable.getColumnModel().getColumn(1).setResizable(false);
-            productTable.getColumnModel().getColumn(1).setPreferredWidth(140);
-            productTable.getColumnModel().getColumn(2).setResizable(false);
-            productTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-            productTable.getColumnModel().getColumn(3).setResizable(false);
-            productTable.getColumnModel().getColumn(4).setResizable(false);
-            productTable.getColumnModel().getColumn(5).setResizable(false);
-            productTable.getColumnModel().getColumn(6).setResizable(false);
-            productTable.getColumnModel().getColumn(6).setPreferredWidth(40);
-            productTable.getColumnModel().getColumn(7).setResizable(false);
-            productTable.getColumnModel().getColumn(7).setPreferredWidth(40);
+        spTable.setRowHeight(32);
+        spTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        spTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        spTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        spTable.setShowGrid(true);
+        spTable.getTableHeader().setResizingAllowed(false);
+        spTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(spTable);
+        if (spTable.getColumnModel().getColumnCount() > 0) {
+            spTable.getColumnModel().getColumn(0).setResizable(false);
+            spTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            spTable.getColumnModel().getColumn(1).setResizable(false);
+            spTable.getColumnModel().getColumn(1).setPreferredWidth(140);
+            spTable.getColumnModel().getColumn(2).setResizable(false);
+            spTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+            spTable.getColumnModel().getColumn(3).setResizable(false);
+            spTable.getColumnModel().getColumn(4).setResizable(false);
+            spTable.getColumnModel().getColumn(5).setResizable(false);
+            spTable.getColumnModel().getColumn(6).setResizable(false);
+            spTable.getColumnModel().getColumn(6).setPreferredWidth(40);
+            spTable.getColumnModel().getColumn(7).setResizable(false);
+            spTable.getColumnModel().getColumn(7).setPreferredWidth(40);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -205,13 +230,19 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         String searchText = txtSearch.getText();
         loadDataToTable(spBUS.search(searchText));
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void lamMoiBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lamMoiBtnMousePressed
+        txtSearch.setText("");
+        loadDataToTable(sanPhamList);
+    }//GEN-LAST:event_lamMoiBtnMousePressed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable productTable;
+    private javax.swing.JButton lamMoiBtn;
+    private javax.swing.JTable spTable;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JPanel topPanel;
     private javax.swing.JTextField txtSearch;
@@ -225,7 +256,6 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
                 SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
                 spDialog.setVisible(true);
             }
-        }
-        
+        } 
     }
 }

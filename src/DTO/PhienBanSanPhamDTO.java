@@ -102,6 +102,10 @@ public class PhienBanSanPhamDTO {
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
-    
+
+    @Override
+    public String toString() {
+        return "PhienBanSanPhamDTO{" + "id=" + id + ", idSanPham=" + idSanPham + ", ram=" + ram + ", rom=" + rom + ", mau=" + mau + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", giaXuat=" + giaXuat + ", trangThai=" + trangThai + '}';
+    }
     
 }
