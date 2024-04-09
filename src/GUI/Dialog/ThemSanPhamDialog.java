@@ -120,6 +120,7 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
         imgUploadBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         imgUploadBtn.setForeground(new java.awt.Color(255, 255, 255));
         imgUploadBtn.setText("Chọn ảnh");
+        imgUploadBtn.setBorder(null);
         imgUploadBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel2.setText("Tên sản phẩm");
