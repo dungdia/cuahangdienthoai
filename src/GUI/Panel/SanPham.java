@@ -81,15 +81,6 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         }
         return index;
     }
-    
-    public void chiTietBtnOnClick() {
-//        System.out.print("test");
-        JDialog jDialog = new JDialog(main, "test", true);
-        jDialog.setSize(200, 200);
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setVisible(true);
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -258,4 +249,5 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             }
         } 
     }
+    
 }

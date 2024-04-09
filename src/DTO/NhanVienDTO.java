@@ -16,8 +16,9 @@ public class NhanVienDTO {
     private String soDienThoai;
     private String email;
     private String chucVu;
+    private int trangThai;
 
-    public NhanVienDTO(int id, String ho, String ten, String gioiTinh, String soDienThoai, String email, String chucVu) {
+    public NhanVienDTO(int id, String ho, String ten, String gioiTinh, String soDienThoai, String email, String chucVu, int trangThai) {
         this.id = id;
         this.ho = ho;
         this.ten = ten;
@@ -25,6 +26,7 @@ public class NhanVienDTO {
         this.soDienThoai = soDienThoai;
         this.email = email;
         this.chucVu = chucVu;
+        this.trangThai = trangThai;
     }
 
     public int getId() {
@@ -83,5 +85,14 @@ public class NhanVienDTO {
         this.chucVu = chucVu;
     }
 
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    
     
 }

@@ -4,38 +4,39 @@
  */
 package DAO;
 
-import DTO.KhachHangDTO;
+import DTO.TaiKhoanDTO;
 import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 /**
  *
  * @author Admin
  */
-public class KhachHangDAO {
+public class TaiKhoanDAO {
     
-    public static KhachHangDAO getInstance() {
-        return new KhachHangDAO();
+    public static TaiKhoanDAO getInstance() {
+        return new TaiKhoanDAO();
     }
     
-    public ArrayList<KhachHangDTO> selectAll() {
-        ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
+    public TaiKhoanDTO selectByUserName(String t) {
+        TaiKhoanDTO result = null;
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM khachhang";
+            String query = "SELECT * FROM taikhoan WHERE tenTaiKhoan=?";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 int id = rs.getInt("id");
-                String ho = rs.getString("ho");
-                String ten = rs.getString("ten");
-                String diaChi = rs.getString("diaChi");
-                String sdt = rs.getString("soDienThoai");
-                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, diaChi, sdt);
-                result.add(kh);
+                int idNhanVien = rs.getInt("nhanVien_id");
+                int idQuyen = rs.getInt("quyen_id");
+                String tenTaiKhoan = rs.getString("tenTaiKhoan");
+                String matKhau = rs.getString("matKhau");
+                int trangThai = rs.getInt("trangThai");
+                TaiKhoanDTO tk = new TaiKhoanDTO(id, idNhanVien, idQuyen, tenTaiKhoan, matKhau, trangThai);
+                result = tk;
             }
             DBConnector.closeConnection(conn);
         } catch (Exception e) {

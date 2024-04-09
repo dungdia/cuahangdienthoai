@@ -4,8 +4,12 @@
  */
 package GUI.Panel;
 
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SideMenuItem;
 import GUI.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +21,7 @@ import java.awt.event.MouseEvent;
 public class SideMenu extends javax.swing.JPanel {
 
     Main main;
+    TaiKhoanDTO taiKhoan;
     String[][] menuSt = {
         {"Trang chủ", "home", "sideMenu_home.svg"},
         {"Sản phẩm", "sanPham", "sideMenu_sanPham.svg"},
@@ -41,9 +46,11 @@ public class SideMenu extends javax.swing.JPanel {
         initComponents();
     }
 
-    public SideMenu(Main main) {
+    public SideMenu(Main main, TaiKhoanDTO taiKhoan) {
         initComponents();
+        userIcon.setIcon(new FlatSVGIcon("./image/icon/sideMenu_user.svg"));
         this.main = main;
+        this.taiKhoan = taiKhoan;
         menuItems = new SideMenuItem[menuSt.length];
         for(int i=0; i<menuSt.length; i++) {
             menuItems[i] = new SideMenuItem(main, menuSt[i][0], menuSt[i][1], menuSt[i][2]);
@@ -58,8 +65,12 @@ public class SideMenu extends javax.swing.JPanel {
         menuItems[0].isSelected = true;
         menuItems[0].setBackground(selectedItemBgColor);
         menuItems[0].text.setForeground(selectedItemFontColor);
+        
+        NhanVienDTO currentNhanVien = NhanVienDAO.getInstance().selectByAccountId(Integer.toString(taiKhoan.getId()));
+        userName.setText(currentNhanVien.getHo()+" "+currentNhanVien.getTen());
+        userRole.setText(currentNhanVien.getChucVu());
     }
-    
+        
     public void selectingMenuItem(MouseEvent evt) {
         for (int i = 0; i < menuSt.length; i++) {
             if (evt.getSource() == menuItems[i]) {
@@ -95,16 +106,20 @@ public class SideMenu extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(250, 720));
         setLayout(new java.awt.BorderLayout());
 
-        topPanel.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel.setBackground(new java.awt.Color(251, 168, 52));
         topPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        topPanel.setForeground(new java.awt.Color(255, 255, 255));
         topPanel.setPreferredSize(new java.awt.Dimension(250, 70));
 
-        userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/sideMenu_user.png"))); // NOI18N
+        userIcon.setPreferredSize(new java.awt.Dimension(44, 44));
 
-        userName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userName.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        userName.setForeground(new java.awt.Color(255, 255, 255));
         userName.setText("Tên nhân viên");
+        userName.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         userRole.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userRole.setForeground(new java.awt.Color(255, 255, 255));
         userRole.setText("Chức vụ");
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
@@ -112,27 +127,24 @@ public class SideMenu extends javax.swing.JPanel {
         topPanelLayout.setHorizontalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userName)
                     .addComponent(userRole))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(userName)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(topPanelLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(userRole)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(topPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(userIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(topPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(userRole))
+                    .addComponent(userName))
                 .addContainerGap())
         );
 
@@ -161,7 +173,7 @@ public class SideMenu extends javax.swing.JPanel {
     private javax.swing.JPanel centerPanel;
     private javax.swing.JPanel topPanel;
     private javax.swing.JLabel userIcon;
-    private javax.swing.JLabel userName;
-    private javax.swing.JLabel userRole;
+    public javax.swing.JLabel userName;
+    public javax.swing.JLabel userRole;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,14 +9,14 @@ package DTO;
  * @author Admin
  */
 public class CTSanPhamDTO {
-    private int imei;
+    private String imei;
     private int idSanPham;
     private int idPBSanPham;
     private int idPhieuNhap;
     private int idHoaDon;
     private int trangThai;
 
-    public CTSanPhamDTO(int imei, int idSanPham, int idPBSanPham, int idPhieuNhap, int idHoaDon, int trangThai) {
+    public CTSanPhamDTO(String imei, int idSanPham, int idPBSanPham, int idPhieuNhap, int idHoaDon, int trangThai) {
         this.imei = imei;
         this.idSanPham = idSanPham;
         this.idPBSanPham = idPBSanPham;
@@ -25,11 +25,11 @@ public class CTSanPhamDTO {
         this.trangThai = trangThai;
     }
 
-    public int getImei() {
+    public String getImei() {
         return imei;
     }
 
-    public void setImei(int imei) {
+    public void setImei(String imei) {
         this.imei = imei;
     }
 

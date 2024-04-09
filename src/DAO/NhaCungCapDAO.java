@@ -16,6 +16,11 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class NhaCungCapDAO {
+    
+    public static NhaCungCapDAO getInstance() {
+        return new NhaCungCapDAO();
+    }
+    
     public ArrayList<NhaCungCapDTO> getAll() {
         ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
         try {
@@ -34,7 +39,9 @@ public class NhaCungCapDAO {
             }
             DBConnector.closeConnection(conn);
         } catch (Exception e) {
+            System.out.println(e);
         }
         return result;
     }
+    
 }
