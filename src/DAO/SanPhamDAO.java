@@ -17,6 +17,10 @@ import java.util.ArrayList;
  */
 public class SanPhamDAO {
     
+    public static SanPhamDAO getInstance() {
+        return new SanPhamDAO();
+    }
+    
     public ArrayList<SanPhamDTO> selectAll() {
         ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         try {
@@ -45,4 +49,5 @@ public class SanPhamDAO {
         }
         return result;
     }
+    
 }

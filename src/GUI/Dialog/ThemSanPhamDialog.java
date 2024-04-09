@@ -120,12 +120,8 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
         imgUploadBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         imgUploadBtn.setForeground(new java.awt.Color(255, 255, 255));
         imgUploadBtn.setText("Chọn ảnh");
+        imgUploadBtn.setBorder(null);
         imgUploadBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        imgUploadBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                imgUploadBtnMousePressed(evt);
-            }
-        });
 
         jLabel2.setText("Tên sản phẩm");
         jLabel2.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -269,17 +265,6 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // private void imgUploadBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgUploadBtnMousePressed
-    //     // TODO add your handling code here:
-    //     JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-    //     int option = fc.showOpenDialog(null);
-    //     if(option == JFileChooser.APPROVE_OPTION) {
-    //         String img_path = fc.getSelectedFile().getAbsolutePath();
-    //         tenSP.setText(fc.getSelectedFile().getAbsolutePath());
-    //         hinhAnhSP.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(""+img_path)).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH)));  
-    //     }
-    // }//GEN-LAST:event_imgUploadBtnMousePressed
-
     /**
      * @param args the command line arguments
      */
@@ -328,7 +313,7 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
     private javax.swing.JTextField camTruoc;
     private javax.swing.JTextField chipXuLi;
     private javax.swing.JTextField dungLuongPin;
-    private javax.swing.JLabel hinhAnhSP;
+    public javax.swing.JLabel hinhAnhSP;
     private javax.swing.JButton imgUploadBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;

@@ -17,6 +17,10 @@ import java.util.ArrayList;
  */
 public class ThuongHieuDAO {
     
+    public static ThuongHieuDAO getInstance() {
+        return new ThuongHieuDAO();
+    }
+    
     public ArrayList<ThuongHieuDTO> selectAll() {
         ArrayList<ThuongHieuDTO> result = new ArrayList<ThuongHieuDTO>();
         try {
@@ -36,4 +40,5 @@ public class ThuongHieuDAO {
         }
         return result;
     }
+    
 }

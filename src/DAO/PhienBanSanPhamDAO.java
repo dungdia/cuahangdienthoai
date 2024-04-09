@@ -16,6 +16,11 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class PhienBanSanPhamDAO {
+    
+    public PhienBanSanPhamDAO getInstance() {
+        return new PhienBanSanPhamDAO();
+    }
+    
     public ArrayList<PhienBanSanPhamDTO> getAll() {
         ArrayList<PhienBanSanPhamDTO> result = new ArrayList<PhienBanSanPhamDTO>();
         try {
@@ -69,4 +74,5 @@ public class PhienBanSanPhamDAO {
         }
         return result;
     }
+    
 }
