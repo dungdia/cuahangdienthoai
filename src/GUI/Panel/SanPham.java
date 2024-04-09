@@ -8,6 +8,7 @@ import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.SanPhamDialog;
+import GUI.Dialog.ThemSanPhamDialog;
 import GUI.Dialog.testDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -82,14 +83,14 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         return index;
     }
     
-    public void chiTietBtnOnClick() {
-//        System.out.print("test");
-        JDialog jDialog = new JDialog(main, "test", true);
-        jDialog.setSize(200, 200);
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setVisible(true);
-        
-    }
+//    public void chiTietBtnOnClick() {
+//       System.out.print("test");
+//        JDialog jDialog = new JDialog(main, "test", true);
+//        jDialog.setSize(200, 200);
+//        jDialog.setLocationRelativeTo(null);
+//        jDialog.setVisible(true);
+//        
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -256,6 +257,19 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
                 SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
                 spDialog.setVisible(true);
             }
-        } 
+        }
+        
+        if(e.getSource() == themBtn) {
+            ThemSanPhamDialog addSpDialog = new ThemSanPhamDialog(main, true, "Thêm sản phẩm");
+            addSpDialog.setVisible(true);
+        }
+        
+        if(e.getSource() == xoaBtn) {
+            
+        }
+        
+        if(e.getSource() == suaBtn) {
+            
+        }
     }
 }
