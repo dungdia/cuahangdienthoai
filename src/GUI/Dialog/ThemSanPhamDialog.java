@@ -218,6 +218,10 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Giá bán phải là số nguyên dương");
             return false;
         }
+        if(imageURL == null) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn hình ảnh sản phẩm");
+            return false;
+        }
         return true;
     }
     
