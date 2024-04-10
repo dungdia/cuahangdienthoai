@@ -4,7 +4,9 @@
  */
 package BUS;
 
+import DAO.PhienBanSanPhamDAO;
 import DAO.SanPhamDAO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
@@ -14,7 +16,8 @@ import java.util.ArrayList;
  */
 public class SanPhamBUS {
 
-    private final SanPhamDAO spDAO = new SanPhamDAO();
+    public SanPhamDAO spDAO = new SanPhamDAO();
+    private PhienBanSanPhamDAO pbspDAO = new PhienBanSanPhamDAO();
     public ArrayList<SanPhamDTO> sanPhamList = new ArrayList<SanPhamDTO>();
     
     public SanPhamBUS() {
@@ -23,6 +26,27 @@ public class SanPhamBUS {
     
     public ArrayList<SanPhamDTO> getAll() {
         return this.sanPhamList;
+    }
+    
+    public int getLength() {
+        return this.sanPhamList.size();
+    }
+    
+    public boolean addNewSP(SanPhamDTO sp) {
+        if(spDAO.insert(sp) != 0) {
+            sanPhamList.add(sp);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean addNewSPWithPBSP(SanPhamDTO sp, PhienBanSanPhamDTO pbsp) {
+        if(spDAO.insert(sp) != 0) {
+            sanPhamList.add(sp);
+            pbspDAO.insert(pbsp);
+            return true;
+        }
+        return false;
     }
     
     public ArrayList<SanPhamDTO> search(String text) {

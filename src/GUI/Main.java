@@ -41,7 +41,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main(TaiKhoanDTO taiKhoan) {
         initComponents();
-        DBConnector.checkConnection();
+//        DBConnector.checkConnection();
         this.taiKhoan = taiKhoan;
         initComponentsCustom();
     }

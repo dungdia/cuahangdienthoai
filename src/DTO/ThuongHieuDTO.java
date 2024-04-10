@@ -32,6 +32,10 @@ public class ThuongHieuDTO {
     public void setTen(String ten) {
         this.ten = ten;
     }
-    
+
+    @Override
+    public String toString() {
+        return "ThuongHieuDTO{" + "id=" + id + ", ten=" + ten + '}';
+    }
     
 }

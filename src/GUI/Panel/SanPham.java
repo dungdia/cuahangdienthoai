@@ -32,8 +32,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SanPham extends javax.swing.JPanel implements ActionListener {
     
-    private final SanPhamBUS spBUS = new SanPhamBUS();
-    private ArrayList<SanPhamDTO> sanPhamList = spBUS.getAll();
+    public SanPhamBUS spBUS = new SanPhamBUS();
+    public ArrayList<SanPhamDTO> sanPhamList = spBUS.getAll();
     private Main main;
     
     private DefaultTableModel tableModel;
@@ -250,7 +250,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         }
         
         if(e.getSource() == themBtn) {
-            ThemSanPhamDialog addSpDialog = new ThemSanPhamDialog(main, true, "Thêm sản phẩm");
+            ThemSanPhamDialog addSpDialog = new ThemSanPhamDialog(main, true, "Thêm sản phẩm", this);
             addSpDialog.setVisible(true);
         }
         

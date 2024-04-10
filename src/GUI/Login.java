@@ -7,6 +7,7 @@ package GUI;
 import DAO.TaiKhoanDAO;
 import DTO.TaiKhoanDTO;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import config.DBConnector;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -171,7 +172,8 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loginCheck();
+        if(DBConnector.checkConnection())
+            loginCheck();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
