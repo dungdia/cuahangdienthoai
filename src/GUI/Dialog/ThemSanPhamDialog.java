@@ -194,27 +194,27 @@ public class ThemSanPhamDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá bán");
             return false;
         }
-        if(Validator.isFloat(txtKTMH.getText())) {
+        if(!Validator.isFloat(txtKTMH.getText())) {
             JOptionPane.showMessageDialog(this, "Kích thước màn hình phải là số dương");
             return false;
         }
-        if(Validator.isInteger(txtDLPin.getText())) {
+        if(!Validator.isInteger(txtDLPin.getText())) {
             JOptionPane.showMessageDialog(this, "Dung lượng pin phải là số nguyên dương");
             return false;
         }
-        if(Validator.isInteger(txtRam.getText())) {
+        if(!Validator.isInteger(txtRam.getText())) {
             JOptionPane.showMessageDialog(this, "Dung lượng ram phải là số nguyên dương");
             return false;
         }
-        if(Validator.isFloat(txtRom.getText())) {
+        if(!Validator.isInteger(txtRom.getText())) {
             JOptionPane.showMessageDialog(this, "Dung lượng rom phải là số nguyên dương");
             return false;
         }
-        if(Validator.isInteger(txtGiaNhap.getText())) {
+        if(!Validator.isInteger(txtGiaNhap.getText())) {
             JOptionPane.showMessageDialog(this, "Giá nhập phải là số nguyên dương");
             return false;
         }
-        if(Validator.isInteger(txtGiaBan.getText())) {
+        if(!Validator.isInteger(txtGiaBan.getText())) {
             JOptionPane.showMessageDialog(this, "Giá bán phải là số nguyên dương");
             return false;
         }
