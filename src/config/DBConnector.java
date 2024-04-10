@@ -15,13 +15,15 @@ public class DBConnector {
     private static String userName = "root";
     private static String passWord = "";
     
-    public static void checkConnection() {
+    public static boolean checkConnection() {
         Connection conn = null;
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             conn = DriverManager.getConnection(url, userName, passWord);
+            return true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Không thể kết nối đến cơ sở dữ liệu !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Không thể kết nối đến cơ sở dữ liệu!", "", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
     

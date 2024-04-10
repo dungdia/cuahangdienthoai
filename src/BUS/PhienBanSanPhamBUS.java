@@ -13,11 +13,23 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class PhienBanSanPhamBUS {
-    private final PhienBanSanPhamDAO pbspDAO = new PhienBanSanPhamDAO();
+    public PhienBanSanPhamDAO pbspDAO = new PhienBanSanPhamDAO();
     private ArrayList<PhienBanSanPhamDTO> pbSPList = new ArrayList<PhienBanSanPhamDTO>();
     
     public PhienBanSanPhamBUS() {
-//        pbSPList = pbspDAO.getAll();
+        pbSPList = pbspDAO.getAll();
+    }
+    
+    public int getLength() {
+        return this.pbSPList.size();
+    }
+    
+    public boolean addNewPBSP(PhienBanSanPhamDTO pbsp) {
+        if(pbspDAO.insert(pbsp) != 0) {
+            pbSPList.add(pbsp);
+            return true;
+        }
+        return false;
     }
     
     public ArrayList<PhienBanSanPhamDTO> getAll() {

@@ -23,4 +23,16 @@ public class ThuongHieuBUS {
     public ArrayList<ThuongHieuDTO> getAll(){
         return this.thuongHieuList;
     }
+    
+    public ThuongHieuDTO getByIndex(int index) {
+        return this.thuongHieuList.get(index);
+    }
+    
+    public String[] getStringList() {
+        String[] result = new String[thuongHieuList.size()];
+        for(int i=0; i<thuongHieuList.size(); i++) {
+            result[i] = thuongHieuList.get(i).getTen();
+        }
+        return result;
+    }
 }
