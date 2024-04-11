@@ -33,16 +33,17 @@ public class Main extends javax.swing.JFrame {
     public NhaCungCap nhaCungCap;
     public PhanQuyen phanQuyen;
     public ThongKe thongKe;
+    public TaiKhoan taiKhoan;
     private Color MainColor = new Color(255, 255, 255);
-    private TaiKhoanDTO taiKhoan;
+    private TaiKhoanDTO currentUser;
     
     /**
      * Creates new form Main
      */
-    public Main(TaiKhoanDTO taiKhoan) {
+    public Main(TaiKhoanDTO currentUser) {
         initComponents();
 //        DBConnector.checkConnection();
-        this.taiKhoan = taiKhoan;
+        this.currentUser = currentUser;
         initComponentsCustom();
     }
     
@@ -56,12 +57,12 @@ public class Main extends javax.swing.JFrame {
         nhaCungCap = new NhaCungCap(this);
         phanQuyen = new PhanQuyen();
         thongKe = new ThongKe();
-        
-        this.setTitle("Cua Hang Dien Thoai");
+        taiKhoan = new TaiKhoan();
+        this.setTitle("Cửa hàng điện thoại");
         this.setSize(new Dimension(1280, 720));
         this.setLayout(new BorderLayout(0, 0));
         
-        sideMenu = new SideMenu(this, this.taiKhoan);
+        sideMenu = new SideMenu(this, this.currentUser);
         getContentPane().add(sideMenu, BorderLayout.WEST);
         
         Content.setSize(new Dimension(1030, 720));
@@ -77,6 +78,7 @@ public class Main extends javax.swing.JFrame {
         Content.add(nhaCungCap, "nhaCungCap");
         Content.add(phanQuyen, "phanQuyen");
         Content.add(thongKe, "thongKe");
+        Content.add(taiKhoan, "taiKhoan");
         getContentPane().add(Content, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
     }

@@ -96,4 +96,43 @@ public class SanPhamDAO {
         return result;
     }
     
+    public int update(SanPhamDTO sp) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `sanpham` SET `ten`=?,`hinhAnh`=?,`kichThuocMan`=?,`cameraSau`=?,`cameraTruoc`=?,`chipXuLy`=?,`heDieuHanh`=?,`dungLuongPin`=?,`thuongHieu_id`=? WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, sp.getTen());
+            pst.setString(2, sp.getHinhAnh());
+            pst.setFloat(3, sp.getKichThuocMan());
+            pst.setString(4, sp.getCameraSau());
+            pst.setString(5, sp.getCameraTruoc());
+            pst.setString(6, sp.getChipXuLy());
+            pst.setString(7, sp.getHeDieuHanh());
+            pst.setInt(8, sp.getDungLuongPin());
+            pst.setInt(9, sp.getIdThuongHieu());
+            pst.setInt(10, sp.getId());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public int delete(int id) {
+        int result = 0;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "UPDATE `sanpham` SET `trangThai`=0 WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
 }

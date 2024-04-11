@@ -96,8 +96,9 @@ public class SanPhamDialog extends javax.swing.JDialog {
     
     public void loadPBSPToTable(ArrayList<PhienBanSanPhamDTO> pbSPList) {
         pbSPTableModel.setRowCount(0);
-        for(PhienBanSanPhamDTO i : pbspList) {
-            pbSPTableModel.addRow(new Object[] {i.getRam()+"GB", i.getRom()+"GB", i.getMau(), i.getSoLuong(), String.format(Locale.US, "%,d", i.getGiaNhap())+"đ" , String.format(Locale.US, "%,d", i.getGiaXuat())+"đ" });
+        for(int i=0; i<pbSPList.size(); i++) {
+            PhienBanSanPhamDTO pbspIndex = pbspList.get(i);
+            pbSPTableModel.addRow(new Object[] {i+1, pbspIndex.getRam()+"GB", pbspIndex.getRom()+"GB", pbspIndex.getMau(), pbspIndex.getSoLuong(), String.format(Locale.US, "%,d", pbspIndex.getGiaNhap())+"đ" , String.format(Locale.US, "%,d", pbspIndex.getGiaXuat())+"đ" });
         }
     }
 
@@ -152,9 +153,9 @@ public class SanPhamDialog extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(78, 78, 78)
                 .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap())
         );
@@ -223,9 +224,9 @@ public class SanPhamDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtKTMH, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtKTMH))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -285,7 +286,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDungLuongPin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                         .addComponent(xemPBSPBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -303,17 +304,18 @@ public class SanPhamDialog extends javax.swing.JDialog {
         quayLaiBtn.setFocusPainted(false);
         quayLaiBtn.setPreferredSize(new java.awt.Dimension(180, 50));
 
+        pbSPTable.setAutoCreateRowSorter(true);
         pbSPTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         pbSPTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Ram", "Rom", "Màu", "Số lượng", "Giá nhập", "Giá xuất"
+                "STT", "Ram", "Rom", "Màu", "Số lượng", "Giá nhập", "Giá bán"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -322,19 +324,26 @@ public class SanPhamDialog extends javax.swing.JDialog {
         });
         pbSPTable.setRowHeight(32);
         pbSPTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        pbSPTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         pbSPTable.setShowGrid(true);
         pbSPTable.getTableHeader().setResizingAllowed(false);
         pbSPTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(pbSPTable);
         if (pbSPTable.getColumnModel().getColumnCount() > 0) {
             pbSPTable.getColumnModel().getColumn(0).setResizable(false);
-            pbSPTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+            pbSPTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             pbSPTable.getColumnModel().getColumn(1).setResizable(false);
             pbSPTable.getColumnModel().getColumn(1).setPreferredWidth(25);
             pbSPTable.getColumnModel().getColumn(2).setResizable(false);
+            pbSPTable.getColumnModel().getColumn(2).setPreferredWidth(25);
             pbSPTable.getColumnModel().getColumn(3).setResizable(false);
+            pbSPTable.getColumnModel().getColumn(3).setPreferredWidth(40);
             pbSPTable.getColumnModel().getColumn(4).setResizable(false);
+            pbSPTable.getColumnModel().getColumn(4).setPreferredWidth(60);
             pbSPTable.getColumnModel().getColumn(5).setResizable(false);
+            pbSPTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+            pbSPTable.getColumnModel().getColumn(6).setResizable(false);
+            pbSPTable.getColumnModel().getColumn(6).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

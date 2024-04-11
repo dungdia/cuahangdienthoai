@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2024 at 10:44 AM
+-- Generation Time: Apr 11, 2024 at 09:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -244,7 +244,21 @@ INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `gi
 (6, 2, 6, 512, 'Đen', 0, 29000000, 34990000, 1),
 (7, 3, 8, 128, 'Titan đen', 0, 23000000, 28990000, 1),
 (8, 3, 8, 256, 'Titan đen', 0, 26000000, 31990000, 1),
-(9, 3, 8, 512, 'Titan đen', 0, 32000000, 37990000, 1);
+(9, 3, 8, 512, 'Titan đen', 0, 32000000, 37990000, 1),
+(10, 8, 8, 256, 'Tím', 0, 4000000, 8990000, 1),
+(11, 8, 8, 256, 'Xanh', 0, 4000000, 8990000, 1),
+(12, 8, 8, 256, 'Đen', 0, 4000000, 8990000, 1),
+(13, 9, 8, 256, 'Đen', 0, 5000000, 10990000, 1),
+(14, 9, 8, 256, 'Tím', 0, 5000000, 10990000, 1),
+(15, 9, 8, 256, 'Trắng', 0, 5000000, 10990000, 1),
+(16, 10, 8, 256, 'Vàng', 0, 14000000, 22990000, 1),
+(17, 10, 8, 256, 'Xám', 0, 14000000, 22990000, 1),
+(18, 10, 8, 256, 'Đen', 0, 14000000, 22990000, 1),
+(19, 10, 8, 256, 'Tím', 0, 14000000, 22990000, 1),
+(20, 10, 8, 512, 'Vàng', 0, 20000000, 26490000, 1),
+(21, 10, 8, 512, 'Xám', 0, 20000000, 26490000, 1),
+(22, 10, 8, 512, 'Đen', 0, 20000000, 26490000, 1),
+(23, 10, 8, 512, 'Tím', 0, 20000000, 26490000, 1);
 
 -- --------------------------------------------------------
 
@@ -309,7 +323,10 @@ INSERT INTO `sanpham` (`id`, `ten`, `hinhAnh`, `kichThuocMan`, `cameraSau`, `cam
 (4, 'iPhone 15 Pro Max', 'iphone15promax.jpg', 6.7, 'Chính 48 MP & Phụ 12 MP, 12 MP', '12 MP', 'Apple A17 Pro', 'iOS', 4422, 1, 1),
 (5, 'Xiaomi 14 5G', 'xiaomi14.jpg', 6.36, 'Chính 50 MP & Phụ 50 MP, 50 MP', '32 MP', 'Snapdragon 8 Gen 3', 'Android', 4610, 3, 1),
 (6, 'Xiaomi Redmi Note 13', 'redminote13.jpg', 6.67, 'Chính 108 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 685', 'Android', 5000, 3, 1),
-(7, 'Xiaomi Redmi Note 13 Pro', 'redminote13pro.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'MediaTek Helio G99-Ultra', 'Android', 5000, 3, 1);
+(7, 'Xiaomi Redmi Note 13 Pro', 'redminote13pro.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'MediaTek Helio G99-Ultra', 'Android', 5000, 3, 1),
+(8, 'Xiaomi Redmi Note 13 Pro 5G', '181xiaomi-redmi-note-13-pro-5g-violet-thumb-600x600.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 7s Gen 2 8 nhân', 'Android', 5100, 3, 1),
+(9, 'Xiaomi Redmi Note 13 Pro+ 5G', '81xiaomi-redmi-note-13-pro-plus-black-thumb-600x600.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'MediaTek Dimensity 7200 Ultra', 'Android', 5000, 3, 1),
+(10, 'Samsung Galaxy S24 5G', '296samsung-galaxy-s24-yellow-thumb-600x600.jpg', 6.2, 'Chính 50 MP & Phụ 12 MP, 10 MP', '12 MP', 'Exynos 2400', 'Android', 4000, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -541,7 +558,7 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT for table `pbsanpham`
 --
 ALTER TABLE `pbsanpham`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `phieunhap`
@@ -559,7 +576,7 @@ ALTER TABLE `quyen`
 -- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `taikhoan`

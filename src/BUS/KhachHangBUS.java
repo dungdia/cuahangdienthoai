@@ -26,7 +26,7 @@ public class KhachHangBUS {
     
     public ArrayList<KhachHangDTO> search(String text) {
         ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
-        text.toLowerCase();
+        text = text.toLowerCase();
         for(KhachHangDTO i : this.khachHangList) {
             if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getDiaChi().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text))
                 result.add(i);

@@ -118,4 +118,64 @@ public class PhienBanSanPhamDAO {
         return result;
     }
     
+    public int insert(ArrayList<PhienBanSanPhamDTO> pbspList) {
+        int result = 0;
+        for(PhienBanSanPhamDTO i : pbspList) {
+            try {
+                Connection conn = (Connection) DBConnector.getConnection();
+                String sql = "INSERT INTO `pbsanpham`(`sanPham_id`, `ram`, `rom`, `mau`, `giaNhap`, `giaXuat`) VALUES (?,?,?,?,?,?)";
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sql);
+                pst.setInt(1, i.getIdSanPham());
+                pst.setInt(2, i.getRam());
+                pst.setInt(3, i.getRom());
+                pst.setString(4, i.getMau());
+                pst.setInt(5, i.getGiaNhap());
+                pst.setInt(6, i.getGiaXuat());
+                result = pst.executeUpdate();
+                DBConnector.closeConnection(conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
+        return result;
+    }
+    
+    public int update(ArrayList<PhienBanSanPhamDTO> pbspList) {
+        int result = 0;
+        for (PhienBanSanPhamDTO i : pbspList) {
+            try {
+                Connection conn = (Connection) DBConnector.getConnection();
+                String query = "UPDATE `pbsanpham` SET `ram`=?,`rom`=?,`mau`=?,`giaNhap`=?,`giaXuat`=?, `trangThai`=? WHERE id=?";
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+                pst.setInt(1, i.getRam());
+                pst.setInt(2, i.getRom());
+                pst.setString(3, i.getMau());
+                pst.setInt(4, i.getGiaNhap());
+                pst.setInt(5, i.getGiaXuat());
+                pst.setInt(6, i.getTrangThai());
+                pst.setInt(7, i.getId());
+                result = pst.executeUpdate();
+                DBConnector.closeConnection(conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+    }
+    
+    public int delete(int id) {
+        int result = 0;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "UPDATE `pbsanpham` SET `trangThai`=0 WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
 }

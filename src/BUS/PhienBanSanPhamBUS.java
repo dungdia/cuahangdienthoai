@@ -32,6 +32,14 @@ public class PhienBanSanPhamBUS {
         return false;
     }
     
+    public boolean delete(PhienBanSanPhamDTO pbsp) {
+        if(pbspDAO.delete(pbsp.getId()) != 0) {
+            pbSPList.remove(pbsp);
+            return true;
+        }
+        return false;
+    }
+    
     public ArrayList<PhienBanSanPhamDTO> getAll() {
         return this.pbSPList;
     }
