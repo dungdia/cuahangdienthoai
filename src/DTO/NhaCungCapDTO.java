@@ -14,13 +14,15 @@ public class NhaCungCapDTO {
     private String diaChi;
     private String soDienThoai;
     private String email;
+    private int trangThai;
 
-    public NhaCungCapDTO(int id, String ten, String diaChi, String soDienThoai, String email) {
+    public NhaCungCapDTO(int id, String ten, String diaChi, String soDienThoai, String email, int trangThai) {
         this.id = id;
         this.ten = ten;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.email = email;
+        this.trangThai = trangThai;
     }
 
     public int getId() {
@@ -62,5 +64,14 @@ public class NhaCungCapDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
     
 }

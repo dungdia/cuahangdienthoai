@@ -174,7 +174,7 @@ public class SanPhamBUS {
                 break;
             case "Thương hiệu":
                 for (SanPhamDTO i : sanPhamList) {
-                    if (thBUS.getName(i.getIdThuongHieu()).toLowerCase().contains(text)) {
+                    if (thBUS.getNameByID(i.getIdThuongHieu()).toLowerCase().contains(text)) {
                         result.add(i);
                     }
                 }

@@ -6,13 +6,21 @@ package GUI.Panel;
 
 import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
+import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +39,7 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     private Main main;
     
     private DefaultTableModel tableModel;
+    public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
@@ -46,9 +55,25 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     }
     
     public void initComponentsCustom() {
-        lamMoiBtn.setIcon(new FlatSVGIcon("./image/icon/toolBar_refresh.svg"));
-        txtSearch.putClientProperty("JTextField.placeholderText", "Nhập nội dung muốn tìm kiếm...");
-        txtSearch.putClientProperty("JTextField.showClearButton", true);
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"});
+        searchBar.txtSearch.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+//                searchEvent();
+            }
+        });
+        searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mousePressed(MouseEvent e) {
+//                reloadEvent();
+            }
+        });
+        searchBar.cbxType.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+//                searchEvent();
+            }
+        });
+        topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
         toolBar.add(suaBtn);
@@ -86,9 +111,6 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     private void initComponents() {
 
         topPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        txtSearch = new javax.swing.JTextField();
-        lamMoiBtn = new javax.swing.JButton();
         toolBar = new javax.swing.JToolBar();
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -98,63 +120,18 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
         setPreferredSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.BorderLayout());
 
+        topPanel.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(221, 221, 221)));
         topPanel.setPreferredSize(new java.awt.Dimension(1030, 100));
         topPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(221, 221, 221)));
-
-        txtSearch.setPreferredSize(new java.awt.Dimension(250, 44));
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
-            }
-        });
-
-        lamMoiBtn.setBackground(new java.awt.Color(255, 255, 255));
-        lamMoiBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lamMoiBtn.setText("Làm mới");
-        lamMoiBtn.setAlignmentY(0.0F);
-        lamMoiBtn.setFocusPainted(false);
-        lamMoiBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lamMoiBtn.setPreferredSize(new java.awt.Dimension(115, 44));
-        lamMoiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lamMoiBtnMousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(216, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lamMoiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
-        );
-
-        topPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
-
-        toolBar.setBackground(new java.awt.Color(238, 238, 238));
+        toolBar.setBackground(new java.awt.Color(255, 255, 255));
         toolBar.setRollover(true);
         toolBar.setPreferredSize(new java.awt.Dimension(400, 100));
         topPanel.add(toolBar, java.awt.BorderLayout.LINE_END);
 
         add(topPanel, java.awt.BorderLayout.PAGE_START);
 
-        khTable.setAutoCreateRowSorter(true);
         khTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -204,36 +181,19 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
         add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        String searchText = txtSearch.getText();
-        loadDataToTable(khBUS.search(searchText));
-    }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void lamMoiBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lamMoiBtnMousePressed
-        txtSearch.setText("");
-        loadDataToTable(khachHangList);
-    }//GEN-LAST:event_lamMoiBtnMousePressed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable khTable;
-    private javax.swing.JButton lamMoiBtn;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JPanel topPanel;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chiTietBtn) {            
-//            int index = getSelectedRow();
-//            if (index != -1) {
-//                SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
-//                spDialog.setVisible(true);
-//            }
+
         }  
     }
     

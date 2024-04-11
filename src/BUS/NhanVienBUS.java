@@ -24,6 +24,42 @@ public class NhanVienBUS {
         return this.nhanVienList;
     }
     
+    public int getIndexByID(int id) {
+        for(int i=0; i<nhanVienList.size(); i++) {
+            if(nhanVienList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
+    
+    public String getNameByID(int id) {
+        return nhanVienList.get(getIndexByID(id)).getHo() + " " +nhanVienList.get(getIndexByID(id)).getTen();
+    }
+    
+    public boolean add(NhanVienDTO newNV) {
+        if(nvDAO.insert(newNV) != 0) {
+            nhanVienList.add(newNV);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean update(NhanVienDTO nv) {
+        if(nvDAO.update(nv) != 0) {
+            nhanVienList.set(getIndexByID(nv.getId()), nv);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean delete(NhanVienDTO nv) {
+        if(nvDAO.delete(nv.getId()) != 0) {
+            nhanVienList.remove(nv);
+            return true;
+        }
+        return false;
+    }
+    
     public ArrayList<NhanVienDTO> search(String text) {
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         text = text.toLowerCase();

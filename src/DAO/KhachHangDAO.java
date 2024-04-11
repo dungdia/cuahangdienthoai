@@ -25,7 +25,7 @@ public class KhachHangDAO {
         ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM khachhang";
+            String query = "SELECT * FROM khachhang WHERE trangThai=1";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -34,7 +34,8 @@ public class KhachHangDAO {
                 String ten = rs.getString("ten");
                 String diaChi = rs.getString("diaChi");
                 String sdt = rs.getString("soDienThoai");
-                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, diaChi, sdt);
+                int trangThai = rs.getInt("trangThai");
+                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, diaChi, sdt, trangThai);
                 result.add(kh);
             }
             DBConnector.closeConnection(conn);

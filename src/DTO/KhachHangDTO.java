@@ -14,13 +14,15 @@ public class KhachHangDTO {
     private String ten;
     private String diaChi;
     private String soDienThoai;
+    private int trangThai;
 
-    public KhachHangDTO(int id, String ho, String ten, String diaChi, String soDienThoai) {
+    public KhachHangDTO(int id, String ho, String ten, String diaChi, String soDienThoai, int trangThai) {
         this.id = id;
         this.ho = ho;
         this.ten = ten;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
+        this.trangThai = trangThai;
     }
 
     public int getId() {
@@ -63,9 +65,13 @@ public class KhachHangDTO {
         this.soDienThoai = soDienThoai;
     }
 
-    @Override
-    public String toString() {
-        return "KhachHangDTO{" + "id=" + id + ", ho=" + ho + ", ten=" + ten + ", diaChi=" + diaChi + ", soDienThoai=" + soDienThoai + '}';
+    public int getTrangThai() {
+        return trangThai;
     }
-    
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
+        
 }
