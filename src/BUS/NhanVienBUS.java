@@ -26,7 +26,7 @@ public class NhanVienBUS {
     
     public ArrayList<NhanVienDTO> search(String text) {
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
-        text.toLowerCase();
+        text = text.toLowerCase();
         for(NhanVienDTO i : nhanVienList) {
             if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getGioiTinh().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text))
                result.add(i);

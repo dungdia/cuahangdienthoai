@@ -33,7 +33,8 @@ public class SideMenu extends javax.swing.JPanel {
         {"Nhân viên", "nhanVien", "sideMenu_nhanVien.svg"},
         {"Nhà cung cấp", "nhaCungCap", "sideMenu_nhaCungCap.svg"},
         {"Phân quyền", "phanQuyen", "sideMenu_phanQuyen.svg"},
-        {"Thống kê", "thongKe", "sideMenu_thongKe.svg"}
+        {"Thống kê", "thongKe", "sideMenu_thongKe.svg"},
+        {"Tài khoản", "taiKhoan", "sideMenu_taiKhoan.svg"}
     };
     public SideMenuItem menuItems[];
     Color itemBgColor = new Color(255, 255, 255);

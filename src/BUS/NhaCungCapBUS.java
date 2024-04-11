@@ -26,7 +26,7 @@ public class NhaCungCapBUS {
     
     public ArrayList<NhaCungCapDTO> search(String text) {
         ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
-        text.toLowerCase();
+        text = text.toLowerCase();
         for(NhaCungCapDTO i : nhaCungCapList) {
             if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getDiaChi().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text))
                 result.add(i);
