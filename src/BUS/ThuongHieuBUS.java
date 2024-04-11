@@ -36,7 +36,7 @@ public class ThuongHieuBUS {
         return -1;
     }
     
-    public String getName(int id) {
+    public String getNameByID(int id) {
         return thuongHieuList.get(getIndexByID(id)).getTen();
     }
     

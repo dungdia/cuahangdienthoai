@@ -133,7 +133,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
             imageURL = "/image/product/" + this.spEdit.getHinhAnh();
             hinhAnhSP.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product/" + this.spEdit.getHinhAnh())).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
             txtTenSP.setText(this.spEdit.getTen());
-            cbxThuongHieu.setSelectedItem(thBUS.getName(this.spEdit.getIdThuongHieu()));
+            cbxThuongHieu.setSelectedItem(thBUS.getNameByID(this.spEdit.getIdThuongHieu()));
             txtKTMH.setText(Float.toString(this.spEdit.getKichThuocMan()));
             txtCamTruoc.setText(this.spEdit.getCameraTruoc());
             txtCamSau.setText(this.spEdit.getCameraSau());
@@ -330,7 +330,6 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         if (panelSanPham.spBUS.addNewSPWithPBSPList(newSP, this.newPBSPList)) {
             JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công !");
             dispose();
-            panelSanPham.reloadEvent();
         }
     }
 
@@ -339,7 +338,6 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         if(panelSanPham.spBUS.updateWithPBSPList(spEdit, pbspEditList)) {
             JOptionPane.showMessageDialog(this, "Sửa sản phẩm thành công !");
             dispose();
-            panelSanPham.reloadEvent();
         }
     }
 

@@ -57,7 +57,7 @@ public class Main extends javax.swing.JFrame {
         nhaCungCap = new NhaCungCap(this);
         phanQuyen = new PhanQuyen();
         thongKe = new ThongKe();
-        taiKhoan = new TaiKhoan();
+        taiKhoan = new TaiKhoan(this);
         this.setTitle("Cửa hàng điện thoại");
         this.setSize(new Dimension(1280, 720));
         this.setLayout(new BorderLayout(0, 0));

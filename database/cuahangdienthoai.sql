@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2024 at 09:52 AM
+-- Generation Time: Apr 11, 2024 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -150,7 +150,8 @@ CREATE TABLE `khachhang` (
   `ho` varchar(255) DEFAULT NULL,
   `ten` varchar(255) DEFAULT NULL,
   `diaChi` varchar(255) DEFAULT NULL,
-  `soDienThoai` varchar(255) DEFAULT NULL
+  `soDienThoai` varchar(255) DEFAULT NULL,
+  `trangThai` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -177,17 +178,18 @@ CREATE TABLE `nhacungcap` (
   `ten` varchar(255) DEFAULT NULL,
   `diaChi` varchar(255) DEFAULT NULL,
   `soDienThoai` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
+  `email` varchar(255) DEFAULT NULL,
+  `trangThai` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `nhacungcap`
 --
 
-INSERT INTO `nhacungcap` (`id`, `ten`, `diaChi`, `soDienThoai`, `email`) VALUES
-(1, 'Công Ty TNHH Thế Giới Di Động', 'Phòng 6.5, Tầng6, Tòa Nhà E. Town 2, 364 Cộng Hòa, P. 13, Q. Tân Bình, Tp. Hồ Chí Minh', '(028)35100100', 'lienhe@thegioididong.com'),
-(2, 'Công ty TNHH Thương Mại Công Nghệ Bạch Long', '134 Trần Phú, phường 4, quận 5, Tp. Hồ Chí Minh', '869287135', 'marketing@bachlongmobile.com '),
-(3, 'Viễn Thông Đức Huy', '187A Đường 3/2, P. 11, Q. 10, Tp. Hồ Chí Minh', '0971151515', 'duchuymobile2011@gmail.com ');
+INSERT INTO `nhacungcap` (`id`, `ten`, `diaChi`, `soDienThoai`, `email`, `trangThai`) VALUES
+(1, 'Công Ty TNHH Thế Giới Di Động', 'Phòng 6.5, Tầng6, Tòa Nhà E. Town 2, 364 Cộng Hòa, P. 13, Q. Tân Bình, Tp. Hồ Chí Minh', '(028)35100100', 'lienhe@thegioididong.com', 1),
+(2, 'Công ty TNHH Thương Mại Công Nghệ Bạch Long', '134 Trần Phú, phường 4, quận 5, Tp. Hồ Chí Minh', '869287135', 'marketing@bachlongmobile.com ', 1),
+(3, 'Viễn Thông Đức Huy', '187A Đường 3/2, P. 11, Q. 10, Tp. Hồ Chí Minh', '0971151515', 'duchuymobile2011@gmail.com ', 1);
 
 -- --------------------------------------------------------
 
@@ -211,7 +213,10 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`id`, `ho`, `ten`, `gioiTinh`, `soDienThoai`, `email`, `chucVu`, `trangThai`) VALUES
-(1, 'Trần Đức', 'Em', 'Nam', '0374126105', '3122410091@sv.sgu.edu.vn', 'Quản lý', 1);
+(1, 'Trần Đức', 'Em', 'Nam', '0374126105', '3122410091@sv.sgu.edu.vn', 'Quản lý', 1),
+(2, 'Trầm Quang', 'Dũng', 'Nam', '0324879561', '3122410054@sv.sgu.edu.vn', 'Nhân viên nhập hàng', 1),
+(3, 'Hoàng', 'Dũng', 'Nam', '0879456213', '3122410052@sv.sgu.edu.vn', 'Nhân viên bán hàng', 1),
+(4, 'Đoàn Minh', 'Đức', 'Nam', '0546798123', '3122410084@sv.sgu.edu.vn', 'Lao công', 1);
 
 -- --------------------------------------------------------
 
@@ -282,15 +287,18 @@ CREATE TABLE `phieunhap` (
 
 CREATE TABLE `quyen` (
   `id` int(11) NOT NULL,
-  `ten` varchar(255) DEFAULT NULL
+  `ten` varchar(255) DEFAULT NULL,
+  `trangThai` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `quyen`
 --
 
-INSERT INTO `quyen` (`id`, `ten`) VALUES
-(1, 'Quản lý');
+INSERT INTO `quyen` (`id`, `ten`, `trangThai`) VALUES
+(1, 'Quản lý', 1),
+(2, 'Nhân viên nhập hàng', 1),
+(3, 'Nhân viên bán hàng', 1);
 
 -- --------------------------------------------------------
 
@@ -348,7 +356,9 @@ CREATE TABLE `taikhoan` (
 --
 
 INSERT INTO `taikhoan` (`id`, `nhanVien_id`, `quyen_id`, `tenTaiKhoan`, `matKhau`, `trangThai`) VALUES
-(1, 1, 1, 'ducem', '123456', 1);
+(1, 1, 1, 'ducem', '123456', 1),
+(2, 2, 2, 'dead', '123456', 1),
+(3, 3, 3, 'dungdia', '123456', 1);
 
 -- --------------------------------------------------------
 
@@ -552,7 +562,7 @@ ALTER TABLE `nhacungcap`
 -- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pbsanpham`
@@ -570,7 +580,7 @@ ALTER TABLE `phieunhap`
 -- AUTO_INCREMENT for table `quyen`
 --
 ALTER TABLE `quyen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
@@ -582,7 +592,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `thuonghieu`

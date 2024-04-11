@@ -9,6 +9,7 @@ import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +19,30 @@ public class TaiKhoanDAO {
     
     public static TaiKhoanDAO getInstance() {
         return new TaiKhoanDAO();
+    }
+    
+    public ArrayList<TaiKhoanDTO> selectAll(){
+        ArrayList<TaiKhoanDTO> result = new ArrayList<>();
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "SELECT * FROM taikhoan WHERE trangThai=1";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                int idNhanVien = rs.getInt("nhanVien_id");
+                int idQuyen = rs.getInt("quyen_id");
+                String tenTaiKhoan = rs.getString("tenTaiKhoan");
+                String matKhau = rs.getString("matKhau");
+                int trangThai = rs.getInt("trangThai");
+                TaiKhoanDTO tk = new TaiKhoanDTO(id, idNhanVien, idQuyen, tenTaiKhoan, matKhau, trangThai);
+                result.add(tk);
+            }
+            DBConnector.closeConnection(conn);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
     }
     
     public TaiKhoanDTO selectByUserName(String t) {

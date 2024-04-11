@@ -96,7 +96,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
     public void loadDataToTable(ArrayList<SanPhamDTO> spList) {
         tableModel.setRowCount(0);
         for(SanPhamDTO i : spList) {
-            tableModel.addRow(new Object[]{i.getId(), i.getTen(), i.getKichThuocMan()+"\"", i.getCameraSau(), i.getCameraTruoc(), i.getChipXuLy(), i.getHeDieuHanh(), i.getDungLuongPin()+" mAh", thBUS.getName(i.getIdThuongHieu())});
+            tableModel.addRow(new Object[]{i.getId(), i.getTen(), i.getKichThuocMan()+"\"", i.getCameraSau(), i.getCameraTruoc(), i.getChipXuLy(), i.getHeDieuHanh(), i.getDungLuongPin()+" mAh", thBUS.getNameByID(i.getIdThuongHieu())});
         }
     }
         
@@ -113,7 +113,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
     public int getSelectedRow() {
         int index = spTable.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
     }
@@ -137,10 +137,12 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         setPreferredSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.BorderLayout());
 
+        topPanel.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(221, 221, 221)));
         topPanel.setPreferredSize(new java.awt.Dimension(1030, 100));
         topPanel.setLayout(new java.awt.BorderLayout());
 
-        toolBar.setBackground(new java.awt.Color(238, 238, 238));
+        toolBar.setBackground(new java.awt.Color(255, 255, 255));
         toolBar.setRollover(true);
         toolBar.setPreferredSize(new java.awt.Dimension(400, 100));
         topPanel.add(toolBar, java.awt.BorderLayout.LINE_END);
@@ -149,7 +151,6 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1030, 620));
 
-        spTable.setAutoCreateRowSorter(true);
         spTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -223,12 +224,14 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             if (index != -1) {
                 SanPhamDialog spDialog = new SanPhamDialog(main, true, "Chi tiết sản phẩm", sanPhamList.get(index));
                 spDialog.setVisible(true);
+                loadDataToTable(sanPhamList);
             }
         }
         
         if(e.getSource() == themBtn) {
             ThemSuaSanPhamDialog addSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "add", null, null);
             addSpDialog.setVisible(true);
+            loadDataToTable(sanPhamList);
         }
         
         if(e.getSource() == xoaBtn) {
@@ -246,6 +249,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             if(index != -1) {
                 ThemSuaSanPhamDialog editSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "edit", sanPhamList.get(index), pbspBUS.getAllPBSPBySPId(sanPhamList.get(index).getId()));
                 editSpDialog.setVisible(true);
+                loadDataToTable(sanPhamList);
             }
         }
         
