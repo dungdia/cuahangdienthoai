@@ -4,6 +4,8 @@
  */
 package helper;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author Admin
@@ -36,6 +38,24 @@ public class Validator {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    
+    public static boolean isPhoneNumber(String phoneNum) {
+        if(phoneNum == null) {
+            return false;
+        }
+        String phoneNumRegex = "^0\\d{9}$";
+        Pattern pattern = Pattern.compile(phoneNumRegex);
+        return pattern.matcher(phoneNum).matches();
+    }
+    
+    public static boolean isEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
     }
     
 }

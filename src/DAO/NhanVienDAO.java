@@ -9,7 +9,10 @@ import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +28,7 @@ public class NhanVienDAO {
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM nhanvien";
+            String query = "SELECT * FROM nhanvien WHERE trangThai=1";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -72,4 +75,81 @@ public class NhanVienDAO {
         }
         return nv;
     }
+    
+    public int getAutoIncrement() {
+        int result = -1;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'cuahangdienthoai' AND TABLE_NAME = 'nhanvien'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            if (!rs.isBeforeFirst()) {
+                System.out.println("No data");
+            } else {
+                while (rs.next()) {
+                    result = rs.getInt("AUTO_INCREMENT");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int insert(NhanVienDTO nv) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "INSERT INTO `nhanvien`(`ho`, `ten`, `gioiTinh`, `soDienThoai`, `email`, `chucVu`) VALUES (?,?,?,?,?,?)";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, nv.getHo());
+            pst.setString(2, nv.getTen());
+            pst.setString(3, nv.getGioiTinh());
+            pst.setString(4, nv.getSoDienThoai());
+            pst.setString(5, nv.getEmail());
+            pst.setString(6, nv.getChucVu());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int update(NhanVienDTO nv) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `nhanvien` SET `ho`=?,`ten`=?,`gioiTinh`=?,`soDienThoai`=?,`email`=?,`chucVu`=? WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, nv.getHo());
+            pst.setString(2, nv.getTen());
+            pst.setString(3, nv.getGioiTinh());
+            pst.setString(4, nv.getSoDienThoai());
+            pst.setString(5, nv.getEmail());
+            pst.setString(6, nv.getChucVu());
+            pst.setInt(7, nv.getId());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int delete(int id) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `nhanvien` SET `trangThai`=1 WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
 }
