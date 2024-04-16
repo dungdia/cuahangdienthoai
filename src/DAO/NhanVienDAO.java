@@ -141,7 +141,7 @@ public class NhanVienDAO {
         int result = 0;
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "UPDATE `nhanvien` SET `trangThai`=1 WHERE `id`=?";
+            String query = "UPDATE `nhanvien` SET `trangThai`=0 WHERE `id`=?";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             pst.setInt(1, id);
             result = pst.executeUpdate();

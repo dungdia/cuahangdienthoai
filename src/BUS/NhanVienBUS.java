@@ -69,4 +69,70 @@ public class NhanVienBUS {
         }
         return result;
     }
+    
+    public ArrayList<NhanVienDTO> search(String text, String type) {
+        ArrayList<NhanVienDTO> result = new ArrayList<>();
+        text = text.toLowerCase();
+        switch (type) {
+            case "Tất cả":
+                for(NhanVienDTO i : nhanVienList){
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getGioiTinh().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text) || i.getChucVu().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Mã":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Họ":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getHo().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Tên":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getTen().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Giới tính":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getGioiTinh().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Số điện thoại":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getSoDienThoai().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Email":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getEmail().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Chức vụ":
+                for(NhanVienDTO i : nhanVienList) {
+                    if(i.getChucVu().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+        return result;
+    }
 }
