@@ -56,18 +56,18 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
         searchBar.txtSearch.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-//                reloadEvent();
+                reloadEvent();
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
@@ -96,6 +96,16 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
             JOptionPane.showMessageDialog(main, "Bạn chưa chọn nhân viên nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
+    }
+    
+    public void searchEvent() {
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(nvBUS.search(searchText, (String) searchBar.cbxType.getSelectedItem()));
+    }
+    
+    public void reloadEvent() {
+        searchBar.txtSearch.setText("");
+        loadDataToTable(nhanVienList);
     }
     
     /**
