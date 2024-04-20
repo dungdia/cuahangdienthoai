@@ -4,9 +4,16 @@
  */
 package GUI.Panel;
 
+import BUS.NhaCungCapBUS;
+import BUS.NhanVienBUS;
+import BUS.PhieuNhapBUS;
+import DTO.PhieuNhapDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
+import GUI.Dialog.PhieuNhapDialog;
+import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import helper.Formatter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -17,6 +24,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,19 +35,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
 
+    public PhieuNhapBUS pnBUS = new PhieuNhapBUS();
+    public NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+    public NhanVienBUS nvBUS = new NhanVienBUS();
+    public ArrayList<PhieuNhapDTO> phieuNhapList = pnBUS.getAll();
+    private Main main;
+    
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
-    ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     
     /**
      * Creates new form PhieuNhap
      */
-    public PhieuNhap() {
+    public PhieuNhap(Main main) {
         initComponents();
         initComponentsCustom();
+        this.main = main;
+        loadDataToTable(this.phieuNhapList);
     }
     
     public void initComponentsCustom() {
@@ -62,14 +79,41 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
-        toolBar.add(suaBtn);
         toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
-        suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
         pnTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) pnTable.getModel();
+    }
+    
+    public void loadDataToTable(ArrayList<PhieuNhapDTO> pnList) {
+        tableModel.setRowCount(0);
+        for(PhieuNhapDTO i : pnList){
+            tableModel.addRow(new Object[] {
+                i.getId(), 
+                nccBUS.getNameByID(i.getIdNhaCungCap()), 
+                nvBUS.getNameByID(i.getIdNhanVien()), 
+                Formatter.FormatDateTime(i.getNgayNhap()), 
+                Formatter.FormatVND(i.getTongTien())});
+        }
+    }
+    
+    public void searchEvent() {
+        
+    }
+    
+    public void reloadEvent() {                                       
+        searchBar.txtSearch.setText("");
+        loadDataToTable(phieuNhapList);
+    }
+    
+    public int getSelectedRow() {
+        int index = pnTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn phiếu nhập nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return index;
     }
 
     /**
@@ -105,16 +149,35 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
 
         pnTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày nhập", "Tổng tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        pnTable.setFocusable(false);
+        pnTable.setRowHeight(32);
+        pnTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
+        pnTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        pnTable.setShowGrid(true);
+        pnTable.getTableHeader().setResizingAllowed(false);
+        pnTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(pnTable);
+        if (pnTable.getColumnModel().getColumnCount() > 0) {
+            pnTable.getColumnModel().getColumn(0).setResizable(false);
+            pnTable.getColumnModel().getColumn(1).setResizable(false);
+            pnTable.getColumnModel().getColumn(2).setResizable(false);
+            pnTable.getColumnModel().getColumn(3).setResizable(false);
+            pnTable.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,7 +205,12 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chiTietBtn) {            
-
+            int index = getSelectedRow();
+            if(index != -1) {
+                PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, phieuNhapList.get(index), "detail");
+                pnDialog.setVisible(true);
+                loadDataToTable(phieuNhapList);
+            }
         }
     }
 

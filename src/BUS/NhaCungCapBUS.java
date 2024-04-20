@@ -24,6 +24,22 @@ public class NhaCungCapBUS {
         return this.nhaCungCapList;
     }
     
+    public NhaCungCapDTO getByIndex(int index) {
+        return this.nhaCungCapList.get(index);
+    }
+    
+    public int getIndexByID(int id) {
+        for(int i=0; i<nhaCungCapList.size(); i++) {
+            if(nhaCungCapList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
+    
+    public String getNameByID(int id) {
+        return nhaCungCapList.get(getIndexByID(id)).getTen();
+    }
+    
     public ArrayList<NhaCungCapDTO> search(String text) {
         ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
         text = text.toLowerCase();

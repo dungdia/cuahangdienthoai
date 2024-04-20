@@ -17,7 +17,7 @@ public class PhienBanSanPhamBUS {
     private ArrayList<PhienBanSanPhamDTO> pbSPList = new ArrayList<PhienBanSanPhamDTO>();
     
     public PhienBanSanPhamBUS() {
-        pbSPList = pbspDAO.getAll();
+        pbSPList = pbspDAO.selectAll();
     }
     
     public int getLength() {
@@ -30,6 +30,18 @@ public class PhienBanSanPhamBUS {
             return true;
         }
         return false;
+    }
+    
+    public int getIndexByID(int id) {
+        for(int i=0; i<pbSPList.size(); i++) {
+            if(pbSPList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
+    
+    public PhienBanSanPhamDTO getObjectById(int id) {
+        return pbSPList.get(getIndexByID(id));
     }
     
     public boolean delete(PhienBanSanPhamDTO pbsp) {
@@ -45,6 +57,6 @@ public class PhienBanSanPhamBUS {
     }
     
     public ArrayList<PhienBanSanPhamDTO> getAllPBSPBySPId(int spId) {
-        return pbspDAO.getAllPBSPBySPId(spId);
+        return pbspDAO.selectAllByID(spId);
     }
 }

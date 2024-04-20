@@ -24,7 +24,7 @@ public class PhienBanSanPhamDAO {
         return new PhienBanSanPhamDAO();
     }
     
-    public ArrayList<PhienBanSanPhamDTO> getAll() {
+    public ArrayList<PhienBanSanPhamDTO> selectAll() {
         ArrayList<PhienBanSanPhamDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
@@ -51,7 +51,7 @@ public class PhienBanSanPhamDAO {
         return result;
     }
     
-    public ArrayList<PhienBanSanPhamDTO> getAllPBSPBySPId(int spId) {
+    public ArrayList<PhienBanSanPhamDTO> selectAllByID(int spId) {
         ArrayList<PhienBanSanPhamDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
