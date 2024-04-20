@@ -4,10 +4,23 @@
  */
 package BUS;
 
+import DAO.PhieuNhapDAO;
+import DTO.PhieuNhapDTO;
+import java.util.ArrayList;
+
 /**
  *
  * @author Admin
  */
 public class PhieuNhapBUS {
+    private PhieuNhapDAO pnDAO = new PhieuNhapDAO();
+    public ArrayList<PhieuNhapDTO> phieuNhapList = new ArrayList<>();
     
+    public PhieuNhapBUS() {
+        this.phieuNhapList = pnDAO.selectAll();
+    }
+    
+    public ArrayList<PhieuNhapDTO> getAll(){ 
+        return this.phieuNhapList;
+    }
 }

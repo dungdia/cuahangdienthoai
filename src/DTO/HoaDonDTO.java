@@ -4,7 +4,7 @@
  */
 package DTO;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -14,11 +14,11 @@ public class HoaDonDTO {
     private int id;
     private int idKhachHang;
     private int idNhanVien;
-    private Date ngayXuat;
+    private Timestamp ngayXuat;
     private int tongTien;
     private String idKhuyenMai;
 
-    public HoaDonDTO(int id, int idKhachHang, int idNhanVien, Date ngayXuat, int tongTien, String idKhuyenMai) {
+    public HoaDonDTO(int id, int idKhachHang, int idNhanVien, Timestamp ngayXuat, int tongTien, String idKhuyenMai) {
         this.id = id;
         this.idKhachHang = idKhachHang;
         this.idNhanVien = idNhanVien;
@@ -51,11 +51,11 @@ public class HoaDonDTO {
         this.idNhanVien = idNhanVien;
     }
 
-    public Date getNgayXuat() {
+    public Timestamp getNgayXuat() {
         return ngayXuat;
     }
 
-    public void setNgayXuat(Date ngayXuat) {
+    public void setNgayXuat(Timestamp ngayXuat) {
         this.ngayXuat = ngayXuat;
     }
 

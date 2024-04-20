@@ -50,7 +50,7 @@ public class Main extends javax.swing.JFrame {
     public void initComponentsCustom() {
         home = new Home();
         sanPham = new SanPham(this);
-        phieuNhap = new PhieuNhap();
+        phieuNhap = new PhieuNhap(this);
         hoaDon = new HoaDon();
         khachHang = new KhachHang(this);
         nhanVien = new NhanVien(this);

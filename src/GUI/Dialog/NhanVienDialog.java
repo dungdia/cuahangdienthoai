@@ -26,7 +26,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
     /**
      * Creates new form NhanVienDialog
      */
-    public NhanVienDialog(java.awt.Frame parent, boolean modal, NhanVien nvPanel,NhanVienDTO nhanVien, String mode) {
+    public NhanVienDialog(java.awt.Frame parent, boolean modal, NhanVien nvPanel, NhanVienDTO nhanVien, String mode) {
         super(parent, modal);
         this.nvPanel = nvPanel;
         this.nhanVien = nhanVien;

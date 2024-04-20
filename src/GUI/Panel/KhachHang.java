@@ -149,7 +149,6 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
             }
         });
         khTable.setToolTipText("");
-        khTable.setPreferredSize(new java.awt.Dimension(1030, 64));
         khTable.setRowHeight(32);
         khTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
         khTable.setSelectionForeground(new java.awt.Color(0, 0, 0));

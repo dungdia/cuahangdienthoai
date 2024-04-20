@@ -42,6 +42,10 @@ public class SanPhamBUS {
         }
         return -1;
     }
+    
+    public String getNameByID(int id) {
+        return sanPhamList.get(getIndexById(id)).getTen();
+    }
 
     public boolean addNewSP(SanPhamDTO sp) {
         if (spDAO.insert(sp) != 0) {
