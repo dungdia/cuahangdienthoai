@@ -8,6 +8,7 @@ import BUS.NhaCungCapBUS;
 import DTO.NhaCungCapDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
+import GUI.Dialog.NhaCungCapDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.BorderLayout;
@@ -30,8 +31,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
 
-    private final NhaCungCapBUS nccBUS = new NhaCungCapBUS();
-    private ArrayList<NhaCungCapDTO> nhaCungCapList = nccBUS.getAll();
+    public final NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+    public ArrayList<NhaCungCapDTO> nhaCungCapList = nccBUS.getAll();
     private Main main;
     
     private DefaultTableModel tableModel;
@@ -52,22 +53,22 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
     }
     
     public void initComponentsCustom() {
-        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"});
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên", "Địa chỉ", "Số điện thoại", "Email"});
         searchBar.txtSearch.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-//                reloadEvent();
+                reloadEvent();
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
@@ -83,9 +84,9 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
         tableModel = (DefaultTableModel) nccTable.getModel(); 
     }
     
-    public void loadDataToTable(ArrayList<NhaCungCapDTO> khList) {
+    public void loadDataToTable(ArrayList<NhaCungCapDTO> nccList ){
         tableModel.setRowCount(0);
-        for(NhaCungCapDTO i : khList) {
+        for(NhaCungCapDTO i : nccList) {
             tableModel.addRow(new Object[] {i.getId(), i.getTen(), i.getDiaChi(), i.getSoDienThoai(), i.getEmail()});
         }
     }
@@ -96,6 +97,16 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
             JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
+    }
+    
+    public void searchEvent(){
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(nccBUS.search(searchText, (String) searchBar.cbxType.getSelectedItem()));
+    }
+    
+    public void reloadEvent(){
+        searchBar.txtSearch.setText("");
+        loadDataToTable(nhaCungCapList);
     }
 
     /**
@@ -188,7 +199,35 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chiTietBtn) {            
+            int index = getSelectedRow();
+            if(index != -1){
+                NhaCungCapDialog nccDialog = new NhaCungCapDialog(main, true, this, nhaCungCapList.get(index), "detail");
+                nccDialog.setVisible(true);
+                loadDataToTable(nhaCungCapList);
+            }
+        }
+        if(e.getSource() == themBtn){
+                NhaCungCapDialog nccDialog = new NhaCungCapDialog(main, true, this, null, "add");
+                nccDialog.setVisible(true);
+                loadDataToTable(nhaCungCapList);
 
+        }
+        if(e.getSource() == xoaBtn){
+            int index = getSelectedRow();
+            if(index != -1){
+                if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa nhân viên này không?", "", JOptionPane.YES_NO_OPTION) == 0){
+                    nccBUS.delete(nhaCungCapList.get(index));
+                }
+                loadDataToTable(nhaCungCapList);
+            }
+        }
+        if(e.getSource() == suaBtn){
+            int index = getSelectedRow();
+            if(index != -1){
+                NhaCungCapDialog nccDialog = new NhaCungCapDialog(main, true, this, nhaCungCapList.get(index), "edit");
+                nccDialog.setVisible(true);
+                loadDataToTable(nhaCungCapList);
+            }
         }
     }
     
