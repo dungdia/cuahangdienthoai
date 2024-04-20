@@ -115,7 +115,6 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(850, 600));
 
         headerPanel.setBackground(new java.awt.Color(88, 175, 232));
         headerPanel.setMinimumSize(new java.awt.Dimension(100, 50));
@@ -186,7 +185,6 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         ctpnTable.setFocusable(false);
         ctpnTable.setRowHeight(32);
         ctpnTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
-        ctpnTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         ctpnTable.setShowGrid(true);
         ctpnTable.getTableHeader().setResizingAllowed(false);
         ctpnTable.getTableHeader().setReorderingAllowed(false);

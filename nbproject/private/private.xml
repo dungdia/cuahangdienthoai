@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/BUS/KhachHangBUS.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>31</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/config/DBConnector.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Dialog/PhieuNhapDialog.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/NhaCungCap.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Dialog/ThemSuaSanPhamDialog.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Main.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/PhanQuyen.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/Home.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/PhieuNhap.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/KhachHang.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/SideMenu.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Dialog/NhanVienDialog.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Dialog/SanPhamDialog.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/HoaDon.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Component/SearchBar.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/NhanVien.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Component/ToolBarButton.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Component/SideMenuItem.java</file>
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/DAO/CTPhieuNhapDAO.java</file>
-=======
-            <file>file:/D:/Workspace/Projects/CuaHangDienThoai/src/GUI/Panel/KhachHang.java</file>
->>>>>>> main
+            <file>file:/D:/Study/Java/Project/src/DAO/TaiKhoanDAO.java</file>
+            <file>file:/D:/Study/Java/Project/src/DTO/TaiKhoanDTO.java</file>
+            <file>file:/D:/Study/Java/Project/src/GUI/Panel/TaiKhoan.java</file>
+            <file>file:/D:/Study/Java/Project/src/GUI/Dialog/TaiKhoanDialog.java</file>
+            <file>file:/D:/Study/Java/Project/src/BUS/TaiKhoanBUS.java</file>
         </group>
     </open-files>
 </project-private>
