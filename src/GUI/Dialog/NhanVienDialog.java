@@ -275,6 +275,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setText("Thêm nhân viên");
         addBtn.setBorder(null);
+        addBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addBtn.setPreferredSize(new java.awt.Dimension(120, 40));
         addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -287,6 +288,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("Hủy");
         cancelBtn.setBorder(null);
+        cancelBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cancelBtn.setPreferredSize(new java.awt.Dimension(120, 40));
         cancelBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
