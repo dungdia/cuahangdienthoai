@@ -71,7 +71,8 @@ public class NhanVienDAO {
             }
             DBConnector.closeConnection(con);
         } catch (Exception e) {
-            // TODO: handle exception           
+            // TODO: handle exception  
+            System.out.println(e);
         }
         return nv;
     }
