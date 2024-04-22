@@ -9,6 +9,7 @@ import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -32,10 +33,10 @@ public class KhachHangDAO {
                 int id = rs.getInt("id");
                 String ho = rs.getString("ho");
                 String ten = rs.getString("ten");
-                String diaChi = rs.getString("diaChi");
                 String sdt = rs.getString("soDienThoai");
+                Timestamp ngayThamGia = rs.getTimestamp("ngayThamGia");
                 int trangThai = rs.getInt("trangThai");
-                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, diaChi, sdt, trangThai);
+                KhachHangDTO kh = new KhachHangDTO(id, ho, ten, sdt, ngayThamGia, trangThai);
                 result.add(kh);
             }
             DBConnector.closeConnection(conn);

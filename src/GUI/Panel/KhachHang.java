@@ -10,6 +10,7 @@ import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import helper.Formatter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -89,7 +90,13 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     public void loadDataToTable(ArrayList<KhachHangDTO> khList) {
         tableModel.setRowCount(0);
         for(KhachHangDTO i : khList) {
-            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getSoDienThoai()});
+            tableModel.addRow(new Object[] {
+                i.getId(), 
+                i.getHo(), 
+                i.getTen(), 
+                i.getSoDienThoai(), 
+                Formatter.FormatDateTime(i.getNgayThamGia()), 
+            });
         }
     }
     
@@ -137,11 +144,11 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
 
             },
             new String [] {
-                "Mã", "Họ", "Tên", "Số điện thoại"
+                "Mã", "Họ", "Tên", "Số điện thoại", "Ngày tham gia"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -163,7 +170,9 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
             khTable.getColumnModel().getColumn(2).setResizable(false);
             khTable.getColumnModel().getColumn(2).setPreferredWidth(200);
             khTable.getColumnModel().getColumn(3).setResizable(false);
-            khTable.getColumnModel().getColumn(3).setPreferredWidth(530);
+            khTable.getColumnModel().getColumn(3).setPreferredWidth(300);
+            khTable.getColumnModel().getColumn(4).setResizable(false);
+            khTable.getColumnModel().getColumn(4).setPreferredWidth(230);
         }
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
