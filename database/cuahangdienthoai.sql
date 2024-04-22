@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 03:14 AM
+-- Generation Time: Apr 22, 2024 at 04:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -156,8 +156,8 @@ CREATE TABLE `khachhang` (
   `id` int(11) NOT NULL,
   `ho` varchar(255) DEFAULT NULL,
   `ten` varchar(255) DEFAULT NULL,
-  `diaChi` varchar(255) DEFAULT NULL,
   `soDienThoai` varchar(255) DEFAULT NULL,
+  `ngayThamGia` datetime DEFAULT NULL,
   `trangThai` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -165,10 +165,10 @@ CREATE TABLE `khachhang` (
 -- Dumping data for table `khachhang`
 --
 
-INSERT INTO `khachhang` (`id`, `ho`, `ten`, `diaChi`, `soDienThoai`, `trangThai`) VALUES
-(1, 'Nguyễn Văn', 'A', NULL, '0123987654', 1),
-(2, 'Đỗ Văn', 'Thừa', NULL, '0984756213', 1),
-(3, 'Bó Đạt', 'Chách', NULL, '0963258741', 1);
+INSERT INTO `khachhang` (`id`, `ho`, `ten`, `soDienThoai`, `ngayThamGia`, `trangThai`) VALUES
+(1, 'Nguyễn Văn', 'A', '0123987654', '2024-04-21 09:28:34', 1),
+(2, 'Đỗ Văn', 'Thừa', '0984756213', '2024-04-20 09:28:43', 1),
+(3, 'Bó Đạt', 'Chách', '0963258741', '2024-04-17 09:28:47', 1);
 
 -- --------------------------------------------------------
 

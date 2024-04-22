@@ -39,6 +39,14 @@ public class NhaCungCapBUS {
     public String getNameByID(int id) {
         return nhaCungCapList.get(getIndexByID(id)).getTen();
     }
+    
+    public String[] getStringList() {
+        String[] result = new String[nhaCungCapList.size()];
+        for(int i=0; i<nhaCungCapList.size(); i++) {
+            result[i] = nhaCungCapList.get(i).getTen();
+        }
+        return result;
+    }
 
     public ArrayList<NhaCungCapDTO> search(String text) {
         ArrayList<NhaCungCapDTO> result = new ArrayList<>();
