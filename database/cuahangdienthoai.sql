@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2024 at 04:54 AM
+-- Generation Time: Apr 26, 2024 at 12:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -94,7 +94,7 @@ CREATE TABLE `ctphieunhap` (
   `pbsanPham_id` int(11) NOT NULL,
   `soLuong` int(11) DEFAULT NULL,
   `donGia` int(11) DEFAULT NULL,
-  `tongTien` int(11) DEFAULT NULL
+  `tongTien` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -102,7 +102,15 @@ CREATE TABLE `ctphieunhap` (
 --
 
 INSERT INTO `ctphieunhap` (`phieuNhap_id`, `pbsanPham_id`, `soLuong`, `donGia`, `tongTien`) VALUES
-(1, 1, 4, 15000000, 60000000);
+(1, 1, 4, 15000000, 60000000),
+(2, 1, 1, 15000000, 15000000),
+(3, 16, 12, 14000000, 168000000),
+(4, 4, 1, 20000000, 20000000),
+(5, 3, 2, 26000000, 52000000),
+(5, 12, 4, 4000000, 16000000),
+(5, 16, 3, 14000000, 42000000),
+(8, 23, 1, 20000000, 20000000),
+(9, 1, 1, 13000000, 13000000);
 
 -- --------------------------------------------------------
 
@@ -257,10 +265,10 @@ CREATE TABLE `pbsanpham` (
 --
 
 INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `giaNhap`, `giaXuat`, `trangThai`) VALUES
-(1, 1, 6, 128, 'Đen', 4, 15000000, 22990000, 1),
+(1, 1, 6, 128, 'Đen', 6, 15000000, 22990000, 1),
 (2, 1, 6, 256, 'Đen', 0, 20000000, 25990000, 1),
-(3, 1, 6, 512, 'Đen', 0, 26000000, 31990000, 1),
-(4, 2, 6, 128, 'Đen', 0, 20000000, 25990000, 1),
+(3, 1, 6, 512, 'Đen', 2, 26000000, 31990000, 1),
+(4, 2, 6, 128, 'Đen', 1, 20000000, 25990000, 1),
 (5, 2, 6, 256, 'Đen', 0, 23000000, 28990000, 1),
 (6, 2, 6, 512, 'Đen', 0, 29000000, 34990000, 1),
 (7, 3, 8, 128, 'Titan đen', 0, 23000000, 28990000, 1),
@@ -268,18 +276,18 @@ INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `gi
 (9, 3, 8, 512, 'Titan đen', 0, 32000000, 37990000, 1),
 (10, 8, 8, 256, 'Tím', 0, 4000000, 8990000, 1),
 (11, 8, 8, 256, 'Xanh', 0, 4000000, 8990000, 1),
-(12, 8, 8, 256, 'Đen', 0, 4000000, 8990000, 1),
+(12, 8, 8, 256, 'Đen', 4, 4000000, 8990000, 1),
 (13, 9, 8, 256, 'Đen', 0, 5000000, 10990000, 1),
 (14, 9, 8, 256, 'Tím', 0, 5000000, 10990000, 1),
 (15, 9, 8, 256, 'Trắng', 0, 5000000, 10990000, 1),
-(16, 10, 8, 256, 'Vàng', 0, 14000000, 22990000, 1),
+(16, 10, 8, 256, 'Vàng', 15, 14000000, 22990000, 1),
 (17, 10, 8, 256, 'Xám', 0, 14000000, 22990000, 1),
 (18, 10, 8, 256, 'Đen', 0, 14000000, 22990000, 1),
 (19, 10, 8, 256, 'Tím', 0, 14000000, 22990000, 1),
 (20, 10, 8, 512, 'Vàng', 0, 20000000, 26490000, 1),
 (21, 10, 8, 512, 'Xám', 0, 20000000, 26490000, 1),
 (22, 10, 8, 512, 'Đen', 0, 20000000, 26490000, 1),
-(23, 10, 8, 512, 'Tím', 0, 20000000, 26490000, 1);
+(23, 10, 8, 512, 'Tím', 1, 20000000, 26490000, 1);
 
 -- --------------------------------------------------------
 
@@ -292,7 +300,7 @@ CREATE TABLE `phieunhap` (
   `nhaCungCap_id` int(11) DEFAULT NULL,
   `nhanVien_id` int(11) DEFAULT NULL,
   `ngayNhap` datetime DEFAULT NULL,
-  `tongTien` int(11) DEFAULT NULL
+  `tongTien` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -300,7 +308,13 @@ CREATE TABLE `phieunhap` (
 --
 
 INSERT INTO `phieunhap` (`id`, `nhaCungCap_id`, `nhanVien_id`, `ngayNhap`, `tongTien`) VALUES
-(1, 1, 1, '2024-04-16 13:32:01', 60000000);
+(1, 1, 1, '2024-04-16 13:32:01', 60000000),
+(2, 1, 1, '2024-04-24 14:44:19', 15000000),
+(3, 1, 1, '2024-04-24 14:44:57', 168000000),
+(4, 2, 1, '2024-04-24 14:47:17', 20000000),
+(5, 1, 1, '2024-04-24 14:56:26', 110000000),
+(8, 1, 1, '2024-04-24 15:10:24', 20000000),
+(9, 1, 1, '2024-04-24 15:11:26', 13000000);
 
 -- --------------------------------------------------------
 
@@ -597,7 +611,7 @@ ALTER TABLE `pbsanpham`
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `quyen`
