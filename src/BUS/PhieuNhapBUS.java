@@ -4,7 +4,9 @@
  */
 package BUS;
 
+import DAO.CTPhieuNhapDAO;
 import DAO.PhieuNhapDAO;
+import DTO.CTPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
 import java.util.ArrayList;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
  */
 public class PhieuNhapBUS {
     private PhieuNhapDAO pnDAO = new PhieuNhapDAO();
+    private CTPhieuNhapDAO ctpnDAO = new CTPhieuNhapDAO();
     public ArrayList<PhieuNhapDTO> phieuNhapList = new ArrayList<>();
     
     public PhieuNhapBUS() {
@@ -22,5 +25,22 @@ public class PhieuNhapBUS {
     
     public ArrayList<PhieuNhapDTO> getAll(){ 
         return this.phieuNhapList;
+    }
+    
+    public boolean addNewPN(PhieuNhapDTO pn) {
+        if(pnDAO.insert(pn) != 0) {
+            phieuNhapList.add(pn);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean addNewPNWithCTPNList(PhieuNhapDTO pn, ArrayList<CTPhieuNhapDTO> ctpnList) {
+        if(pnDAO.insert(pn) != 0) {
+            phieuNhapList.add(pn);
+            ctpnDAO.insert(ctpnList);
+            return true;
+        }
+        return false;
     }
 }

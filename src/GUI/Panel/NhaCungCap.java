@@ -94,7 +94,7 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
     public int getSelectedRow() {
         int index = nccTable.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn nhà cung cấp", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
     }
@@ -215,7 +215,7 @@ public class NhaCungCap extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == xoaBtn){
             int index = getSelectedRow();
             if(index != -1){
-                if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa nhân viên này không?", "", JOptionPane.YES_NO_OPTION) == 0){
+                if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa nhà cung cấp này không?", "", JOptionPane.YES_NO_OPTION) == 0){
                     nccBUS.delete(nhaCungCapList.get(index));
                 }
                 loadDataToTable(nhaCungCapList);
