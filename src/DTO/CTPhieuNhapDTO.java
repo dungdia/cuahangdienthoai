@@ -13,9 +13,9 @@ public class CTPhieuNhapDTO {
     private int idPBSanPham;
     private int soLuong;
     private int donGia;
-    private int tongTien;
+    private long tongTien;
 
-    public CTPhieuNhapDTO(int idPhieuNhap, int idPBSanPham, int soLuong, int donGia, int tongTien) {
+    public CTPhieuNhapDTO(int idPhieuNhap, int idPBSanPham, int soLuong, int donGia, long tongTien) {
         this.idPhieuNhap = idPhieuNhap;
         this.idPBSanPham = idPBSanPham;
         this.soLuong = soLuong;
@@ -55,12 +55,17 @@ public class CTPhieuNhapDTO {
         this.donGia = donGia;
     }
 
-    public int getTongTien() {
+    public long getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(int tongTien) {
+    public void setTongTien(long tongTien) {
         this.tongTien = tongTien;
+    }
+
+    @Override
+    public String toString() {
+        return "CTPhieuNhapDTO{" + "idPhieuNhap=" + idPhieuNhap + ", idPBSanPham=" + idPBSanPham + ", soLuong=" + soLuong + ", donGia=" + donGia + ", tongTien=" + tongTien + '}';
     }
 
     

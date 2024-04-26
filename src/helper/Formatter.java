@@ -13,8 +13,8 @@ import java.util.Locale;
  * @author Admin
  */
 public class Formatter {
-    public static String FormatVND(int vnd) {
-        return String.format(Locale.US, "%,d", vnd) + "đ";
+    public static String FormatVND(long vnd) {
+        return String.format(Locale.US, "%,d", (long)vnd) + "đ";
     }
     
     public static String FormatDateTime(Timestamp thoigian) {

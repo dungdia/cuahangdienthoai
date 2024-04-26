@@ -39,13 +39,12 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     public NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     public NhanVienBUS nvBUS = new NhanVienBUS();
     public ArrayList<PhieuNhapDTO> phieuNhapList = pnBUS.getAll();
-    private Main main;
+    public Main main;
     
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
-    ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
-    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    ToolBarButton themBtn = new ToolBarButton("Nhập hàng", "toolBar_add.svg", "add");
     
     /**
      * Creates new form PhieuNhap
@@ -79,10 +78,8 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
         toolBar.add(themBtn);
-        toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
-        xoaBtn.addActionListener(this);
         pnTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) pnTable.getModel();
     }
@@ -156,7 +153,7 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -173,10 +170,15 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         jScrollPane1.setViewportView(pnTable);
         if (pnTable.getColumnModel().getColumnCount() > 0) {
             pnTable.getColumnModel().getColumn(0).setResizable(false);
+            pnTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             pnTable.getColumnModel().getColumn(1).setResizable(false);
+            pnTable.getColumnModel().getColumn(1).setPreferredWidth(300);
             pnTable.getColumnModel().getColumn(2).setResizable(false);
+            pnTable.getColumnModel().getColumn(2).setPreferredWidth(150);
             pnTable.getColumnModel().getColumn(3).setResizable(false);
+            pnTable.getColumnModel().getColumn(3).setPreferredWidth(150);
             pnTable.getColumnModel().getColumn(4).setResizable(false);
+            pnTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -207,10 +209,15 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         if(e.getSource() == chiTietBtn) {            
             int index = getSelectedRow();
             if(index != -1) {
-                PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, phieuNhapList.get(index), "detail");
+                PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, phieuNhapList.get(index), main.getCurrentUser(), "detail");
                 pnDialog.setVisible(true);
                 loadDataToTable(phieuNhapList);
             }
+        }
+        if(e.getSource() == themBtn) {
+            PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, null, main.getCurrentUser(), "add");
+                pnDialog.setVisible(true);
+                loadDataToTable(phieuNhapList);
         }
     }
 

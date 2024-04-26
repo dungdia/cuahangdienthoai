@@ -146,7 +146,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             return;
         newTaiKhoan = getNewTK();
         if(tkPanel.tkBUS.add(newTaiKhoan)){
-            JOptionPane.showMessageDialog(this, "Thêm tài khoản thanh công!");
+            JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
             tkPanel.loadDataToTable(tkPanel.tkList);
             dispose();
         }
@@ -222,6 +222,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("Hủy");
+        cancelBtn.setBorder(null);
         cancelBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cancelBtnMousePressed(evt);
@@ -232,6 +233,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         addTaiKhoanBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addTaiKhoanBtn.setForeground(new java.awt.Color(255, 255, 255));
         addTaiKhoanBtn.setText("Thêm tài khoản");
+        addTaiKhoanBtn.setBorder(null);
         addTaiKhoanBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 addTaiKhoanBtnMousePressed(evt);

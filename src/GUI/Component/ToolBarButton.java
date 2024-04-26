@@ -16,7 +16,7 @@ import javax.swing.JButton;
  * @author Admin
  */
 public class ToolBarButton extends JButton{
-    private String function;
+    public String function;
         
     public ToolBarButton(String text, String icon, String function) {
         this.function = function;

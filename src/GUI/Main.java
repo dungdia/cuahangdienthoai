@@ -47,6 +47,10 @@ public class Main extends javax.swing.JFrame {
         initComponentsCustom();
     }
     
+    public TaiKhoanDTO getCurrentUser(){
+        return this.currentUser;
+    }
+    
     public void initComponentsCustom() {
         home = new Home();
         sanPham = new SanPham(this);

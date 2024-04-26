@@ -15,9 +15,9 @@ public class PhieuNhapDTO {
     private int idNhaCungCap;
     private int idNhanVien;
     private Timestamp ngayNhap;
-    private int tongTien;
+    private long tongTien;
     
-    public PhieuNhapDTO(int id, int idNhaCungCap, int idNhanVien, Timestamp ngayNhap, int tongTien) {
+    public PhieuNhapDTO(int id, int idNhaCungCap, int idNhanVien, Timestamp ngayNhap, long tongTien) {
         this.id = id;
         this.idNhaCungCap = idNhaCungCap;
         this.idNhanVien = idNhanVien;
@@ -57,11 +57,18 @@ public class PhieuNhapDTO {
         this.ngayNhap = ngayNhap;
     }
 
-    public int getTongTien() {
+    public long getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(int tongTien) {
+    public void setTongTien(long tongTien) {
         this.tongTien = tongTien;
     } 
+
+    @Override
+    public String toString() {
+        return "PhieuNhapDTO{" + "id=" + id + ", idNhaCungCap=" + idNhaCungCap + ", idNhanVien=" + idNhanVien + ", ngayNhap=" + ngayNhap + ", tongTien=" + tongTien + '}';
+    }
+    
+    
 }
