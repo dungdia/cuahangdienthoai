@@ -32,6 +32,10 @@ public class NhanVienBUS {
         return -1;
     }
     
+    public NhanVienDTO getAccountById(String id){
+        return nvDAO.selectByAccountId(id);
+    }
+    
     public String getNameByID(int id) {
         return nhanVienList.get(getIndexByID(id)).getHo() + " " +nhanVienList.get(getIndexByID(id)).getTen();
     }

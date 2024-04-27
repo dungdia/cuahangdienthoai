@@ -10,14 +10,14 @@ package DTO;
  */
 public class CTHoaDonDTO {
     private int idHoaDon;
-    private int idPBSanPham;
+    private String imei;
     private int soLuong;
     private int giaBanRa;
     private int tongTien;
 
-    public CTHoaDonDTO(int idHoaDon, int idPBSanPham, int soLuong, int giaBanRa, int tongTien) {
+    public CTHoaDonDTO(int idHoaDon, String imei,int soLuong, int giaBanRa, int tongTien) {
         this.idHoaDon = idHoaDon;
-        this.idPBSanPham = idPBSanPham;
+        this.imei = imei;
         this.soLuong = soLuong;
         this.giaBanRa = giaBanRa;
         this.tongTien = tongTien;
@@ -30,13 +30,13 @@ public class CTHoaDonDTO {
     public void setIdHoaDon(int idHoaDon) {
         this.idHoaDon = idHoaDon;
     }
-
-    public int getIdPBSanPham() {
-        return idPBSanPham;
+    
+    public String getImeiSanPham() {
+        return imei;
     }
 
-    public void setIdPBSanPham(int idPBSanPham) {
-        this.idPBSanPham = idPBSanPham;
+    public void setImeiPBSanPham(String imei) {
+        this.imei = imei;
     }
 
     public int getSoLuong() {

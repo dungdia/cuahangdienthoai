@@ -24,4 +24,21 @@ public class CTSanPhamBUS {
     public ArrayList<CTSanPhamDTO> getAll() {
         return this.chiTietSPList;
     }
+    
+    public boolean checkExisted(String imei){
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getImei().equals(imei))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    public CTSanPhamDTO getBySanPhamByImei(String imei){
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getImei().equals(imei))
+                return i;
+        }
+        return null;
+    }
 }
