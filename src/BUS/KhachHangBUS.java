@@ -33,4 +33,29 @@ public class KhachHangBUS {
         }
         return result;
     }
+    
+    public String[] getStringList() {
+        String[] result = new String[khachHangList.size()];
+        for(int i=0; i<khachHangList.size(); i++) {
+            result[i] = khachHangList.get(i).getHo() + " " + khachHangList.get(i).getTen();
+        }
+            return result;
+    }
+    
+    public KhachHangDTO getByIndex(int index) {
+        return this.khachHangList.get(index);
+    }
+    
+    public int getIndexByID(int id) {
+        for (int i = 0; i < khachHangList.size(); i++) {
+            if (khachHangList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
+    
+    public String getNameById(int id){
+        int index =this.getIndexByID(id);
+        return khachHangList.get(index).getHo() + " " + khachHangList.get(index).getTen();
+    }
 }

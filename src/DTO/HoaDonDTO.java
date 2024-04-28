@@ -15,10 +15,10 @@ public class HoaDonDTO {
     private int idKhachHang;
     private int idNhanVien;
     private Timestamp ngayXuat;
-    private int tongTien;
-    private String idKhuyenMai;
+    private long tongTien;
+    private int idKhuyenMai;
 
-    public HoaDonDTO(int id, int idKhachHang, int idNhanVien, Timestamp ngayXuat, int tongTien, String idKhuyenMai) {
+    public HoaDonDTO(int id, int idKhachHang, int idNhanVien, Timestamp ngayXuat, long tongTien, int idKhuyenMai) {
         this.id = id;
         this.idKhachHang = idKhachHang;
         this.idNhanVien = idNhanVien;
@@ -59,19 +59,19 @@ public class HoaDonDTO {
         this.ngayXuat = ngayXuat;
     }
 
-    public int getTongTien() {
+    public long getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(int tongTien) {
+    public void setTongTien(long tongTien) {
         this.tongTien = tongTien;
     }
 
-    public String getIdKhuyenMai() {
+    public int getIdKhuyenMai() {
         return idKhuyenMai;
     }
 
-    public void setIdKhuyenMai(String idKhuyenMai) {
+    public void setIdKhuyenMai(int idKhuyenMai) {
         this.idKhuyenMai = idKhuyenMai;
     }
     

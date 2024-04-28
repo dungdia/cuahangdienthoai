@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2024 at 12:05 PM
+-- Generation Time: Apr 27, 2024 at 07:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,13 @@ CREATE TABLE `baohanh` (
   `id` int(11) NOT NULL,
   `soThang` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `baohanh`
+--
+
+INSERT INTO `baohanh` (`id`, `soThang`) VALUES
+(1, 12);
 
 -- --------------------------------------------------------
 
@@ -69,6 +76,15 @@ CREATE TABLE `ctbaohanh` (
   `ngayKetThuc` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ctbaohanh`
+--
+
+INSERT INTO `ctbaohanh` (`id`, `baoHanh_id`, `hoaDon_id`, `imei_sanPham`, `ngayKetThuc`) VALUES
+(1, 1, 1, '123456789012345', '2024-04-27 23:37:40'),
+(2, 1, 2, '098765432112345', '2025-04-28 00:33:14'),
+(3, 1, 3, '123450987654321', '2025-04-28 00:43:26');
+
 -- --------------------------------------------------------
 
 --
@@ -82,6 +98,15 @@ CREATE TABLE `cthoadon` (
   `giaBanRa` int(11) DEFAULT NULL,
   `tongTien` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cthoadon`
+--
+
+INSERT INTO `cthoadon` (`hoaDon_id`, `imei`, `soLuong`, `giaBanRa`, `tongTien`) VALUES
+(1, '123456789012345', 1, 22990000, 22990000),
+(2, '098765432112345', 1, 22990000, 22990000),
+(3, '123450987654321', 1, 22990000, 22990000);
 
 -- --------------------------------------------------------
 
@@ -134,10 +159,18 @@ CREATE TABLE `ctsanpham` (
   `imei` varchar(255) NOT NULL,
   `sanPham_id` int(11) DEFAULT NULL,
   `pbSanPham_id` int(11) DEFAULT NULL,
-  `phieuNhap_id` int(11) DEFAULT NULL,
   `hoaDon_id` int(11) DEFAULT NULL,
   `trangThai` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ctsanpham`
+--
+
+INSERT INTO `ctsanpham` (`imei`, `sanPham_id`, `pbSanPham_id`, `hoaDon_id`, `trangThai`) VALUES
+('098765432112345', 1, 1, 2, 1),
+('123450987654321', 1, 1, 3, 1),
+('123456789012345', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -153,6 +186,15 @@ CREATE TABLE `hoadon` (
   `ngayXuat` datetime DEFAULT NULL,
   `tongTien` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`id`, `khacHang_id`, `nhanVien_id`, `khuyenMai_id`, `ngayXuat`, `tongTien`) VALUES
+(1, 1, 1, NULL, '2024-04-27 23:37:49', 22990000),
+(2, 1, 1, NULL, '2024-04-28 00:33:17', 22990000),
+(3, 1, 1, NULL, '2024-04-28 00:43:29', 22990000);
 
 -- --------------------------------------------------------
 
@@ -265,7 +307,7 @@ CREATE TABLE `pbsanpham` (
 --
 
 INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `giaNhap`, `giaXuat`, `trangThai`) VALUES
-(1, 1, 6, 128, 'Đen', 6, 15000000, 22990000, 1),
+(1, 1, 6, 128, 'Đen', 1, 15000000, 22990000, 1),
 (2, 1, 6, 256, 'Đen', 0, 20000000, 25990000, 1),
 (3, 1, 6, 512, 'Đen', 2, 26000000, 31990000, 1),
 (4, 2, 6, 128, 'Đen', 1, 20000000, 25990000, 1),
@@ -470,8 +512,7 @@ ALTER TABLE `ctsanpham`
   ADD PRIMARY KEY (`imei`),
   ADD KEY `hoaDon_id` (`hoaDon_id`),
   ADD KEY `sanPham_id` (`sanPham_id`),
-  ADD KEY `pbSanPham_id` (`pbSanPham_id`),
-  ADD KEY `phieuNhap_id` (`phieuNhap_id`);
+  ADD KEY `pbSanPham_id` (`pbSanPham_id`);
 
 --
 -- Indexes for table `hoadon`
@@ -557,7 +598,7 @@ ALTER TABLE `thuonghieu`
 -- AUTO_INCREMENT for table `baohanh`
 --
 ALTER TABLE `baohanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `chucnang`
@@ -569,13 +610,13 @@ ALTER TABLE `chucnang`
 -- AUTO_INCREMENT for table `ctbaohanh`
 --
 ALTER TABLE `ctbaohanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
@@ -676,8 +717,7 @@ ALTER TABLE `ctquyen`
 ALTER TABLE `ctsanpham`
   ADD CONSTRAINT `ctsanpham_ibfk_1` FOREIGN KEY (`hoaDon_id`) REFERENCES `hoadon` (`id`),
   ADD CONSTRAINT `ctsanpham_ibfk_2` FOREIGN KEY (`sanPham_id`) REFERENCES `sanpham` (`id`),
-  ADD CONSTRAINT `ctsanpham_ibfk_3` FOREIGN KEY (`pbSanPham_id`) REFERENCES `pbsanpham` (`id`),
-  ADD CONSTRAINT `ctsanpham_ibfk_4` FOREIGN KEY (`phieuNhap_id`) REFERENCES `phieunhap` (`id`);
+  ADD CONSTRAINT `ctsanpham_ibfk_3` FOREIGN KEY (`pbSanPham_id`) REFERENCES `pbsanpham` (`id`);
 
 --
 -- Constraints for table `hoadon`

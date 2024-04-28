@@ -55,7 +55,7 @@ public class Main extends javax.swing.JFrame {
         home = new Home();
         sanPham = new SanPham(this);
         phieuNhap = new PhieuNhap(this);
-        hoaDon = new HoaDon();
+        hoaDon = new HoaDon(this);
         khachHang = new KhachHang(this);
         nhanVien = new NhanVien(this);
         nhaCungCap = new NhaCungCap(this);

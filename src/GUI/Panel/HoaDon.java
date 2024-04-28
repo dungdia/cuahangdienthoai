@@ -6,7 +6,7 @@ package GUI.Panel;
 
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
+import GUI.Main;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -17,8 +17,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import GUI.Dialog.HoaDonDialog;
+import BUS.HoaDonBUS;
+import BUS.KhachHangBUS;
+import BUS.NhanVienBUS;
+import DTO.HoaDonDTO;
+import java.util.ArrayList;
+import helper.Formatter;
 /**
  *
  * @author Admin
@@ -26,6 +33,11 @@ import javax.swing.table.DefaultTableModel;
 public class HoaDon extends javax.swing.JPanel implements ActionListener{
 
     private DefaultTableModel tableModel;
+    public HoaDonBUS hdBUS = new HoaDonBUS();
+    public KhachHangBUS khBUS = new KhachHangBUS();
+    public NhanVienBUS nvBUS = new NhanVienBUS();
+    public ArrayList<HoaDonDTO> hoaDonList =hdBUS.getAll();
+    public Main main;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
@@ -35,9 +47,11 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener{
     /**
      * Creates new form PhieuXuat
      */
-    public HoaDon() {
+    public HoaDon(Main main) {
         initComponents();
         initComponentsCustom();
+        this.main = main;
+        loadDataToTable(hoaDonList);
     }
 
     public void initComponentsCustom() {
@@ -70,6 +84,20 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener{
         xoaBtn.addActionListener(this);
         hdTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) hdTable.getModel();
+    }
+    
+public void loadDataToTable(ArrayList<HoaDonDTO> hdList) {
+        tableModel.setRowCount(0);
+        for(HoaDonDTO i : hdList){
+            tableModel.addRow(new Object[] {
+                i.getId(), 
+                khBUS.getNameById(i.getIdKhachHang()),
+                nvBUS.getNameByID(i.getIdNhanVien()),
+                "Không khuyến mãi",
+                Formatter.FormatVND(i.getTongTien()),
+                i.getNgayXuat()
+            });     
+        }
     }
     
     /**
@@ -105,15 +133,20 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener{
 
         hdTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "Khách Hàng", "Nhân Viên", "Khuyến Mãi", "Tổng tiền", "Ngày Xuất"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(hdTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -131,6 +164,14 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener{
     }// </editor-fold>//GEN-END:initComponents
 
 
+    public int getSelectedRow() {
+        int index = hdTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn hóa đơn nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return index;
+    }    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable hdTable;
     private javax.swing.JPanel jPanel1;
@@ -142,8 +183,18 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chiTietBtn) {            
-
+            int index = getSelectedRow();
+            if(index != -1) {
+            HoaDonDialog hdDialog = new HoaDonDialog(main, true, this, hoaDonList.get(index),main.getCurrentUser(), "detail");
+            hdDialog.setVisible(true);
+            }
+        }
+        if(e.getSource() == themBtn) {
+            HoaDonDialog hdDialog = new HoaDonDialog(main, true, this, null,main.getCurrentUser(), "add");
+            hdDialog.setVisible(true);
+            loadDataToTable(hoaDonList);
         }
     }
-    
+
 }
+    
