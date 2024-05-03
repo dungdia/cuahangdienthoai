@@ -20,18 +20,25 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
+public class ChonSanPhamDialog extends javax.swing.JDialog {
 
     public SanPhamBUS spBUS = new SanPhamBUS();
-    public ArrayList<SanPhamDTO> sanPhamList = spBUS.getAll();
+    public ArrayList<SanPhamDTO> spList = new ArrayList<>();
     private PhienBanSanPhamBUS pbspBUS = new PhienBanSanPhamBUS();
-    private ArrayList<PhienBanSanPhamDTO> pbspList = new ArrayList<PhienBanSanPhamDTO>();
+    private ArrayList<PhienBanSanPhamDTO> pbspList;
     private DefaultTableModel tblSPModel;
     private DefaultTableModel tblPBSPModel;
     public int selectedId;
+    private String mode;
     
-    public ChonSanPhamNhapDialog(java.awt.Frame parent, boolean modal) {
+    public ChonSanPhamDialog(java.awt.Frame parent,boolean modal, ArrayList<SanPhamDTO> spList, ArrayList<PhienBanSanPhamDTO> pbspList, String mode) {
         super(parent, modal);
+        this.mode = mode;
+        if(mode.equals("nhap"))
+            this.spList = spBUS.getAll();
+        if(mode.equals("xuat"))
+            this.spList = spList;
+        this.pbspList = pbspList;
         initComponents();
         initComponentsCustom();
     }
@@ -40,12 +47,7 @@ public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         tblSPModel = (DefaultTableModel) spTable.getModel();
         tblPBSPModel = (DefaultTableModel) pbspTable.getModel();
-        for(SanPhamDTO i : sanPhamList) {
-            tblSPModel.addRow(new Object[]{
-                i.getId(),
-                i.getTen()
-            });
-        }
+        loadSPToTable();
         chonSPBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
@@ -57,6 +59,15 @@ public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
                 }
             }
         });
+    }
+    
+    public void loadSPToTable() {
+        for(SanPhamDTO i : this.spList) {
+            tblSPModel.addRow(new Object[]{
+                i.getId(),
+                i.getTen()
+            });
+        }
     }
     
     public int getSelectedId() {
@@ -127,11 +138,11 @@ public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã", "RAM", "ROM", "Màu", "Giá nhập"
+                "Mã", "RAM", "ROM", "Màu", "Số lượng", "Giá nhập"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -148,6 +159,7 @@ public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
             pbspTable.getColumnModel().getColumn(2).setResizable(false);
             pbspTable.getColumnModel().getColumn(3).setResizable(false);
             pbspTable.getColumnModel().getColumn(4).setResizable(false);
+            pbspTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         chonSPBtn.setBackground(new java.awt.Color(102, 204, 255));
@@ -201,15 +213,30 @@ public class ChonSanPhamNhapDialog extends javax.swing.JDialog {
         tblPBSPModel.setRowCount(0);
         int row = spTable.getSelectedRow();
         int id = (int) spTable.getValueAt(row, 0);
-        pbspList = pbspBUS.getAllPBSPBySPId(id);
-        for(PhienBanSanPhamDTO i : pbspList) {
-            tblPBSPModel.addRow(new Object[]{
-                i.getId(),
-                i.getRam(),
-                i.getRom(),
-                i.getMau(),
-                Formatter.FormatVND(i.getGiaNhap())
-            });
+        for(PhienBanSanPhamDTO i : this.pbspList) {
+            if(i.getIdSanPham() == id) {
+                if(mode.equals("xuat"))
+                    if(i.getSoLuong() > 0) {
+                        tblPBSPModel.addRow(new Object[]{
+                            i.getId(),
+                            i.getRam(),
+                            i.getRom(),
+                            i.getMau(),
+                            i.getSoLuong(),
+                            Formatter.FormatVND(i.getGiaNhap())
+                        });
+                    }
+                if(mode.equals("nhap")) {
+                    tblPBSPModel.addRow(new Object[]{
+                        i.getId(),
+                        i.getRam(),
+                        i.getRom(),
+                        i.getMau(),
+                        i.getSoLuong(),
+                        Formatter.FormatVND(i.getGiaNhap())
+                    });
+                }
+            }
         }
     }//GEN-LAST:event_spTableMousePressed
 

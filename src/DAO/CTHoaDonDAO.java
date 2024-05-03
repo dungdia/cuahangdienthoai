@@ -20,18 +20,19 @@ import java.util.logging.Logger;
  * @author Windows
  */
 public class CTHoaDonDAO {
+
     public static CTHoaDonDAO getInstance() {
         return new CTHoaDonDAO();
     }
-    
-        public ArrayList<CTHoaDonDTO> selectAll() {
+
+    public ArrayList<CTHoaDonDTO> selectAll() {
         ArrayList<CTHoaDonDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
             String query = "SELECT * FROM cthoadon";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int idHoaDon = rs.getInt("hoaDon_id");
                 String imei = rs.getString("imei");
                 int soLuong = rs.getInt("soLuong");
@@ -45,15 +46,15 @@ public class CTHoaDonDAO {
         }
         return result;
     }
-        
-        public ArrayList<CTHoaDonDTO> selectAllByID(int hdId) {
+
+    public ArrayList<CTHoaDonDTO> selectAllByID(int hdId) {
         ArrayList<CTHoaDonDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM cthoadon WHERE hoaDon_id="+hdId;
+            String query = "SELECT * FROM cthoadon WHERE hoaDon_id=" + hdId;
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int idHoaDon = rs.getInt("hoaDon_id");
                 String imei = rs.getString("imei");
                 int soLuong = rs.getInt("soLuong");
@@ -67,8 +68,8 @@ public class CTHoaDonDAO {
         }
         return result;
     }
-        
-        public int insert(ArrayList<CTHoaDonDTO> cthdList) {
+
+    public int insert(ArrayList<CTHoaDonDTO> cthdList) {
         int result = 0;
         for (int i = 0; i < cthdList.size(); i++) {
             try {
@@ -86,6 +87,21 @@ public class CTHoaDonDAO {
                 Logger.getLogger(CTPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
 //            PhienBanSanPhamDAO.getInstance().tangSoLuong(ctpnList.get(i).getIdPBSanPham(), ctpnList.get(i).getSoLuong());
+        }
+        return result;
+    }
+    
+    public int deleteByHDId(int hdId) {
+        int result = 0;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "DELETE FROM `cthoadon` WHERE hoaDon_id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, hdId);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
         return result;
     }

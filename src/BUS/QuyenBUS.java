@@ -24,6 +24,14 @@ public class QuyenBUS {
         return this.quyenList;
     }
     
+    public QuyenDTO getObjectById(int id) {
+        for(QuyenDTO i : quyenList) {
+            if(i.getId() == id)
+                return i;
+        }
+        return null;
+    }
+    
     public int getIndexById(int id) {
         for(int i=0; i<quyenList.size(); i++) {
             if(quyenList.get(i).getId() == id)

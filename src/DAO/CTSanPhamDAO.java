@@ -70,6 +70,21 @@ public class CTSanPhamDAO {
         return result;
     }
     
+    public int deleteByHDId(int hdId) {
+        int result = 0;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "DELETE FROM `ctsanpham` WHERE hoaDon_id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, hdId);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+    }
+    
     public ArrayList<CTSanPhamDTO> selectAllByID(int hdId) {
         ArrayList<CTSanPhamDTO> result = new ArrayList<>();
         try {

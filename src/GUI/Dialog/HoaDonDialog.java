@@ -21,6 +21,7 @@ import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.TaiKhoanDTO;
 import DTO.CTSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Panel.HoaDon;
 import helper.Formatter;
 import java.sql.Timestamp;
@@ -47,6 +48,8 @@ public class HoaDonDialog extends javax.swing.JDialog {
     private KhachHangBUS khBUS = new KhachHangBUS();
     private CTSanPhamBUS ctspBUS = new CTSanPhamBUS();
     private PhienBanSanPhamBUS pbspBUS = new PhienBanSanPhamBUS();
+    public ArrayList<SanPhamDTO> spList;
+    public ArrayList<PhienBanSanPhamDTO> pbspList;
     private ArrayList<CTHoaDonDTO> newCTHDList = new ArrayList<>();
     private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     private ArrayList<CTBaoHanhDTO> newBaoHanhList = new ArrayList<>();
@@ -59,6 +62,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     private HoaDon hdPanel;
     private String mode;
     private int newhdId;
+    private int newctbhId;
     private long tongTien =0;
     
     private DefaultTableModel cthdTableModel;
@@ -74,6 +78,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
         this.mode = mode;
         this.currentUser = currentUser;
         this.hoadon = hoadon;
+        this.newctbhId = ctBhBUS.getAutoIncrement();
         initComponents();
         initComponentsCustom();
     }
@@ -127,6 +132,26 @@ public class HoaDonDialog extends javax.swing.JDialog {
         txtNn.setBorder(null);
         txtTt.setText(Formatter.FormatVND(this.tongTien));
         txtTt.setFocusable(false);
+        this.spList = new ArrayList<>();
+        this.pbspList = new ArrayList<>();
+        ArrayList<SanPhamDTO> allSP = spBUS.getAll();
+        for(SanPhamDTO i : allSP) {
+            ArrayList<PhienBanSanPhamDTO> tempPBSPList = pbspBUS.getAllPBSPBySPId(i.getId());
+            for(PhienBanSanPhamDTO j : tempPBSPList) {
+                if(j.getSoLuong() > 0){
+                    this.spList.add(i);
+                    break;
+                }
+            }
+        }
+        for(SanPhamDTO i : this.spList) {
+            ArrayList<PhienBanSanPhamDTO> tempPBSPList = pbspBUS.getAllPBSPBySPId(i.getId());
+            for(PhienBanSanPhamDTO j : tempPBSPList) {
+                if(j.getSoLuong() > 0){
+                    this.pbspList.add(j);
+                }
+            }
+        }
     }
     
     public void loadDataToTable(ArrayList<CTHoaDonDTO> cthdList,ArrayList<CTSanPhamDTO> ctspList,ArrayList<CTBaoHanhDTO> ctbhList) {
@@ -162,7 +187,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
                 Matcher matcher = pattern.matcher(input);
                 boolean matchFound = matcher.find();
                 if(!matchFound){
-                    JOptionPane.showMessageDialog(this, "Imei phải là số có 15 đơn vị");
+                    JOptionPane.showMessageDialog(this, "Imei phải là số có 15 chữ số");
                 }else{
                     inputAccepted = true;
                     return input;
@@ -224,7 +249,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public void addHdEvent(){
         newHoaDon = getNewHoaDon();
         if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,newCTSPList,newBaoHanhList)) {
-            JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
+            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
             dispose();
         }
     }
@@ -260,7 +285,6 @@ public class HoaDonDialog extends javax.swing.JDialog {
         khComboBox = new javax.swing.JComboBox(khBUS.getStringList());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(935, 583));
 
         headerPanel.setBackground(new java.awt.Color(88, 175, 232));
         headerPanel.setMinimumSize(new java.awt.Dimension(100, 50));
@@ -345,6 +369,24 @@ public class HoaDonDialog extends javax.swing.JDialog {
         ctpnTable.getTableHeader().setResizingAllowed(false);
         ctpnTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(ctpnTable);
+        if (ctpnTable.getColumnModel().getColumnCount() > 0) {
+            ctpnTable.getColumnModel().getColumn(0).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+            ctpnTable.getColumnModel().getColumn(1).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            ctpnTable.getColumnModel().getColumn(2).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            ctpnTable.getColumnModel().getColumn(3).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+            ctpnTable.getColumnModel().getColumn(4).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+            ctpnTable.getColumnModel().getColumn(5).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(5).setPreferredWidth(80);
+            ctpnTable.getColumnModel().getColumn(6).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(6).setPreferredWidth(150);
+            ctpnTable.getColumnModel().getColumn(7).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(7).setPreferredWidth(200);
+        }
 
         themSPBtn.setBackground(new java.awt.Color(102, 204, 255));
         themSPBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -437,10 +479,11 @@ public class HoaDonDialog extends javax.swing.JDialog {
                             .addComponent(txtNv1)
                             .addComponent(txtNn)
                             .addComponent(txtTt)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)
-                        .addComponent(lblNn)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(lblNn))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -463,7 +506,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
 
     private void themSPBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_themSPBtnMousePressed
         // TODO add your handling code here:
-        ChonSanPhamNhapDialog dialog = new ChonSanPhamNhapDialog(hdPanel.main, true);
+        ChonSanPhamDialog dialog = new ChonSanPhamDialog(hdPanel.main, true, this.spList, this.pbspList, "xuat");
         dialog.setVisible(true);
         try {
             int pbspId = dialog.getSelectedId();
@@ -490,10 +533,16 @@ public class HoaDonDialog extends javax.swing.JDialog {
             Timestamp bhTime = new Timestamp(nowDate.getTime());
 
             PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
+            for(PhienBanSanPhamDTO i : this.pbspList) {
+                if(i.getId() == pbsp.getId()) {
+                    i.setSoLuong(i.getSoLuong() - 1);
+                    break;
+                }
+            }
             this.tongTien += (long) pbsp.getGiaXuat();
             newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, pbsp.getGiaXuat(), pbsp.getGiaXuat()));
             newCTSPList.add(new CTSanPhamDTO(imei, pbsp.getIdSanPham(), pbspId, this.newhdId, 1));
-            newBaoHanhList.add(new CTBaoHanhDTO(ctBhBUS.getAutoIncrement(),bhBUS.getIdBySoThang(soThang),this.newhdId,imei,bhTime));
+            newBaoHanhList.add(new CTBaoHanhDTO(this.newctbhId++,bhBUS.getIdBySoThang(soThang),this.newhdId,imei,bhTime));
             loadDataToTable(newCTHDList,newCTSPList,newBaoHanhList);
             txtTt.setText(Formatter.FormatVND(getTongTien()));
         } catch (Exception e) {
@@ -507,8 +556,15 @@ public class HoaDonDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm để xóa");
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này không?", "", JOptionPane.YES_NO_OPTION) == 0) {
+                for(PhienBanSanPhamDTO i : this.pbspList) {
+                    if(i.getId() == newCTSPList.get(index).getIdPBSanPham()) {
+                        i.setSoLuong(i.getSoLuong() + 1);
+                        break;
+                    }
+                }
                 newCTHDList.remove(index);
                 newCTSPList.remove(index);
+                newBaoHanhList.remove(index);
                 reloadEvent();
             }
         }
