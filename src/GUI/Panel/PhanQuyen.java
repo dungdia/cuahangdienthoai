@@ -15,6 +15,7 @@ import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.QuyenDialog;
 import GUI.Main;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +54,7 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
     public ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     public ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     public ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     
     public PhanQuyen(Main main, TaiKhoanDTO taiKhoan) {
         this.main = main;
@@ -93,6 +96,8 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        toolBar.add(exportBtn);
+        exportBtn.addActionListener(this);
         quyenTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) quyenTable.getModel(); 
     }
@@ -238,6 +243,14 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
                 QuyenDialog qDialog = new QuyenDialog(main, true, qBUS.getObjectById(id), qBUS.getCTQListById(id), "edit");
                 qDialog.setVisible(true);
                 loadDataToTable(qList);
+            }
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(quyenTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
             }
         }
         

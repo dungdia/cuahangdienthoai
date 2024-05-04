@@ -16,6 +16,7 @@ import GUI.Component.ToolBarButton;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import helper.Formatter;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,6 +28,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -57,6 +59,7 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     /**
      * Creates new form KhachHang
      */
@@ -100,6 +103,8 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        toolBar.add(exportBtn);
+        exportBtn.addActionListener(this);
         khTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) khTable.getModel();
     }
@@ -219,7 +224,16 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chiTietBtn) {            
 
-        }  
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(khTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
     
 }

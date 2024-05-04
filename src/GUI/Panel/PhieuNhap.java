@@ -19,6 +19,7 @@ import GUI.Dialog.PhieuNhapDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import helper.Formatter;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -57,6 +59,7 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Nhập hàng", "toolBar_add.svg", "add");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     
     /**
      * Creates new form PhieuNhap
@@ -93,8 +96,10 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         toolBar.add(chiTietBtn);
         if(qBUS.checkQuyen(ctqList, 2, "add"))
             toolBar.add(themBtn);
+        toolBar.add(exportBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
+        exportBtn.addActionListener(this);
         pnTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) pnTable.getModel();
     }
@@ -234,6 +239,15 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
                 pnDialog.setVisible(true);
                 loadDataToTable(phieuNhapList);
         }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(pnTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
 
 }
