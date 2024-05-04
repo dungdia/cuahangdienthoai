@@ -71,7 +71,7 @@ public class KhachHangDAO {
        int result = 0;
        try{
            Connection conn = (Connection)DBConnector.getConnection();
-           String query = "INSERT INFO `khachhang`(`ho`,`ten`,`soDienThoai`,`ngayThamGia`) VALUES (?,?,?,?)";
+           String query = "INSERT INTO `khachhang`(`ho`,`ten`,`soDienThoai`,`ngayThamGia`) VALUES (?,?,?,?)";
            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
            pst.setString(1, kh.getHo());
            pst.setString(2, kh.getTen());
