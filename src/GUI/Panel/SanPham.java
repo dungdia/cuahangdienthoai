@@ -19,6 +19,7 @@ import GUI.Dialog.SanPhamDialog;
 import GUI.Dialog.ThemSuaSanPhamDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -32,6 +33,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -62,6 +64,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
     public ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     public ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     public ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     /**
      * Creates new form SanPham
      */
@@ -101,10 +104,12 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             toolBar.add(suaBtn);
         if(qBUS.checkQuyen(ctqList, 1, "delete"))
             toolBar.add(xoaBtn);
+        toolBar.add(exportBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        exportBtn.addActionListener(this);
         spTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) spTable.getModel(); 
     }
@@ -267,6 +272,14 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
                 ThemSuaSanPhamDialog editSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "edit", sanPhamList.get(index), pbspBUS.getAllPBSPBySPId(sanPhamList.get(index).getId()));
                 editSpDialog.setVisible(true);
                 loadDataToTable(sanPhamList);
+            }
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(spTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
             }
         }
         

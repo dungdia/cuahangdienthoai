@@ -38,6 +38,8 @@ import DTO.TaiKhoanDTO;
 import com.kitfox.svg.A;
 import java.util.ArrayList;
 import helper.Formatter;
+import helper.JTableExporter;
+import java.io.IOException;
 
 /**
  *
@@ -60,6 +62,7 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton xoaBtn = new ToolBarButton("Hủy", "toolBar_delete.svg", "delete");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     
     private TaiKhoanDTO taiKhoan;
     
@@ -109,6 +112,8 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        toolBar.add(exportBtn);
+        exportBtn.addActionListener(this);
         hdTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) hdTable.getModel();
     }
@@ -251,6 +256,15 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
                 }
             }
         }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(hdTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
 
 }

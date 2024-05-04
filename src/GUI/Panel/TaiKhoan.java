@@ -15,6 +15,7 @@ import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.TaiKhoanDialog;
 import GUI.Main;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -54,6 +56,7 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
     public ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     public ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     public ToolBarButton khoaBtn = new ToolBarButton("Khóa", "toolBar_ban.svg", "ban");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     /**
      * Creates new form TaiKhoan
      */
@@ -100,6 +103,8 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
         khoaBtn.addActionListener(this);
+        toolBar.add(exportBtn);
+        exportBtn.addActionListener(this);
         tkTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) tkTable.getModel(); 
     }
@@ -285,6 +290,14 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
                             return;
                         }
                 }
+            }
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(tkTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
             }
         }
         
