@@ -9,6 +9,7 @@ import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -46,4 +47,75 @@ public class KhachHangDAO {
         return result;
     }
     
+    public int getAutoIncrement() {
+        int result = -1;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'cuahangdienthoai' AND TABLE_NAME = 'khachhang'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            if (!rs.isBeforeFirst()) {
+                System.out.println("No data");
+            } else {
+                while (rs.next()) {
+                    result = rs.getInt("AUTO_INCREMENT");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int insert(KhachHangDTO kh){
+       int result = 0;
+       try{
+           Connection conn = (Connection)DBConnector.getConnection();
+           String query = "INSERT INFO `khachhang`(`ho`,`ten`,`soDienThoai`,`ngayThamGia`) VALUES (?,?,?,?)";
+           PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+           pst.setString(1, kh.getHo());
+           pst.setString(2, kh.getTen());
+           pst.setString(3, kh.getSoDienThoai());
+           pst.setTimestamp(4, kh.getNgayThamGia());
+           result = pst.executeUpdate();
+           DBConnector.closeConnection(conn);
+       }catch(Exception e){
+           System.err.println(e);
+       }
+       return result;
+    }
+    
+    public int update (KhachHangDTO kh){
+        int result =0;
+        try{
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `khachhang` SET `ho`=?, `ten`=?,`soDienThoai`=?,`ngayThamGia`=? where `id`=?"; 
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, kh.getHo());
+            pst.setString(2, kh.getTen());
+            pst.setString(3,kh.getSoDienThoai());
+            pst.setTimestamp(4,kh.getNgayThamGia());
+            pst.setInt(5, kh.getId());
+            result=pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int delete(int id){
+        int result =0;
+        try{
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `khachhang` SET `trangThai`=0 WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareCall(query);
+            pst.setInt(1,id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        }catch(Exception e){
+            System.err.println(e);
+        }
+        return result;
+    }
 }

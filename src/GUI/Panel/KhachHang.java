@@ -4,6 +4,7 @@
  */
 package GUI.Panel;
 
+import GUI.Dialog.KhachHangDialog;
 import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
 import GUI.Component.SearchBar;
@@ -35,8 +36,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class KhachHang extends javax.swing.JPanel implements ActionListener{
     
-    private final KhachHangBUS khBUS = new KhachHangBUS();
-    private ArrayList<KhachHangDTO> khachHangList = khBUS.getAll();
+    public KhachHangBUS khBUS = new KhachHangBUS();
+    public ArrayList<KhachHangDTO> khachHangList = khBUS.getAll();
     private Main main;
     
     private DefaultTableModel tableModel;
@@ -52,7 +53,7 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
         initComponents();
         initComponentsCustom();
         this.main = main;
-        loadDataToTable(khachHangList);
+        loadDataToTable(this.khachHangList);
     }
     
     public void initComponentsCustom() {
@@ -103,9 +104,19 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
     public int getSelectedRow() {
         int index = khTable.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(main, "Bạn chưa chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(main, "Bạn chưa chọn khách hàng nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
+    }
+    
+    public void searchEvent() {
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(khBUS.search(searchText, (String) searchBar.cbxType.getSelectedItem()));
+    }
+    
+    public void reloadEvent() {
+        searchBar.txtSearch.setText("");
+        loadDataToTable(khachHangList);
     }
     
     /**
@@ -200,9 +211,36 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if(e.getSource() == chiTietBtn) {            
-
+            int index = getSelectedRow();
+            if(index != -1) {
+                KhachHangDialog khDialog = new KhachHangDialog(main, true, this, khachHangList.get(index), "detail");
+                khDialog.setVisible(true);
+                loadDataToTable(khachHangList);
+            }
         }  
+        if(e.getSource() == themBtn){
+            KhachHangDialog khDialog = new KhachHangDialog(main, true, this, null, "add");
+            khDialog.setVisible(true);
+            loadDataToTable(khachHangList);
+        }
+        if(e.getSource() == suaBtn){
+            int index = getSelectedRow();
+            if(index !=-1){
+                KhachHangDialog khDialog = new KhachHangDialog(main, true, this, khachHangList.get(index), "edit");
+                khDialog.setVisible(true);
+                loadDataToTable(khachHangList);
+            }
+        }
+        if(e.getSource() == xoaBtn) {            
+            int index = getSelectedRow();
+            if(index != -1) {
+                if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa khách hàng này không?", "", JOptionPane.YES_NO_OPTION) == 0)
+                    khBUS.delete(khachHangList.get(index));
+                loadDataToTable(khachHangList);
+            }
+        }
     }
     
 }

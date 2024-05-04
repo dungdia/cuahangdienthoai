@@ -252,6 +252,12 @@ public class NhanVienDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Họ");
 
+        txtHo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHoActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Tên");
 
         jLabel4.setText("Giới tính");
@@ -280,6 +286,11 @@ public class NhanVienDialog extends javax.swing.JDialog {
         addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 addBtnMousePressed(evt);
+            }
+        });
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
             }
         });
 
@@ -381,6 +392,14 @@ public class NhanVienDialog extends javax.swing.JDialog {
     private void cancelBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBtnMousePressed
         dispose();
     }//GEN-LAST:event_cancelBtnMousePressed
+
+    private void txtHoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoActionPerformed
+
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
