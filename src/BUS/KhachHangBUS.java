@@ -63,8 +63,9 @@ public class KhachHangBUS {
         ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
         text = text.toLowerCase();
         for(KhachHangDTO i : this.khachHangList) {
-            if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text))
+            if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text)){
                 result.add(i);
+            }
         }
         return result;
     }
@@ -90,6 +91,13 @@ public class KhachHangBUS {
             case "Họ":
                 for(KhachHangDTO i : khachHangList){
                     if(i.getHo().toLowerCase().contains(text)){
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Tên":
+                for(KhachHangDTO i : khachHangList){
+                    if(i.getTen().toLowerCase().contains(text)){
                         result.add(i);
                     }
                 }
