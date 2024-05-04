@@ -22,7 +22,18 @@ public class CTSanPhamBUS {
     }
     
     public ArrayList<CTSanPhamDTO> getAll() {
+        chiTietSPList = ctspDAO.getAll();
         return this.chiTietSPList;
+    }
+    
+    public ArrayList<CTSanPhamDTO> getAllByHDId(int hdId) {
+        chiTietSPList = ctspDAO.getAll();
+        ArrayList<CTSanPhamDTO> result = new ArrayList<>();
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getIdHoaDon() == hdId)
+                result.add(i);
+        }
+        return result;
     }
     
     public boolean checkExisted(String imei){

@@ -44,7 +44,7 @@ public class Validator {
         if(phoneNum == null) {
             return false;
         }
-        String phoneNumRegex = "^0\\d{9}$";
+        String phoneNumRegex = "^(?:[0-9]●?){6,14}[0-9]$";
         Pattern pattern = Pattern.compile(phoneNumRegex);
         return pattern.matcher(phoneNum).matches();
     }
@@ -53,7 +53,7 @@ public class Validator {
         if (email == null) {
             return false;
         }
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }

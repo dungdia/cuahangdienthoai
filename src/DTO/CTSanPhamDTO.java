@@ -62,6 +62,11 @@ public class CTSanPhamDTO {
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
+
+    @Override
+    public String toString() {
+        return "CTSanPhamDTO{" + "imei=" + imei + ", idSanPham=" + idSanPham + ", idPBSanPham=" + idPBSanPham + ", idHoaDon=" + idHoaDon + ", trangThai=" + trangThai + '}';
+    }
     
     
 }

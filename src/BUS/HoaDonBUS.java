@@ -34,6 +34,14 @@ public class HoaDonBUS {
         return this.hoaDonList;
     }
     
+    public HoaDonDTO getByID(int id) {
+        for(HoaDonDTO i : this.hoaDonList) {
+            if(i.getId() == id)
+                return i;
+        }
+        return null;
+    }
+    
     public boolean addNewHd(HoaDonDTO hd) {
         if(hdDAO.insert(hd) != 0) {
             hoaDonList.add(hd);
@@ -50,6 +58,17 @@ public class HoaDonBUS {
             ctbhDAO.insert(ctbh);
             return true;
         }
+        return false;
+    }
+    
+    public boolean delete(HoaDonDTO hd) {
+        if (ctbhDAO.deleteByHDId(hd.getId()) != 0)
+            if(cthdDAO.deleteByHDId(hd.getId()) != 0)
+                if(ctspDAO.deleteByHDId(hd.getId()) != 0)
+                    if(hdDAO.delete(hd.getId()) != 0) {
+                        hoaDonList.remove(hd);
+                        return true;
+                    }
         return false;
     }
     

@@ -42,6 +42,10 @@ public class QuyenDTO {
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
-    
+
+    @Override
+    public String toString() {
+        return "QuyenDTO{" + "id=" + id + ", ten=" + ten + ", trangThai=" + trangThai + '}';
+    }
     
 }

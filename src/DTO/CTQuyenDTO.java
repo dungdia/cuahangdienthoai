@@ -42,5 +42,10 @@ public class CTQuyenDTO {
     public void setHanhDong(String hanhDong) {
         this.hanhDong = hanhDong;
     }
+
+    @Override
+    public String toString() {
+        return "CTQuyenDTO{" + "idQuyen=" + idQuyen + ", idChucNang=" + idChucNang + ", hanhDong=" + hanhDong + '}';
+    }
     
 }

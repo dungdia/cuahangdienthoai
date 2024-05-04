@@ -4,9 +4,12 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
 import BUS.NhanVienBUS;
 import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
@@ -38,19 +41,28 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
     public ArrayList<TaiKhoanDTO> tkList = tkBUS.getAll();
     public Main main;
     
+    private TaiKhoanDTO taiKhoan;
+    
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     public ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     public ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     public ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     public ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    public ToolBarButton khoaBtn = new ToolBarButton("Khóa", "toolBar_ban.svg", "ban");
     /**
      * Creates new form TaiKhoan
      */
-    public TaiKhoan(Main main) {
+    public TaiKhoan(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.tkList);
     }
 
@@ -75,13 +87,19 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(suaBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 9, "add"))
+            toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 9, "edit"))
+            toolBar.add(suaBtn);
+        if(qBUS.checkQuyen(ctqList, 9, "delete")) {
+            toolBar.add(xoaBtn);
+            toolBar.add(khoaBtn);
+        }
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        khoaBtn.addActionListener(this);
         tkTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) tkTable.getModel(); 
     }
@@ -89,7 +107,13 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
     public void loadDataToTable(ArrayList<TaiKhoanDTO> tkList) {
         tableModel.setRowCount(0);
         for(TaiKhoanDTO i : tkList) {
-            tableModel.addRow(new Object[]{i.getId(), nvBUS.getNameByID(i.getIdNhanVien()), qBUS.getNameById(i.getIdQuyen()), i.getTenTaiKhoan(), i.getMatKhau()});
+            tableModel.addRow(new Object[]{
+                i.getId(), 
+                nvBUS.getNameByID(i.getIdNhanVien()), 
+                qBUS.getNameById(i.getIdQuyen()), 
+                i.getTenTaiKhoan(), i.getMatKhau(),
+                (i.getTrangThai()==1?"Hoạt động":"Bị khóa")
+            });
         }
     }
     
@@ -142,11 +166,11 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
 
             },
             new String [] {
-                "Mã", "Tên nhân viên", "Quyền", "Tên tài khoản", "Mật khẩu"
+                "Mã", "Tên nhân viên", "Quyền", "Tên tài khoản", "Mật khẩu", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -168,6 +192,7 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
             tkTable.getColumnModel().getColumn(2).setResizable(false);
             tkTable.getColumnModel().getColumn(3).setResizable(false);
             tkTable.getColumnModel().getColumn(4).setResizable(false);
+            tkTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -199,14 +224,14 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == chiTietBtn) {
             int index = getSelectedRow();
             if(index != -1){
-                TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, tkList.get(index), "detail");
+                TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, tkList.get(index), nvBUS.getObjectById(tkList.get(index).getIdNhanVien()),"detail");
                 tkDialog.setVisible(true);
                 loadDataToTable(tkList);
             }
         }
         
         if(e.getSource() == themBtn) {
-            TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, null, "add");
+            TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, null, null,"add");
             tkDialog.setVisible(true);
             loadDataToTable(tkList);
         }
@@ -214,17 +239,52 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == xoaBtn) {
             int index = getSelectedRow();
             if(index != -1){
+                if(index == 0) {
+                    JOptionPane.showMessageDialog(main, "Bạn không thể xóa tài khoản của Quản lý");
+                    return;
+                }
                 if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa tài khoản này không?", "", JOptionPane.YES_NO_OPTION) == 0)
-                    tkBUS.delete(tkList.get(index));
+                    if(tkBUS.delete(tkList.get(index)))
+                        JOptionPane.showMessageDialog(main, "Xóa tài khoản thành công");
                 loadDataToTable(tkList);
             }
         }
         if(e.getSource() == suaBtn) {
             int index = getSelectedRow();
             if(index != -1){
-                TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, tkList.get(index), "edit");
+                if(index == 0) {
+                    JOptionPane.showMessageDialog(main, "Bạn không thể sửa tài khoản của Quản lý");
+                    return;
+                }
+                TaiKhoanDialog tkDialog = new TaiKhoanDialog(main, true, this, tkList.get(index), nvBUS.getObjectById(tkList.get(index).getIdNhanVien()), "edit");
                 tkDialog.setVisible(true);
                 loadDataToTable(tkList);
+            }
+        }
+        
+        if(e.getSource() == khoaBtn) {
+            int index = getSelectedRow();
+            if(index != -1){
+                if(index == 0) {
+                    JOptionPane.showMessageDialog(main, "Bạn không thể khóa tài khoản của Quản lý");
+                    return;
+                }
+                if(tkList.get(index).getTrangThai() == 1) {
+                    if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn khóa tài khoản này không?", "", JOptionPane.YES_NO_OPTION) == 0)
+                        if(tkBUS.ban(tkList.get(index))) {
+                            JOptionPane.showMessageDialog(main, "Khóa tài khoản thành công");
+                            loadDataToTable(tkList);
+                            return;
+                        }
+                }
+                if(tkList.get(index).getTrangThai() == 2) {
+                    if(JOptionPane.showConfirmDialog(main, "Tài khoản này đang bị khóa, bạn có chắc muốn mở khóa tài khoản này không?", "", JOptionPane.YES_NO_OPTION) == 0)
+                        if(tkBUS.unban(tkList.get(index))) {
+                            JOptionPane.showMessageDialog(main, "Mở khóa tài khoản thành công");
+                            loadDataToTable(tkList);
+                            return;
+                        }
+                }
             }
         }
         

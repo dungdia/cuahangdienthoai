@@ -72,6 +72,21 @@ public class HoaDonDAO {
         }
         return result;
     }
+    
+    public int delete(int id) {
+        int result = 0;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "DELETE FROM `hoadon` WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+    }
         
     public int getAutoIncrement(){
         int result = -1;

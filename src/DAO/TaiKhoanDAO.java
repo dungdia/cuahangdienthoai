@@ -26,7 +26,7 @@ public class TaiKhoanDAO {
         ArrayList<TaiKhoanDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM taikhoan WHERE trangThai=1";
+            String query = "SELECT * FROM taikhoan WHERE trangThai!=0";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -142,4 +142,35 @@ public class TaiKhoanDAO {
         }
         return result;
     }
+    
+    public int ban(int id){
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `taikhoan` SET `trangThai`=2 WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int unban(int id){
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `taikhoan` SET `trangThai`=1 WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
 }
