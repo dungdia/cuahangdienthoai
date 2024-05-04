@@ -12,6 +12,8 @@ import DTO.CTHoaDonDTO;
 import DTO.HoaDonDTO;
 import DTO.CTSanPhamDTO;
 import DTO.CTBaoHanhDTO;
+import DTO.KhachHangDTO;
+import helper.Formatter;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +21,8 @@ import java.util.ArrayList;
  * @author Windows
  */
 public class HoaDonBUS {
+    private KhachHangBUS khBUS = new KhachHangBUS();
+    private NhanVienBUS nvBUS = new NhanVienBUS();
     private HoaDonDAO hdDAO = new HoaDonDAO();
     private CTBaoHanhDAO ctbhDAO = new CTBaoHanhDAO();
     private CTHoaDonDAO cthdDAO = new CTHoaDonDAO();
@@ -74,5 +78,54 @@ public class HoaDonBUS {
     
     public int getAutoIncrement(){
         return hdDAO.getAutoIncrement();
+    }
+    
+    public ArrayList<HoaDonDTO> search (String text, String type){
+        ArrayList<HoaDonDTO> result = new ArrayList<>();
+        text = text.toLowerCase();
+        switch (type) {
+            case "Tất cả":
+                for(HoaDonDTO i : hoaDonList){
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text) || khBUS.getNameById(i.getIdKhachHang()).toLowerCase().contains(text) || nvBUS.getNameByID(i.getIdNhanVien()).toLowerCase().contains(text) || /*Khuyến mãi quăng vào đây*/ Formatter.FormatVND(i.getTongTien()).contains(text) || Formatter.FormatDateTime(i.getNgayXuat()).contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Mã":
+                for(HoaDonDTO i : hoaDonList){
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Khách hàng":
+                for(HoaDonDTO i : hoaDonList){
+                    if(khBUS.getNameById(i.getIdKhachHang()).toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Nhân viên":
+                for(HoaDonDTO i : hoaDonList){
+                    if(nvBUS.getNameByID(i.getIdNhanVien()).toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Khuyến mãi":
+                // quăng khuyến mãi vào đây
+                break;
+            case "Tổng tiền":
+                for(HoaDonDTO i : hoaDonList){
+                    if(Formatter.FormatVND(i.getTongTien()).contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Ngày xuất":
+                for(HoaDonDTO i : hoaDonList){
+                    if(Formatter.FormatDateTime(i.getNgayXuat()).contains(text))
+                        result.add(i);
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+        return result;
     }
 }

@@ -66,22 +66,22 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
     }
     
     public void initComponentsCustom() {
-        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên nhân viên", "Quyền", "Tên tài khoản", "Mật khẩu"});
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên quyền"});
         searchBar.txtSearch.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-//                reloadEvent();
+                reloadEvent();
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
@@ -118,6 +118,16 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
             JOptionPane.showMessageDialog(main, "Bạn chưa chọn quyền nào", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return index;
+    }
+    
+    public void reloadEvent() {
+        searchBar.txtSearch.setText("");
+        loadDataToTable(qList);
+    }
+    
+    public void searchEvent() {
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(qBUS.search(searchText,(String) searchBar.cbxType.getSelectedItem()));
     }
     
     @SuppressWarnings("unchecked")

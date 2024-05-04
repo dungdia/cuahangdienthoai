@@ -74,22 +74,22 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     }
     
     public void initComponentsCustom() {
-        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"});
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày và giờ nhập", "Tổng tiền"});
         searchBar.txtSearch.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-//                reloadEvent();
+                reloadEvent();
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
@@ -117,7 +117,8 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     }
     
     public void searchEvent() {
-        
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(pnBUS.search(searchText,(String) searchBar.cbxType.getSelectedItem()));
     }
     
     public void reloadEvent() {                                       
@@ -169,7 +170,7 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
 
             },
             new String [] {
-                "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày nhập", "Tổng tiền"
+                "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày và giờ nhập", "Tổng tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -183,7 +184,6 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         pnTable.setFocusable(false);
         pnTable.setRowHeight(32);
         pnTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
-        pnTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         pnTable.setShowGrid(true);
         pnTable.getTableHeader().setResizingAllowed(false);
         pnTable.getTableHeader().setReorderingAllowed(false);
