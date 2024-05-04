@@ -105,4 +105,32 @@ public class QuyenBUS {
         return false;
     }
     
+    public ArrayList<QuyenDTO> search(String text, String type){
+        ArrayList<QuyenDTO> result = new ArrayList<>();
+        text = text.toLowerCase();
+        switch (type) {
+            case "Tất cả":
+                for(QuyenDTO i : quyenList){
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Mã":
+                for(QuyenDTO i : quyenList){
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            case "Tên quyền":
+                for(QuyenDTO i : quyenList){
+                    if(i.getTen().toLowerCase().contains(text))
+                        result.add(i);
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+        return result;
+    }
+    
 }

@@ -25,7 +25,7 @@ public class NhanVienBUS {
     }
     
     public int getIndexByID(int id) {
-        for(int i=0; i<nhanVienList.size(); i++) {
+        for(int i = 0; i < nhanVienList.size(); i++) {
             if(nhanVienList.get(i).getId() == id)
                 return i;
         }

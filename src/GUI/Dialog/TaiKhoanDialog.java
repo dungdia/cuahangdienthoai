@@ -321,7 +321,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             this.nhanVien = nvBUS.getObjectById(idNv);
             txtTenNhanVien.setText(this.nhanVien.getHo()+" "+this.nhanVien.getTen());
         } catch (Exception e) {
-            
+          System.out.println(e);  
         }
     }//GEN-LAST:event_chonNVBtnMousePressed
 
