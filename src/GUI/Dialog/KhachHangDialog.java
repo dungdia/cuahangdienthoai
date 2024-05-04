@@ -31,7 +31,7 @@ public class KhachHangDialog extends javax.swing.JDialog {
     /**
      * Creates new form KhachHangDialog
      */
-    public KhachHangDialog(java.awt.Frame parent, boolean modal,KhachHang nvPanel, KhachHangDTO khachhang, String mode) {
+    public KhachHangDialog(java.awt.Frame parent, boolean modal,KhachHang khPanel, KhachHangDTO khachhang, String mode) {
         super(parent, modal);
         this.khPanel = khPanel;
         this.khachhang = khachhang;
