@@ -25,4 +25,16 @@ public class ChucNangBUS {
         return this.cnList;
     }
     
+    public int getIndexByID(int id) {
+        for(int i=0; i<cnList.size(); i++) {
+            if(cnList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
+    
+    public String getNameByID(int id) {
+        return cnList.get(getIndexByID(id)).getTen();
+    }
+    
 }

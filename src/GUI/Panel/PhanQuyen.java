@@ -5,8 +5,12 @@
 package GUI.Panel;
 
 import BUS.CTQuyenBUS;
+import BUS.ChucNangBUS;
 import BUS.QuyenBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.QuyenDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.QuyenDialog;
@@ -36,6 +40,12 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
     public ArrayList<QuyenDTO> qList = qBUS.getAll();
     public Main main;
     
+    private TaiKhoanDTO taiKhoan;
+    
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     public ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
@@ -43,10 +53,12 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
     public ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     public ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
     
-    public PhanQuyen(Main main) {
+    public PhanQuyen(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.qList);
     }
     
@@ -71,9 +83,12 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(suaBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 7, "add"))
+            toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 7, "edit"))
+            toolBar.add(suaBtn);
+        if(qBUS.checkQuyen(ctqList, 7, "delete"))
+            toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
@@ -183,8 +198,9 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
             int index = getSelectedRow();
             if(index != -1) {
                 int id = (int) quyenTable.getValueAt(index, 0);
-                QuyenDialog qDialog = new QuyenDialog(main, true, qBUS.getObjectById(id), ctqBUS.getAllByQuyenId(id), "detail");
+                QuyenDialog qDialog = new QuyenDialog(main, true, qBUS.getObjectById(id), qBUS.getCTQListById(id), "detail");
                 qDialog.setVisible(true);
+                loadDataToTable(qList);
             }
             
         }
@@ -192,17 +208,36 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == themBtn) {
             QuyenDialog qDialog = new QuyenDialog(main, true, null, null, "add");
             qDialog.setVisible(true);
+            loadDataToTable(qList);
         }
         
         if(e.getSource() == xoaBtn) {
-            
+            int index = getSelectedRow();
+            if(index != -1) {
+                int id = (int) quyenTable.getValueAt(index, 0);
+                if(id == 1) {
+                    JOptionPane.showMessageDialog(main, "Bạn không thể xóa quyền của Quản lý");
+                    return;
+                }
+                if (JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa quyền này không?", "", JOptionPane.YES_NO_OPTION) == 0) {
+                    if(qBUS.delete(qBUS.getObjectById(id)) == true) {
+                        JOptionPane.showMessageDialog(main, "Xóa quyền thành công");
+                        loadDataToTable(qList);
+                    }
+                }
+            }
         }
         if(e.getSource() == suaBtn) {
             int index = getSelectedRow();
             if(index != -1) {
                 int id = (int) quyenTable.getValueAt(index, 0);
-                QuyenDialog qDialog = new QuyenDialog(main, true, qBUS.getObjectById(id), ctqBUS.getAllByQuyenId(id), "edit");
+                if(id == 1) {
+                    JOptionPane.showMessageDialog(main, "Bạn không thể sửa quyền của Quản lý");
+                    return;
+                }
+                QuyenDialog qDialog = new QuyenDialog(main, true, qBUS.getObjectById(id), qBUS.getCTQListById(id), "edit");
                 qDialog.setVisible(true);
+                loadDataToTable(qList);
             }
         }
         

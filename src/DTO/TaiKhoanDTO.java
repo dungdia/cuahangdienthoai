@@ -72,6 +72,10 @@ public class TaiKhoanDTO {
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
-    
+
+    @Override
+    public String toString() {
+        return "TaiKhoanDTO{" + "id=" + id + ", idNhanVien=" + idNhanVien + ", idQuyen=" + idQuyen + ", tenTaiKhoan=" + tenTaiKhoan + ", matKhau=" + matKhau + ", trangThai=" + trangThai + '}';
+    }
     
 }

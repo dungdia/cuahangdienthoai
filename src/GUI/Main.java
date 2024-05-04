@@ -53,15 +53,15 @@ public class Main extends javax.swing.JFrame {
     
     public void initComponentsCustom() {
         home = new Home();
-        sanPham = new SanPham(this);
-        phieuNhap = new PhieuNhap(this);
-        hoaDon = new HoaDon(this);
-        khachHang = new KhachHang(this);
-        nhanVien = new NhanVien(this);
-        nhaCungCap = new NhaCungCap(this);
-        phanQuyen = new PhanQuyen(this);
+        sanPham = new SanPham(this, currentUser);
+        phieuNhap = new PhieuNhap(this, currentUser);
+        hoaDon = new HoaDon(this, currentUser);
+        khachHang = new KhachHang(this, currentUser);
+        nhanVien = new NhanVien(this, currentUser);
+        nhaCungCap = new NhaCungCap(this, currentUser);
+        phanQuyen = new PhanQuyen(this, currentUser);
         thongKe = new ThongKe();
-        taiKhoan = new TaiKhoan(this);
+        taiKhoan = new TaiKhoan(this, currentUser);
         this.setTitle("Cửa hàng điện thoại");
         this.setSize(new Dimension(1280, 720));
         this.setLayout(new BorderLayout(0, 0));

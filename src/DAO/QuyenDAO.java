@@ -65,4 +65,52 @@ public class QuyenDAO {
         return result;
     }
     
+    public int insert(QuyenDTO q) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "INSERT INTO `quyen`(`id`, `ten`, `trangThai`) VALUES (?,?,?)";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setInt(1, q.getId());
+            pst.setString(2, q.getTen());
+            pst.setInt(3, q.getTrangThai());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int update(QuyenDTO q) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `quyen` SET `ten`=? WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setString(1, q.getTen());
+            pst.setInt(2, q.getId());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int delete(int id) {
+        int result = 0;
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "UPDATE `quyen` SET `trangThai`=0 WHERE `id`=?";
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            pst.setInt(1, id);
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(conn);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
 }

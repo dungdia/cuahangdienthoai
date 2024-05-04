@@ -34,17 +34,21 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
     public ChonSanPhamDialog(java.awt.Frame parent,boolean modal, ArrayList<SanPhamDTO> spList, ArrayList<PhienBanSanPhamDTO> pbspList, String mode) {
         super(parent, modal);
         this.mode = mode;
-        if(mode.equals("nhap"))
+        if(mode.equals("nhap")) {
             this.spList = spBUS.getAll();
-        if(mode.equals("xuat"))
+            this.pbspList = pbspBUS.getAll();
+        }
+        if(mode.equals("xuat")) {
             this.spList = spList;
-        this.pbspList = pbspList;
+            this.pbspList = pbspList;
+        }
         initComponents();
         initComponentsCustom();
     }
 
     public void initComponentsCustom() {
         this.setLocationRelativeTo(null);
+        setTitle("Chọn sản phẩm");
         tblSPModel = (DefaultTableModel) spTable.getModel();
         tblPBSPModel = (DefaultTableModel) pbspTable.getModel();
         loadSPToTable();

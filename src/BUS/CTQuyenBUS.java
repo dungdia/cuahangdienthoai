@@ -33,5 +33,5 @@ public class CTQuyenBUS {
         }
         return result;
     }
-    
+     
 }

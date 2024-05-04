@@ -50,6 +50,24 @@ public class TaiKhoanBUS {
         return false;
     }
     
+    public boolean ban(TaiKhoanDTO tk) {
+        if(tkDAO.ban(tk.getId()) != 0) {
+            tkList.get(getIndexByID(tk.getId())).setTrangThai(2);
+            tkList.set(getIndexByID(tk.getId()), tk);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean unban(TaiKhoanDTO tk) {
+        if(tkDAO.unban(tk.getId()) != 0) {
+            tkList.get(getIndexByID(tk.getId())).setTrangThai(1);
+            tkList.set(getIndexByID(tk.getId()), tk);
+            return true;
+        }
+        return false;
+    }
+    
     public boolean delete(TaiKhoanDTO tk){
         if(tkDAO.delete(tk.getId()) != 0){
             tkList.remove(tk);

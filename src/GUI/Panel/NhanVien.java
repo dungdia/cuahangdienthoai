@@ -4,8 +4,13 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
 import BUS.NhanVienBUS;
+import BUS.QuyenBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.NhanVienDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.NhanVienDialog;
@@ -35,6 +40,13 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
     public ArrayList<NhanVienDTO> nhanVienList = nvBUS.getAll();
     private Main main;
     
+    private TaiKhoanDTO taiKhoan;
+    
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     public DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
@@ -44,10 +56,12 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
     /**
      * Creates new form NhanVien
      */
-    public NhanVien(Main main) {
+    public NhanVien(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.nhanVienList);
     }
     
@@ -72,9 +86,12 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(suaBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "add"))
+            toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "edit"))
+            toolBar.add(suaBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "delete"))
+            toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);

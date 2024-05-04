@@ -46,6 +46,13 @@ public class KhachHangBUS {
         return this.khachHangList.get(index);
     }
     
+    public KhachHangDTO getObjectById(int id) {
+        for(KhachHangDTO i : khachHangList)
+            if(i.getId() == id)
+                return i;
+        return null;
+    }
+    
     public int getIndexByID(int id) {
         for (int i = 0; i < khachHangList.size(); i++) {
             if (khachHangList.get(i).getId() == id)
@@ -55,7 +62,7 @@ public class KhachHangBUS {
     }
     
     public String getNameById(int id){
-        int index =this.getIndexByID(id);
+        int index = this.getIndexByID(id);
         return khachHangList.get(index).getHo() + " " + khachHangList.get(index).getTen();
     }
 }

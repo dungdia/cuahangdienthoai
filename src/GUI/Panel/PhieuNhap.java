@@ -4,10 +4,15 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
+import BUS.QuyenBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.PhieuNhapDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.PhieuNhapDialog;
@@ -41,6 +46,13 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     public ArrayList<PhieuNhapDTO> phieuNhapList = pnBUS.getAll();
     public Main main;
     
+    private TaiKhoanDTO taiKhoan;
+    
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
@@ -49,10 +61,12 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     /**
      * Creates new form PhieuNhap
      */
-    public PhieuNhap(Main main) {
+    public PhieuNhap(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.phieuNhapList);
     }
     
@@ -77,7 +91,8 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 2, "add"))
+            toolBar.add(themBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         pnTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));

@@ -5,14 +5,17 @@
 package GUI.Dialog;
 
 import BUS.ChucNangBUS;
+import BUS.QuyenBUS;
 import DAO.QuyenDAO;
 import DTO.CTQuyenDTO;
 import DTO.ChucNangDTO;
 import DTO.QuyenDTO;
+import helper.Validator;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -27,6 +30,7 @@ public class QuyenDialog extends javax.swing.JDialog {
     String[] chucNang = {"Sản phẩm"};
     private int sizeCN, sizeHD, newQuyenId;
     private ChucNangBUS cnBUS = new ChucNangBUS();
+    private QuyenBUS qBUS = new QuyenBUS();
     private ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
     private QuyenDTO quyen;
     private ArrayList<CTQuyenDTO> ctQuyenList;
@@ -109,6 +113,7 @@ public class QuyenDialog extends javax.swing.JDialog {
                     }
                 }
         }
+        btn_themQuyen.setText("Xác nhận");
     }
     
     public void initEditMode() {
@@ -121,6 +126,7 @@ public class QuyenDialog extends javax.swing.JDialog {
                     }
                 }
         }
+        btn_themQuyen.setText("Lưu thay đổi");
     }
     
     public void initAddMode() {
@@ -140,6 +146,12 @@ public class QuyenDialog extends javax.swing.JDialog {
         return result;
     }
     
+    public boolean Validate() {
+        if(Validator.isEmpty(txtTenQuyen.getText()))
+            return false;
+        return true;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -155,7 +167,7 @@ public class QuyenDialog extends javax.swing.JDialog {
         pnl_checkbox = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_themQuyen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -227,15 +239,15 @@ public class QuyenDialog extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(102, 204, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Thêm quyền");
-        jButton2.setBorder(null);
-        jButton2.setPreferredSize(new java.awt.Dimension(120, 40));
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_themQuyen.setBackground(new java.awt.Color(102, 204, 255));
+        btn_themQuyen.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_themQuyen.setForeground(new java.awt.Color(255, 255, 255));
+        btn_themQuyen.setText("Thêm quyền");
+        btn_themQuyen.setBorder(null);
+        btn_themQuyen.setPreferredSize(new java.awt.Dimension(120, 40));
+        btn_themQuyen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton2MousePressed(evt);
+                btn_themQuyenMousePressed(evt);
             }
         });
 
@@ -245,7 +257,7 @@ public class QuyenDialog extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(220, 220, 220)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_themQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(220, 220, 220)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(220, Short.MAX_VALUE))
@@ -256,7 +268,7 @@ public class QuyenDialog extends javax.swing.JDialog {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_themQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10))
         );
 
@@ -267,16 +279,40 @@ public class QuyenDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
-        System.out.println("pressed");
-        if(mode.equals("detail") || mode.equals("edit"))
-            this.ctQuyenList = getCTQuyenList(quyen.getId());
-        if(mode.equals("add"))
-            this.ctQuyenList = getCTQuyenList(newQuyenId);
-        for(CTQuyenDTO i : this.ctQuyenList) {
-            System.out.println(i);
+    private void btn_themQuyenMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themQuyenMousePressed
+        if(mode.equals("detail")) {
+            dispose();
+            return;
         }
-    }//GEN-LAST:event_jButton2MousePressed
+        if(mode.equals("edit")) {
+            this.quyen.setTen(txtTenQuyen.getText());
+            this.ctQuyenList = getCTQuyenList(quyen.getId());
+//            System.out.println(quyen);
+//            for(CTQuyenDTO i : ctQuyenList) {
+//                System.out.println(i);
+//            }
+            if(qBUS.update(this.quyen, this.ctQuyenList)) {
+                JOptionPane.showMessageDialog(this, "Lưu thay đổi thành công");
+                dispose();
+            }
+        }
+        if(mode.equals("add")) {
+            if(!Validate()) {
+                JOptionPane.showMessageDialog(this, "Tên quyền không được rỗng");
+                return;
+            }
+            QuyenDTO newQuyen = new QuyenDTO(newQuyenId, txtTenQuyen.getText(), 1);
+            ArrayList<CTQuyenDTO> newCTQList = getCTQuyenList(newQuyenId);
+//            System.out.println(newQuyen);
+//            for(CTQuyenDTO i : newCTQList) {
+//                System.out.println(i);
+//            }
+            if(qBUS.add(newQuyen, newCTQList)) {
+                JOptionPane.showMessageDialog(this, "Thêm quyền mới thành công");
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_btn_themQuyenMousePressed
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         dispose();
@@ -285,8 +321,8 @@ public class QuyenDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_themQuyen;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

@@ -5,6 +5,7 @@
 package GUI.Panel;
 
 import BUS.CTSanPhamBUS;
+import BUS.ChucNangBUS;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Main;
@@ -24,12 +25,16 @@ import GUI.Dialog.HoaDonDialog;
 import BUS.HoaDonBUS;
 import BUS.KhachHangBUS;
 import BUS.NhanVienBUS;
+import BUS.QuyenBUS;
 import DAO.CTBaoHanhDAO;
 import DAO.CTHoaDonDAO;
 import DAO.CTSanPhamDAO;
 import DAO.PhienBanSanPhamDAO;
+import DTO.CTQuyenDTO;
 import DTO.CTSanPhamDTO;
+import DTO.ChucNangDTO;
 import DTO.HoaDonDTO;
+import DTO.TaiKhoanDTO;
 import com.kitfox.svg.A;
 import java.util.ArrayList;
 import helper.Formatter;
@@ -55,14 +60,24 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton xoaBtn = new ToolBarButton("Hủy", "toolBar_delete.svg", "delete");
+    
+    private TaiKhoanDTO taiKhoan;
+    
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
 
     /**
      * Creates new form PhieuXuat
      */
-    public HoaDon(Main main) {
+    public HoaDon(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(hoaDonList);
     }
 
@@ -87,8 +102,10 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 3, "add"))
+            toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 3, "delete"))
+            toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         xoaBtn.addActionListener(this);

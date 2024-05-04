@@ -460,7 +460,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void themSPBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_themSPBtnMousePressed
-        ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null,"nhap");
+        ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
         dialog.setVisible(true);
         try {
             int pbspId = dialog.getSelectedId();
