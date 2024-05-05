@@ -22,7 +22,7 @@ public class NhaCungCapDAO {
         return new NhaCungCapDAO();
     }
     
-    public ArrayList<NhaCungCapDTO> getAll() {
+    public ArrayList<NhaCungCapDTO> selectAll() {
         ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();

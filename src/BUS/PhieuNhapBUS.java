@@ -32,6 +32,14 @@ public class PhieuNhapBUS {
         return this.phieuNhapList;
     }
     
+    public long getTotalMoney() {
+        long result = 0;
+        for(PhieuNhapDTO i : pnDAO.selectAll()) {
+            result += i.getTongTien();
+        }
+        return result;
+    }
+    
     public boolean addNewPN(PhieuNhapDTO pn) {
         if(pnDAO.insert(pn) != 0) {
             phieuNhapList.add(pn);

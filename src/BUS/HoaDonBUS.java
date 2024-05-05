@@ -38,6 +38,14 @@ public class HoaDonBUS {
         return this.hoaDonList;
     }
     
+    public long getTotalMoney() {
+        long result = 0;
+        for(HoaDonDTO i : hdDAO.selectAll()) {
+            result += i.getTongTien();
+        }
+        return result;
+    }
+    
     public HoaDonDTO getByID(int id) {
         for(HoaDonDTO i : this.hoaDonList) {
             if(i.getId() == id)

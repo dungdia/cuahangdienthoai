@@ -21,4 +21,20 @@ public class Formatter {
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY HH:mm");
         return formatDate.format(thoigian);
     }
+    
+    public static String getYear(Timestamp thoigian) {
+        SimpleDateFormat formatDate = new SimpleDateFormat("YYYY");
+        return formatDate.format(thoigian);
+    }
+    
+    public static String getMonth(Timestamp thoigian) {
+        SimpleDateFormat formatDate = new SimpleDateFormat("MM/YYYY");
+        return formatDate.format(thoigian);
+    }
+    
+    public static String getDate(Timestamp thoigian) {
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY");
+        return formatDate.format(thoigian);
+    }
+    
 }

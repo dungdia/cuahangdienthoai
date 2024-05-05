@@ -17,7 +17,7 @@ public class NhaCungCapBUS {
     private ArrayList<NhaCungCapDTO> nhaCungCapList = new ArrayList<NhaCungCapDTO>();
 
     public NhaCungCapBUS() {
-        nhaCungCapList = nccDAO.getAll();
+        nhaCungCapList = nccDAO.selectAll();
     }
 
     public ArrayList<NhaCungCapDTO> getAll() {
