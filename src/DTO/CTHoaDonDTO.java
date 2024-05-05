@@ -63,5 +63,10 @@ public class CTHoaDonDTO {
         this.tongTien = tongTien;
     }
 
+    @Override
+    public String toString() {
+        return "CTHoaDonDTO{" + "idHoaDon=" + idHoaDon + ", imei=" + imei + ", soLuong=" + soLuong + ", giaBanRa=" + giaBanRa + ", tongTien=" + tongTien + '}';
+    }
+
     
 }

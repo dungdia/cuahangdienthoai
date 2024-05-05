@@ -10,15 +10,19 @@ package DTO;
  */
 public class KhuyenMaiDTO {
     private int id;
-    private int idPBSanPham;
+    private String ten;
     private float tiLe;
+    private int idSanPham;
     private int dieuKien;
+    private int trangThai;
 
-    public KhuyenMaiDTO(int id, int idPBSanPham, float tiLe, int dieuKien) {
+    public KhuyenMaiDTO(int id, String ten, float tiLe, int idSanPham, int dieuKien, int trangThai) {
         this.id = id;
-        this.idPBSanPham = idPBSanPham;
+        this.ten = ten;
         this.tiLe = tiLe;
+        this.idSanPham = idSanPham;
         this.dieuKien = dieuKien;
+        this.trangThai = trangThai;
     }
 
     public int getId() {
@@ -29,12 +33,12 @@ public class KhuyenMaiDTO {
         this.id = id;
     }
 
-    public int getIdPBSanPham() {
-        return idPBSanPham;
+    public String getTen() {
+        return ten;
     }
 
-    public void setIdPBSanPham(int idPBSanPham) {
-        this.idPBSanPham = idPBSanPham;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
     public float getTiLe() {
@@ -45,6 +49,14 @@ public class KhuyenMaiDTO {
         this.tiLe = tiLe;
     }
 
+    public int getIdSanPham() {
+        return idSanPham;
+    }
+
+    public void setIdSanPham(int idSanPham) {
+        this.idSanPham = idSanPham;
+    }
+
     public int getDieuKien() {
         return dieuKien;
     }
@@ -52,6 +64,14 @@ public class KhuyenMaiDTO {
     public void setDieuKien(int dieuKien) {
         this.dieuKien = dieuKien;
     }
-    
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
     
 }

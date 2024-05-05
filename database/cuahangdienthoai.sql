@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2024 at 11:35 AM
+-- Generation Time: May 05, 2024 at 06:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,7 +67,8 @@ INSERT INTO `chucnang` (`id`, `ten`) VALUES
 (6, 'Nhà cung cấp'),
 (7, 'Phân quyền'),
 (8, 'Thống kê'),
-(9, 'Tài khoản');
+(9, 'Tài khoản'),
+(10, 'Thêm');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,17 @@ CREATE TABLE `ctbaohanh` (
 INSERT INTO `ctbaohanh` (`id`, `baoHanh_id`, `hoaDon_id`, `imei_sanPham`, `ngayKetThuc`) VALUES
 (10, 1, 8, '123456789012345', '2025-05-03 10:58:13'),
 (11, 1, 9, '123456789045789', '2025-05-04 07:41:03'),
-(12, 1, 10, '123456789578945', '2025-05-04 07:47:59');
+(12, 1, 10, '123456789578945', '2025-05-04 07:47:59'),
+(13, 1, 11, '145687923512364', '2025-05-05 21:51:11'),
+(14, 1, 12, '741569823612358', '2025-05-05 21:53:26'),
+(15, 1, 13, '451369874512648', '2025-05-05 21:55:52'),
+(16, 1, 14, '453269781465982', '2025-05-05 21:57:40'),
+(17, 1, 15, '145236987456123', '2025-05-05 22:00:44'),
+(18, 1, 15, '451201365879564', '2025-05-05 22:01:04'),
+(19, 1, 15, '457136524895746', '2025-05-05 22:01:20'),
+(20, 1, 16, '456784596132546', '2025-05-05 22:03:06'),
+(21, 1, 16, '978456321456795', '2025-05-05 22:03:21'),
+(22, 1, 17, '031648952364159', '2025-05-05 22:40:51');
 
 -- --------------------------------------------------------
 
@@ -113,7 +124,17 @@ CREATE TABLE `cthoadon` (
 INSERT INTO `cthoadon` (`hoaDon_id`, `imei`, `soLuong`, `giaBanRa`, `tongTien`) VALUES
 (8, '123456789012345', 1, 26490000, 26490000),
 (9, '123456789045789', 1, 22990000, 22990000),
-(10, '123456789578945', 1, 22990000, 22990000);
+(10, '123456789578945', 1, 22990000, 22990000),
+(11, '145687923512364', 1, 22990000, 18392000),
+(12, '741569823612358', 1, 22990000, 18392000),
+(13, '451369874512648', 1, 22990000, 22990000),
+(14, '453269781465982', 1, 22990000, 18392000),
+(15, '145236987456123', 1, 8990000, 8990000),
+(15, '451201365879564', 1, 8990000, 8990000),
+(15, '457136524895746', 1, 8990000, 8990000),
+(16, '456784596132546', 1, 8990000, 8990000),
+(16, '978456321456795', 1, 22990000, 18392000),
+(17, '031648952364159', 1, 22990000, 22990000);
 
 -- --------------------------------------------------------
 
@@ -194,6 +215,10 @@ INSERT INTO `ctquyen` (`quyen_id`, `chucNang_id`, `hanhDong`) VALUES
 (1, 9, 'delete'),
 (1, 9, 'edit'),
 (1, 9, 'view'),
+(1, 10, 'add'),
+(1, 10, 'delete'),
+(1, 10, 'edit'),
+(1, 10, 'view'),
 (3, 1, 'view'),
 (4, 1, 'view');
 
@@ -216,9 +241,19 @@ CREATE TABLE `ctsanpham` (
 --
 
 INSERT INTO `ctsanpham` (`imei`, `sanPham_id`, `pbSanPham_id`, `hoaDon_id`, `trangThai`) VALUES
+('031648952364159', 10, 16, 17, 1),
 ('123456789012345', 10, 23, 8, 1),
 ('123456789045789', 10, 16, 9, 1),
-('123456789578945', 10, 16, 10, 1);
+('123456789578945', 10, 16, 10, 1),
+('145236987456123', 8, 12, 15, 1),
+('145687923512364', 10, 16, 11, 1),
+('451201365879564', 8, 12, 15, 1),
+('451369874512648', 10, 16, 13, 1),
+('453269781465982', 10, 16, 14, 1),
+('456784596132546', 8, 12, 16, 1),
+('457136524895746', 8, 12, 15, 1),
+('741569823612358', 10, 16, 12, 1),
+('978456321456795', 10, 16, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -240,9 +275,16 @@ CREATE TABLE `hoadon` (
 --
 
 INSERT INTO `hoadon` (`id`, `khacHang_id`, `nhanVien_id`, `khuyenMai_id`, `ngayXuat`, `tongTien`) VALUES
-(8, 1, 1, NULL, '2024-05-03 10:58:15', 26490000),
-(9, 3, 1, NULL, '2024-05-04 07:41:17', 22990000),
-(10, 2, 1, NULL, '2024-05-04 07:48:11', 22990000);
+(8, 1, 1, 1, '2024-05-03 10:58:15', 26490000),
+(9, 3, 1, 1, '2024-05-04 07:41:17', 22990000),
+(10, 2, 1, 1, '2024-05-04 07:48:11', 22990000),
+(11, 2, 1, 3, '2024-05-05 21:51:27', 18392000),
+(12, 1, 1, 3, '2024-05-05 21:53:40', 18392000),
+(13, 3, 1, 3, '2024-05-05 21:56:01', 18392000),
+(14, 2, 1, 3, '2024-05-05 21:57:54', 18392000),
+(15, 1, 1, 2, '2024-05-05 22:01:28', 18879000),
+(16, 1, 1, 3, '2024-05-05 22:03:58', 27382000),
+(17, 3, 1, 2, '2024-05-05 22:41:02', 16093000);
 
 -- --------------------------------------------------------
 
@@ -266,7 +308,25 @@ CREATE TABLE `khachhang` (
 INSERT INTO `khachhang` (`id`, `ho`, `ten`, `soDienThoai`, `ngayThamGia`, `trangThai`) VALUES
 (1, 'Nguyễn Văn', 'A', '0123987654', '2024-04-21 09:28:34', 1),
 (2, 'Đỗ Văn', 'Thừa', '0984756213', '2024-04-20 09:28:43', 1),
-(3, 'Bó Đạt', 'Chách', '0963258741', '2024-04-17 09:28:47', 1);
+(3, 'Bó Đạt', 'Chách', '0963258741', '2024-04-17 09:28:47', 1),
+(4, 'Nguyễn Văn', 'Sơn', '05623491562', '2024-05-05 22:44:52', 1),
+(5, 'Trình Khánh', 'Nam', '05698743261', '2024-05-05 22:45:26', 1),
+(6, 'Bùi Hoàng', 'Long', '0651487952', '2024-05-05 22:45:46', 1),
+(7, 'Nguyễn Việt', 'Hùng', '0213459713', '2024-05-05 22:46:31', 1),
+(8, 'Lê Trung', 'Kiên', '0136594871', '2024-05-05 22:46:51', 1),
+(9, 'Trần Nguyễn Vũ', 'Phong', '0147956435', '2024-05-05 22:47:11', 1),
+(10, 'Nguyễn Văn', 'Liêm', '0146598743', '2024-05-05 22:48:39', 1),
+(11, 'Trần Hữu', 'Nghị', '05623498715', '2024-05-05 22:49:06', 1),
+(12, 'Lê Hữu', 'Thọ', '0146985647', '2024-05-05 22:49:51', 1),
+(13, 'Lê Hữu', 'Giàu', '0564897463', '2024-05-05 22:50:01', 1),
+(14, 'Nguyễn Hoàng', 'Dũng', '03459876132', '2024-05-05 22:50:32', 1),
+(15, 'Đoàn Thanh', 'Luân', '07864351648', '2024-05-05 22:50:53', 1),
+(16, 'Trần Văn', 'Cường', '04623154956', '2024-05-05 22:54:04', 1),
+(17, 'Huỳnh Đức', 'Trung', '04956321456', '2024-05-05 22:51:26', 1),
+(18, 'Nguyễn Thị', 'Hường', '06541356489', '2024-05-05 22:53:04', 1),
+(19, 'Đoàn Minh', 'Dũng', '04561398746', '2024-05-05 22:52:11', 1),
+(20, 'Nguyễn Tường', 'Vy', '04562149765', '2024-05-05 22:54:37', 1),
+(21, 'Lê Thị Thanh', 'Trúc', '04561324789', '2024-05-05 22:53:34', 1);
 
 -- --------------------------------------------------------
 
@@ -276,10 +336,21 @@ INSERT INTO `khachhang` (`id`, `ho`, `ten`, `soDienThoai`, `ngayThamGia`, `trang
 
 CREATE TABLE `khuyenmai` (
   `id` int(11) NOT NULL,
+  `ten` varchar(255) NOT NULL,
   `tiLe` float DEFAULT NULL,
-  `pbSanPham_id` int(11) DEFAULT NULL,
-  `dieuKien` int(11) DEFAULT NULL
+  `sanPham_id` int(11) DEFAULT NULL,
+  `dieuKien` int(11) DEFAULT NULL,
+  `trangThai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `khuyenmai`
+--
+
+INSERT INTO `khuyenmai` (`id`, `ten`, `tiLe`, `sanPham_id`, `dieuKien`, `trangThai`) VALUES
+(1, 'Không khuyến mãi', 0, NULL, 0, 1),
+(2, 'Giảm 30% cho đơn hàng từ 20 triệu', 0.3, NULL, 20000000, 1),
+(3, 'Giảm 20% cho Samsung Galaxy S24 5G', 0.2, 10, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -302,7 +373,7 @@ CREATE TABLE `nhacungcap` (
 
 INSERT INTO `nhacungcap` (`id`, `ten`, `diaChi`, `soDienThoai`, `email`, `trangThai`) VALUES
 (1, 'Công Ty TNHH Thế Giới Di Động', 'Phòng 6.5, Tầng6, Tòa Nhà E. Town 2, 364 Cộng Hòa, P. 13, Q. Tân Bình, Tp. Hồ Chí Minh', '02835100100', 'lienhe@thegioididong.com', 1),
-(2, 'Công ty TNHH Thương Mại Công Nghệ Bạch Long', '134 Trần Phú, phường 4, quận 5, Tp. Hồ Chí Minh', '869287135', 'marketing@bachlongmobile.com ', 1),
+(2, 'Công ty TNHH Thương Mại Công Nghệ Bạch Long', '134 Trần Phú, phường 4, quận 5, Tp. Hồ Chí Minh', '869287135', 'marketing@bachlongmobile.com', 1),
 (3, 'Viễn Thông Đức Huy', '187A Đường 3/2, P. 11, Q. 10, Tp. Hồ Chí Minh', '0971151515', 'duchuymobile2011@gmail.com', 1);
 
 -- --------------------------------------------------------
@@ -366,18 +437,31 @@ INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `gi
 (9, 3, 8, 512, 'Titan đen', 0, 32000000, 37990000, 1),
 (10, 8, 8, 256, 'Tím', 0, 4000000, 8990000, 1),
 (11, 8, 8, 256, 'Xanh', 0, 4000000, 8990000, 1),
-(12, 8, 8, 256, 'Đen', 4, 4000000, 8990000, 1),
+(12, 8, 8, 256, 'Đen', 0, 4000000, 8990000, 1),
 (13, 9, 8, 256, 'Đen', 0, 5000000, 10990000, 1),
 (14, 9, 8, 256, 'Tím', 0, 5000000, 10990000, 1),
 (15, 9, 8, 256, 'Trắng', 0, 5000000, 10990000, 1),
-(16, 10, 8, 256, 'Vàng', 13, 14000000, 22990000, 1),
+(16, 10, 8, 256, 'Vàng', 7, 14000000, 22990000, 1),
 (17, 10, 8, 256, 'Xám', 0, 14000000, 22990000, 1),
 (18, 10, 8, 256, 'Đen', 0, 14000000, 22990000, 1),
 (19, 10, 8, 256, 'Tím', 0, 14000000, 22990000, 1),
 (20, 10, 8, 512, 'Vàng', 0, 20000000, 26490000, 1),
 (21, 10, 8, 512, 'Xám', 0, 20000000, 26490000, 1),
 (22, 10, 8, 512, 'Đen', 0, 20000000, 26490000, 1),
-(23, 10, 8, 512, 'Tím', 0, 20000000, 26490000, 1);
+(23, 10, 8, 512, 'Tím', 0, 20000000, 26490000, 1),
+(24, 4, 8, 256, 'Titan xanh', 0, 28990000, 34990000, 1),
+(25, 4, 8, 256, 'Titan xanh', 0, 28990000, 34990000, 1),
+(26, 4, 8, 512, 'Titan xanh', 0, 31990000, 40990000, 1),
+(27, 4, 8, 256, 'Titan đen', 0, 28999000, 35990000, 1),
+(28, 6, 8, 128, 'Xanh lá', 0, 4599000, 5290000, 1),
+(29, 6, 8, 128, 'Vàng', 0, 4599000, 5290000, 1),
+(30, 6, 6, 128, 'Xanh lá', 0, 4299000, 4990000, 0),
+(31, 6, 8, 128, 'Đen', 0, 4699000, 5290000, 1),
+(32, 6, 8, 256, 'Đen', 0, 4899000, 5690000, 1),
+(33, 7, 8, 128, 'Xanh lá', 0, 6699000, 7490000, 1),
+(34, 7, 8, 128, 'Xanh lá', 0, 6699000, 7490000, 1),
+(35, 7, 8, 256, 'Tím', 0, 6899000, 7890000, 1),
+(36, 5, 12, 256, 'Trắng', 0, 15990000, 22990000, 1);
 
 -- --------------------------------------------------------
 
@@ -457,7 +541,7 @@ INSERT INTO `sanpham` (`id`, `ten`, `hinhAnh`, `kichThuocMan`, `cameraSau`, `cam
 (2, 'iPhone 15 Plus', 'iphone15plus.jpg', 6.7, 'Chính 48 MP & Phụ 12 MP', '12 MP ', 'Apple A16 Bionic', 'iOS', 4383, 1, 1),
 (3, 'iPhone 15 Pro', 'iphone15pro.jpg', 6.1, 'Chính 48 MP & Phụ 12 MP, 12 MP', '12 MP', 'Apple A17 Pro', 'iOS', 3274, 1, 1),
 (4, 'iPhone 15 Pro Max', 'iphone15promax.jpg', 6.7, 'Chính 48 MP & Phụ 12 MP, 12 MP', '12 MP', 'Apple A17 Pro', 'iOS', 4422, 1, 1),
-(5, 'Xiaomi 14 5G', 'xiaomi14.jpg', 6.36, 'Chính 50 MP & Phụ 50 MP, 50 MP', '32 MP', 'Snapdragon 8 Gen 3', 'Android', 4610, 3, 0),
+(5, 'Xiaomi 14 5G', 'xiaomi14.jpg', 6.36, 'Chính 50 MP & Phụ 50 MP, 50 MP', '32 MP', 'Snapdragon 8 Gen 3', 'Android', 4610, 3, 1),
 (6, 'Xiaomi Redmi Note 13', 'redminote13.jpg', 6.67, 'Chính 108 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 685', 'Android', 5000, 3, 1),
 (7, 'Xiaomi Redmi Note 13 Pro', 'redminote13pro.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'MediaTek Helio G99-Ultra', 'Android', 5000, 3, 1),
 (8, 'Xiaomi Redmi Note 13 Pro 5G', '181xiaomi-redmi-note-13-pro-5g-violet-thumb-600x600.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 7s Gen 2 8 nhân', 'Android', 5100, 3, 1),
@@ -583,7 +667,7 @@ ALTER TABLE `khachhang`
 --
 ALTER TABLE `khuyenmai`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `pbSanPham_id` (`pbSanPham_id`);
+  ADD KEY `pbSanPham_id` (`sanPham_id`);
 
 --
 -- Indexes for table `nhacungcap`
@@ -653,31 +737,31 @@ ALTER TABLE `baohanh`
 -- AUTO_INCREMENT for table `chucnang`
 --
 ALTER TABLE `chucnang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ctbaohanh`
 --
 ALTER TABLE `ctbaohanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `khuyenmai`
 --
 ALTER TABLE `khuyenmai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `nhacungcap`
@@ -695,7 +779,7 @@ ALTER TABLE `nhanvien`
 -- AUTO_INCREMENT for table `pbsanpham`
 --
 ALTER TABLE `pbsanpham`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `phieunhap`
@@ -780,7 +864,7 @@ ALTER TABLE `hoadon`
 -- Constraints for table `khuyenmai`
 --
 ALTER TABLE `khuyenmai`
-  ADD CONSTRAINT `khuyenmai_ibfk_1` FOREIGN KEY (`pbSanPham_id`) REFERENCES `pbsanpham` (`id`);
+  ADD CONSTRAINT `khuyenmai_ibfk_1` FOREIGN KEY (`sanPham_id`) REFERENCES `sanpham` (`id`);
 
 --
 -- Constraints for table `pbsanpham`

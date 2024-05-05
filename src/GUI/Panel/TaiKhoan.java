@@ -116,7 +116,7 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
                 i.getId(), 
                 nvBUS.getNameByID(i.getIdNhanVien()), 
                 qBUS.getNameById(i.getIdQuyen()), 
-                i.getTenTaiKhoan(), i.getMatKhau(),
+                i.getTenTaiKhoan(),
                 (i.getTrangThai()==1?"Hoạt động":"Bị khóa")
             });
         }
@@ -171,11 +171,11 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
 
             },
             new String [] {
-                "Mã", "Tên nhân viên", "Quyền", "Tên tài khoản", "Mật khẩu", "Trạng thái"
+                "Mã", "Tên nhân viên", "Quyền", "Tên tài khoản", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -197,7 +197,6 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
             tkTable.getColumnModel().getColumn(2).setResizable(false);
             tkTable.getColumnModel().getColumn(3).setResizable(false);
             tkTable.getColumnModel().getColumn(4).setResizable(false);
-            tkTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

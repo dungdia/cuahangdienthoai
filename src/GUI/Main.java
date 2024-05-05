@@ -34,6 +34,7 @@ public class Main extends javax.swing.JFrame {
     public PhanQuyen phanQuyen;
     public ThongKe thongKe;
     public TaiKhoan taiKhoan;
+    public Them them;
     private Color MainColor = new Color(255, 255, 255);
     private TaiKhoanDTO currentUser;
     
@@ -62,6 +63,7 @@ public class Main extends javax.swing.JFrame {
         phanQuyen = new PhanQuyen(this, currentUser);
         thongKe = new ThongKe();
         taiKhoan = new TaiKhoan(this, currentUser);
+        them = new Them();
         this.setTitle("Cửa hàng điện thoại");
         this.setSize(new Dimension(1280, 720));
         this.setLayout(new BorderLayout(0, 0));
@@ -83,6 +85,7 @@ public class Main extends javax.swing.JFrame {
         Content.add(phanQuyen, "phanQuyen");
         Content.add(thongKe, "thongKe");
         Content.add(taiKhoan, "taiKhoan");
+        Content.add(them, "them");
         getContentPane().add(Content, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
     }

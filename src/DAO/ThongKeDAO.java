@@ -52,7 +52,7 @@ public class ThongKeDAO {
                     result.add(tkdt);
                 }
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println(e);
             }
         }
         return result;
@@ -93,7 +93,7 @@ public class ThongKeDAO {
                     result.add(tkdt);
                 }
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println(e);
             }
         }
         return result;
@@ -154,7 +154,7 @@ public class ThongKeDAO {
                     result.add(tkdt);
                 }
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println(e);
             }
         }
         return result;

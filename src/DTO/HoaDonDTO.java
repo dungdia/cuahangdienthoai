@@ -74,6 +74,11 @@ public class HoaDonDTO {
     public void setIdKhuyenMai(int idKhuyenMai) {
         this.idKhuyenMai = idKhuyenMai;
     }
+
+    @Override
+    public String toString() {
+        return "HoaDonDTO{" + "id=" + id + ", idKhachHang=" + idKhachHang + ", idNhanVien=" + idNhanVien + ", ngayXuat=" + ngayXuat + ", tongTien=" + tongTien + ", idKhuyenMai=" + idKhuyenMai + '}';
+    }
     
     
 }
