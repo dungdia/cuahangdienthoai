@@ -13,6 +13,7 @@ import DTO.QuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Panel.TaiKhoan;
 import helper.Validator;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +25,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
     private NhanVienBUS nvBUS = new NhanVienBUS();
     private NhanVienDTO nhanVien;
     private QuyenBUS qBUS = new QuyenBUS();
+    private ArrayList<QuyenDTO> quyenList = qBUS.getAll();
     private QuyenDTO quyen;
     private TaiKhoanDAO tkDAO = new TaiKhoanDAO();
     private TaiKhoanBUS tkBUS = new TaiKhoanBUS();
@@ -34,11 +36,12 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
     /**
      * Creates new form TaiKhoanDialog
      */
-    public TaiKhoanDialog(java.awt.Frame parent, boolean modal, TaiKhoan tkPanel, TaiKhoanDTO taiKhoan, String mode) {
+    public TaiKhoanDialog(java.awt.Frame parent, boolean modal, TaiKhoan tkPanel, TaiKhoanDTO taiKhoan, NhanVienDTO nhanVien, String mode) {
         super(parent, modal);
         this.tkPanel = tkPanel;
         this.taiKhoan = taiKhoan;
         this.mode = mode;
+        this.nhanVien = nhanVien;
         initComponents();
         initComponentsCustom();
     }
@@ -62,8 +65,12 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         txtMatKhau.setFocusable(false);
         txtTenNhanVien.setText(this.nvBUS.getNameByID(this.taiKhoan.getIdNhanVien()));
         txtTenNhanVien.setFocusable(false);
-        txtQuyen.setText(this.qBUS.getNameById(this.taiKhoan.getIdQuyen()));
-        txtQuyen.setFocusable(false);
+//        txtQuyen.setText(this.qBUS.getNameById(this.taiKhoan.getIdQuyen()));
+//        txtQuyen.setFocusable(false);
+        cbxQuyen.removeAllItems();
+        cbxQuyen.addItem(qBUS.getNameById(taiKhoan.getIdQuyen()));
+        cbxQuyen.setFocusable(false);
+        chonNVBtn.setVisible(false);
     }
     
     public void initAddMode(){
@@ -77,7 +84,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         txtTenTaiKhoan.setText(this.taiKhoan.getTenTaiKhoan());
         txtMatKhau.setText(this.taiKhoan.getMatKhau());
         txtTenNhanVien.setText(this.nvBUS.getNameByID(this.taiKhoan.getIdNhanVien()));
-        txtQuyen.setText(this.qBUS.getNameById(this.taiKhoan.getIdQuyen()));
+        cbxQuyen.setSelectedIndex(qBUS.getIndexById(this.taiKhoan.getIdQuyen()));
     }
     
     public boolean ValidateInput(){
@@ -90,7 +97,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             return false;
         }
         if(Validator.isEmpty(txtTenNhanVien.getText())){
-            JOptionPane.showMessageDialog(this, "Ban chưa nhập tên nhân viên của tài khoản");
+            JOptionPane.showMessageDialog(this, "Ban chưa chọn nhân viên");
             return false;
         }
         return true;
@@ -105,38 +112,19 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         }
         return true;
     }
-    
-    public int getIdNvByName (String name){
-        int result = -1;
-        for(NhanVienDTO i : nvBUS.getAll()){
-            if(i.getTen().equals(name))
-                result = i.getId();
-        }
-        return result;
-    }
-    
-    public int getIdQuyenByName (String name){
-        int result = -1;
-        for(QuyenDTO i : qBUS.getAll()){
-            if(i.getTen().equals(name))
-                result = i.getId();
-        }
-        return result;
-    }
  
     public TaiKhoanDTO getNewTK(){
         String tenTk = txtTenTaiKhoan.getText();
         String matKhau = txtMatKhau.getText();
-        int idQuyen = getIdQuyenByName(txtQuyen.getText());
-        int idNhanVien = getIdNvByName(txtTenNhanVien.getText());
-        return new TaiKhoanDTO(tkDAO.getAutoIncrement(), idNhanVien, idQuyen, tenTk, matKhau, 1);
+        int idQuyen = qBUS.getByIndex(cbxQuyen.getSelectedIndex()).getId();
+        return new TaiKhoanDTO(tkDAO.getAutoIncrement(), this.nhanVien.getId(), idQuyen, tenTk, matKhau, 1);
     }
     
     public void setEditedTK(){
         taiKhoan.setTenTaiKhoan(txtTenTaiKhoan.getText());
         taiKhoan.setMatKhau(txtMatKhau.getText());
-        taiKhoan.setIdNhanVien(getIdNvByName(txtTenNhanVien.getText()));
-        taiKhoan.setIdQuyen(getIdQuyenByName(txtQuyen.getText()));
+        taiKhoan.setIdNhanVien(this.nhanVien.getId());
+        taiKhoan.setIdQuyen(qBUS.getByIndex(cbxQuyen.getSelectedIndex()).getId());
     }
     
     public void addEvent(){
@@ -146,7 +134,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             return;
         newTaiKhoan = getNewTK();
         if(tkPanel.tkBUS.add(newTaiKhoan)){
-            JOptionPane.showMessageDialog(this, "Thêm tài khoản thanh công!");
+            JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
             tkPanel.loadDataToTable(tkPanel.tkList);
             dispose();
         }
@@ -182,10 +170,11 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtTenNhanVien = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtQuyen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cancelBtn = new javax.swing.JButton();
         addTaiKhoanBtn = new javax.swing.JButton();
+        chonNVBtn = new javax.swing.JButton();
+        cbxQuyen = new javax.swing.JComboBox(qBUS.getStringList());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -214,7 +203,9 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Mật khẩu");
 
-        jLabel4.setText("Tên nhân viên");
+        txtTenNhanVien.setFocusable(false);
+
+        jLabel4.setText("Nhân viên");
 
         jLabel5.setText("Quyền");
 
@@ -222,6 +213,7 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("Hủy");
+        cancelBtn.setBorder(null);
         cancelBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cancelBtnMousePressed(evt);
@@ -232,9 +224,17 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
         addTaiKhoanBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addTaiKhoanBtn.setForeground(new java.awt.Color(255, 255, 255));
         addTaiKhoanBtn.setText("Thêm tài khoản");
+        addTaiKhoanBtn.setBorder(null);
         addTaiKhoanBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 addTaiKhoanBtnMousePressed(evt);
+            }
+        });
+
+        chonNVBtn.setText("jButton1");
+        chonNVBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                chonNVBtnMousePressed(evt);
             }
         });
 
@@ -244,25 +244,28 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(91, 91, 91)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtQuyen, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTenNhanVien)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTenTaiKhoan)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtMatKhau)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(addTaiKhoanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(txtTenNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(chonNVBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addGap(36, 36, 36))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(addTaiKhoanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))))
+                .addGap(55, 55, 55))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,12 +281,14 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTenNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTenNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(chonNVBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(cbxQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addTaiKhoanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -308,13 +313,25 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
             editEvent();
     }//GEN-LAST:event_addTaiKhoanBtnMousePressed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void chonNVBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chonNVBtnMousePressed
+        ChonNhanVienDialog cnvDialog = new ChonNhanVienDialog(null, true);
+        cnvDialog.setVisible(true);
+        try {
+            int idNv = cnvDialog.getSelectedId();
+            this.nhanVien = nvBUS.getObjectById(idNv);
+            txtTenNhanVien.setText(this.nhanVien.getHo()+" "+this.nhanVien.getTen());
+        } catch (Exception e) {
+          System.out.println(e);  
+        }
+    }//GEN-LAST:event_chonNVBtnMousePressed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTaiKhoanBtn;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JComboBox<String> cbxQuyen;
+    private javax.swing.JButton chonNVBtn;
     private javax.swing.JLabel header;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -323,7 +340,6 @@ public class TaiKhoanDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtMatKhau;
-    private javax.swing.JTextField txtQuyen;
     private javax.swing.JTextField txtTenNhanVien;
     private javax.swing.JTextField txtTenTaiKhoan;
     // End of variables declaration//GEN-END:variables

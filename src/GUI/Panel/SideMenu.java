@@ -4,7 +4,11 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
+import BUS.QuyenBUS;
 import DAO.NhanVienDAO;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.NhanVienDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.SideMenuItem;
@@ -14,6 +18,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,6 +47,11 @@ public class SideMenu extends javax.swing.JPanel {
     Color selectedItemBgColor = new Color(190, 215, 220);
     Color selectedItemFontColor = new Color(0, 0, 0);
     
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     /**
      * Creates new form MenuBar
      */
@@ -54,6 +64,7 @@ public class SideMenu extends javax.swing.JPanel {
         userIcon.setIcon(new FlatSVGIcon("./image/icon/sideMenu_user.svg"));
         this.main = main;
         this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(this.taiKhoan.getIdQuyen());
         menuItems = new SideMenuItem[menuSt.length];
         for(int i=0; i<menuSt.length; i++) {
             menuItems[i] = new SideMenuItem(main, menuSt[i][0], menuSt[i][1], menuSt[i][2]);
@@ -63,6 +74,11 @@ public class SideMenu extends javax.swing.JPanel {
                     selectingMenuItem(evt);
                 }
             });
+            if(i == 0) {
+                centerPanel.add(menuItems[i]);
+                continue;
+            }
+            if(qBUS.checkChucNang(ctqList, cnList.get(i-1).getId()))
             centerPanel.add(menuItems[i]);
         }
         menuItems[0].isSelected = true;

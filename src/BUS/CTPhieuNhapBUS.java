@@ -27,4 +27,15 @@ public class CTPhieuNhapBUS {
     public ArrayList<CTPhieuNhapDTO> getAllByID(int pnId) {
         return ctpnDAO.selectAllByID(pnId);
     }
+    
+    public Object[] getStringListByPbsp(int pbsp){
+        ArrayList<String> resultAl = new ArrayList<>();
+        Object[] result;
+        for(int i=0; i<ctpnList.size(); i++){
+            if(ctpnList.get(i).getIdPBSanPham() == pbsp)
+                resultAl.add(ctpnList.get(i).getIdPhieuNhap()+"");
+        }
+        result = resultAl.toArray();
+        return result;
+    }
 }

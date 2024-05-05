@@ -59,12 +59,16 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Mật khẩu không được rỗng");
             return;
         }
-        if(taiKhoan == null) {
-            JOptionPane.showMessageDialog(this, "Tên đăng nhập không có trên hệ thống");
+        if(taiKhoan == null || taiKhoan.getTrangThai() == 0) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy tài khoản trên hệ thống");
             return;
         }
         if(!taiKhoan.getMatKhau().equals(matKhau)) {
             JOptionPane.showMessageDialog(this, "Sai mật khẩu");
+            return;
+        }
+        if(taiKhoan.getTrangThai() == 2) {
+            JOptionPane.showMessageDialog(this, "Tài khoản đã bị khóa");
             return;
         }
         else {

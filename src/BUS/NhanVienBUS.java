@@ -25,11 +25,22 @@ public class NhanVienBUS {
     }
     
     public int getIndexByID(int id) {
-        for(int i=0; i<nhanVienList.size(); i++) {
+        for(int i = 0; i < nhanVienList.size(); i++) {
             if(nhanVienList.get(i).getId() == id)
                 return i;
         }
         return -1;
+    }
+    
+    public NhanVienDTO getObjectById(int id) {
+        for(NhanVienDTO i : nhanVienList)
+            if(i.getId() == id)
+                return i;
+        return null;
+    }
+    
+    public NhanVienDTO getAccountById(String id){
+        return nvDAO.selectByAccountId(id);
     }
     
     public String getNameByID(int id) {

@@ -4,13 +4,19 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
 import BUS.NhanVienBUS;
+import BUS.QuyenBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.NhanVienDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.NhanVienDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -21,6 +27,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,19 +42,29 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
     public ArrayList<NhanVienDTO> nhanVienList = nvBUS.getAll();
     private Main main;
     
+    private TaiKhoanDTO taiKhoan;
+    
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
+    
     public DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
     ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     /**
      * Creates new form NhanVien
      */
-    public NhanVien(Main main) {
+    public NhanVien(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.nhanVienList);
     }
     
@@ -72,13 +89,18 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(suaBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "add"))
+            toolBar.add(themBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "edit"))
+            toolBar.add(suaBtn);
+        if(qBUS.checkQuyen(ctqList, 5, "delete"))
+            toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);
         xoaBtn.addActionListener(this);
+        toolBar.add(exportBtn);
+        exportBtn.addActionListener(this);
         nvTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) nvTable.getModel();
     }
@@ -234,6 +256,14 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
                 if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa nhân viên này không?", "", JOptionPane.YES_NO_OPTION) == 0)
                     nvBUS.delete(nhanVienList.get(index));
                 loadDataToTable(nhanVienList);
+            }
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(nvTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
             }
         }
         

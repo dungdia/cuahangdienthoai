@@ -15,9 +15,9 @@ public class CTBaoHanhDTO {
     private int idBaoHanh;
     private int idHoaDon;
     private String imeiSanPham;
-    private Date ngayKetThuc;
+    private java.sql.Timestamp ngayKetThuc;
 
-    public CTBaoHanhDTO(int id, int idBaoHanh, int idHoaDon, String imeiSanPham, Date ngayKetThuc) {
+    public CTBaoHanhDTO(int id, int idBaoHanh, int idHoaDon, String imeiSanPham, java.sql.Timestamp ngayKetThuc) {
         this.id = id;
         this.idBaoHanh = idBaoHanh;
         this.idHoaDon = idHoaDon;
@@ -57,11 +57,11 @@ public class CTBaoHanhDTO {
         this.imeiSanPham = imeiSanPham;
     }
 
-    public Date getNgayKetThuc() {
+    public java.sql.Timestamp getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(Date ngayKetThuc) {
+    public void setNgayKetThuc(java.sql.Timestamp ngayKetThuc) {
         this.ngayKetThuc = ngayKetThuc;
     }
     

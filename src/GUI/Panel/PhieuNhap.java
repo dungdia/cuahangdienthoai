@@ -4,16 +4,22 @@
  */
 package GUI.Panel;
 
+import BUS.ChucNangBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
+import BUS.QuyenBUS;
+import DTO.CTQuyenDTO;
+import DTO.ChucNangDTO;
 import DTO.PhieuNhapDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.SearchBar;
 import GUI.Component.ToolBarButton;
 import GUI.Dialog.PhieuNhapDialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import helper.Formatter;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +30,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -39,50 +46,60 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     public NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     public NhanVienBUS nvBUS = new NhanVienBUS();
     public ArrayList<PhieuNhapDTO> phieuNhapList = pnBUS.getAll();
-    private Main main;
+    public Main main;
+    
+    private TaiKhoanDTO taiKhoan;
+    
+    public QuyenBUS qBUS = new QuyenBUS();
+    public ArrayList<CTQuyenDTO> ctqList;
+    public ChucNangBUS cnBUS = new ChucNangBUS();
+    public ArrayList<ChucNangDTO> cnList = cnBUS.getAll();
     
     private DefaultTableModel tableModel;
     public SearchBar searchBar;
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
-    ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
-    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    ToolBarButton themBtn = new ToolBarButton("Nhập hàng", "toolBar_add.svg", "add");
+    public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     
     /**
      * Creates new form PhieuNhap
      */
-    public PhieuNhap(Main main) {
+    public PhieuNhap(Main main, TaiKhoanDTO taiKhoan) {
+        this.main = main;
+        this.taiKhoan = taiKhoan;
+        ctqList = qBUS.getCTQListById(taiKhoan.getIdQuyen());
         initComponents();
         initComponentsCustom();
-        this.main = main;
         loadDataToTable(this.phieuNhapList);
     }
     
     public void initComponentsCustom() {
-        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"});
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày và giờ nhập", "Tổng tiền"});
         searchBar.txtSearch.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-//                reloadEvent();
+                reloadEvent();
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-//                searchEvent();
+                searchEvent();
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
         toolBar.add(chiTietBtn);
-        toolBar.add(themBtn);
-        toolBar.add(xoaBtn);
+        if(qBUS.checkQuyen(ctqList, 2, "add"))
+            toolBar.add(themBtn);
+        toolBar.add(exportBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
-        xoaBtn.addActionListener(this);
+        exportBtn.addActionListener(this);
         pnTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) pnTable.getModel();
     }
@@ -100,7 +117,8 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
     }
     
     public void searchEvent() {
-        
+        String searchText = searchBar.txtSearch.getText();
+        loadDataToTable(pnBUS.search(searchText,(String) searchBar.cbxType.getSelectedItem()));
     }
     
     public void reloadEvent() {                                       
@@ -152,11 +170,11 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
 
             },
             new String [] {
-                "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày nhập", "Tổng tiền"
+                "Mã", "Nhà cung cấp", "Nhân viên nhập", "Ngày và giờ nhập", "Tổng tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -166,17 +184,21 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         pnTable.setFocusable(false);
         pnTable.setRowHeight(32);
         pnTable.setSelectionBackground(new java.awt.Color(190, 215, 220));
-        pnTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
         pnTable.setShowGrid(true);
         pnTable.getTableHeader().setResizingAllowed(false);
         pnTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(pnTable);
         if (pnTable.getColumnModel().getColumnCount() > 0) {
             pnTable.getColumnModel().getColumn(0).setResizable(false);
+            pnTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             pnTable.getColumnModel().getColumn(1).setResizable(false);
+            pnTable.getColumnModel().getColumn(1).setPreferredWidth(300);
             pnTable.getColumnModel().getColumn(2).setResizable(false);
+            pnTable.getColumnModel().getColumn(2).setPreferredWidth(150);
             pnTable.getColumnModel().getColumn(3).setResizable(false);
+            pnTable.getColumnModel().getColumn(3).setPreferredWidth(150);
             pnTable.getColumnModel().getColumn(4).setResizable(false);
+            pnTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -207,11 +229,25 @@ public class PhieuNhap extends javax.swing.JPanel implements ActionListener{
         if(e.getSource() == chiTietBtn) {            
             int index = getSelectedRow();
             if(index != -1) {
-                PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, phieuNhapList.get(index), "detail");
+                PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, phieuNhapList.get(index), main.getCurrentUser(), "detail");
                 pnDialog.setVisible(true);
                 loadDataToTable(phieuNhapList);
             }
         }
+        if(e.getSource() == themBtn) {
+            PhieuNhapDialog pnDialog = new PhieuNhapDialog(main, true, this, null, main.getCurrentUser(), "add");
+                pnDialog.setVisible(true);
+                loadDataToTable(phieuNhapList);
+        }
+        
+        if(e.getSource() == exportBtn) {
+            try {
+                JTableExporter.exportJTableToExcel(pnTable);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
 
 }

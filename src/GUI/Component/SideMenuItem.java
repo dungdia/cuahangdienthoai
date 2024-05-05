@@ -28,15 +28,7 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
     public SideMenuItem() {
         initComponents();
     }
-
-    public SideMenuItem(Main main, String name, String target) {
-        initComponents();
-        this.main = main;
-        this.target = target;
-        text.setText(name);
-        addMouseListener(this);
-    }
-    
+   
     public SideMenuItem(Main main, String name, String target, String imageLink) {
         initComponents();
         this.main = main;
@@ -106,6 +98,8 @@ public class SideMenuItem extends javax.swing.JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         main.switchCard(this.target);
+        if(this.target.equals("thongKe"))
+            main.thongKe.updateContent();
     }
 
     @Override

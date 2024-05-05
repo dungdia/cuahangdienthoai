@@ -22,6 +22,34 @@ public class CTSanPhamBUS {
     }
     
     public ArrayList<CTSanPhamDTO> getAll() {
+        chiTietSPList = ctspDAO.getAll();
         return this.chiTietSPList;
+    }
+    
+    public ArrayList<CTSanPhamDTO> getAllByHDId(int hdId) {
+        chiTietSPList = ctspDAO.getAll();
+        ArrayList<CTSanPhamDTO> result = new ArrayList<>();
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getIdHoaDon() == hdId)
+                result.add(i);
+        }
+        return result;
+    }
+    
+    public boolean checkExisted(String imei){
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getImei().equals(imei))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    public CTSanPhamDTO getBySanPhamByImei(String imei){
+        for(CTSanPhamDTO i : chiTietSPList){
+            if(i.getImei().equals(imei))
+                return i;
+        }
+        return null;
     }
 }

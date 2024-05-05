@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2024 at 04:54 AM
+-- Generation Time: May 04, 2024 at 11:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,6 +32,17 @@ CREATE TABLE `baohanh` (
   `soThang` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `baohanh`
+--
+
+INSERT INTO `baohanh` (`id`, `soThang`) VALUES
+(1, 12),
+(2, 24),
+(3, 36),
+(4, 6),
+(5, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -53,7 +64,10 @@ INSERT INTO `chucnang` (`id`, `ten`) VALUES
 (3, 'Hóa đơn'),
 (4, 'Khách hàng'),
 (5, 'Nhân viên'),
-(6, 'Nhà cung cấp');
+(6, 'Nhà cung cấp'),
+(7, 'Phân quyền'),
+(8, 'Thống kê'),
+(9, 'Tài khoản');
 
 -- --------------------------------------------------------
 
@@ -69,6 +83,15 @@ CREATE TABLE `ctbaohanh` (
   `ngayKetThuc` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ctbaohanh`
+--
+
+INSERT INTO `ctbaohanh` (`id`, `baoHanh_id`, `hoaDon_id`, `imei_sanPham`, `ngayKetThuc`) VALUES
+(10, 1, 8, '123456789012345', '2025-05-03 10:58:13'),
+(11, 1, 9, '123456789045789', '2025-05-04 07:41:03'),
+(12, 1, 10, '123456789578945', '2025-05-04 07:47:59');
+
 -- --------------------------------------------------------
 
 --
@@ -83,6 +106,15 @@ CREATE TABLE `cthoadon` (
   `tongTien` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cthoadon`
+--
+
+INSERT INTO `cthoadon` (`hoaDon_id`, `imei`, `soLuong`, `giaBanRa`, `tongTien`) VALUES
+(8, '123456789012345', 1, 26490000, 26490000),
+(9, '123456789045789', 1, 22990000, 22990000),
+(10, '123456789578945', 1, 22990000, 22990000);
+
 -- --------------------------------------------------------
 
 --
@@ -94,7 +126,7 @@ CREATE TABLE `ctphieunhap` (
   `pbsanPham_id` int(11) NOT NULL,
   `soLuong` int(11) DEFAULT NULL,
   `donGia` int(11) DEFAULT NULL,
-  `tongTien` int(11) DEFAULT NULL
+  `tongTien` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -102,7 +134,15 @@ CREATE TABLE `ctphieunhap` (
 --
 
 INSERT INTO `ctphieunhap` (`phieuNhap_id`, `pbsanPham_id`, `soLuong`, `donGia`, `tongTien`) VALUES
-(1, 1, 4, 15000000, 60000000);
+(1, 1, 4, 15000000, 60000000),
+(2, 1, 1, 15000000, 15000000),
+(3, 16, 12, 14000000, 168000000),
+(4, 4, 1, 20000000, 20000000),
+(5, 3, 2, 26000000, 52000000),
+(5, 12, 4, 4000000, 16000000),
+(5, 16, 3, 14000000, 42000000),
+(8, 23, 1, 20000000, 20000000),
+(9, 1, 1, 13000000, 13000000);
 
 -- --------------------------------------------------------
 
@@ -113,8 +153,49 @@ INSERT INTO `ctphieunhap` (`phieuNhap_id`, `pbsanPham_id`, `soLuong`, `donGia`, 
 CREATE TABLE `ctquyen` (
   `quyen_id` int(11) NOT NULL,
   `chucNang_id` int(11) NOT NULL,
-  `hanhDong` varchar(255) DEFAULT NULL
+  `hanhDong` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ctquyen`
+--
+
+INSERT INTO `ctquyen` (`quyen_id`, `chucNang_id`, `hanhDong`) VALUES
+(1, 1, 'add'),
+(1, 1, 'delete'),
+(1, 1, 'edit'),
+(1, 1, 'view'),
+(1, 2, 'add'),
+(1, 2, 'view'),
+(1, 3, 'add'),
+(1, 3, 'delete'),
+(1, 3, 'view'),
+(1, 4, 'add'),
+(1, 4, 'delete'),
+(1, 4, 'edit'),
+(1, 4, 'view'),
+(1, 5, 'add'),
+(1, 5, 'delete'),
+(1, 5, 'edit'),
+(1, 5, 'view'),
+(1, 6, 'add'),
+(1, 6, 'delete'),
+(1, 6, 'edit'),
+(1, 6, 'view'),
+(1, 7, 'add'),
+(1, 7, 'delete'),
+(1, 7, 'edit'),
+(1, 7, 'view'),
+(1, 8, 'add'),
+(1, 8, 'delete'),
+(1, 8, 'edit'),
+(1, 8, 'view'),
+(1, 9, 'add'),
+(1, 9, 'delete'),
+(1, 9, 'edit'),
+(1, 9, 'view'),
+(3, 1, 'view'),
+(4, 1, 'view');
 
 -- --------------------------------------------------------
 
@@ -126,10 +207,18 @@ CREATE TABLE `ctsanpham` (
   `imei` varchar(255) NOT NULL,
   `sanPham_id` int(11) DEFAULT NULL,
   `pbSanPham_id` int(11) DEFAULT NULL,
-  `phieuNhap_id` int(11) DEFAULT NULL,
   `hoaDon_id` int(11) DEFAULT NULL,
   `trangThai` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ctsanpham`
+--
+
+INSERT INTO `ctsanpham` (`imei`, `sanPham_id`, `pbSanPham_id`, `hoaDon_id`, `trangThai`) VALUES
+('123456789012345', 10, 23, 8, 1),
+('123456789045789', 10, 16, 9, 1),
+('123456789578945', 10, 16, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -145,6 +234,15 @@ CREATE TABLE `hoadon` (
   `ngayXuat` datetime DEFAULT NULL,
   `tongTien` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`id`, `khacHang_id`, `nhanVien_id`, `khuyenMai_id`, `ngayXuat`, `tongTien`) VALUES
+(8, 1, 1, NULL, '2024-05-03 10:58:15', 26490000),
+(9, 3, 1, NULL, '2024-05-04 07:41:17', 22990000),
+(10, 2, 1, NULL, '2024-05-04 07:48:11', 22990000);
 
 -- --------------------------------------------------------
 
@@ -203,9 +301,9 @@ CREATE TABLE `nhacungcap` (
 --
 
 INSERT INTO `nhacungcap` (`id`, `ten`, `diaChi`, `soDienThoai`, `email`, `trangThai`) VALUES
-(1, 'Công Ty TNHH Thế Giới Di Động', 'Phòng 6.5, Tầng6, Tòa Nhà E. Town 2, 364 Cộng Hòa, P. 13, Q. Tân Bình, Tp. Hồ Chí Minh', '(028)35100100', 'lienhe@thegioididong.com', 1),
+(1, 'Công Ty TNHH Thế Giới Di Động', 'Phòng 6.5, Tầng6, Tòa Nhà E. Town 2, 364 Cộng Hòa, P. 13, Q. Tân Bình, Tp. Hồ Chí Minh', '02835100100', 'lienhe@thegioididong.com', 1),
 (2, 'Công ty TNHH Thương Mại Công Nghệ Bạch Long', '134 Trần Phú, phường 4, quận 5, Tp. Hồ Chí Minh', '869287135', 'marketing@bachlongmobile.com ', 1),
-(3, 'Viễn Thông Đức Huy', '187A Đường 3/2, P. 11, Q. 10, Tp. Hồ Chí Minh', '0971151515', 'duchuymobile2011@gmail.com ', 1);
+(3, 'Viễn Thông Đức Huy', '187A Đường 3/2, P. 11, Q. 10, Tp. Hồ Chí Minh', '0971151515', 'duchuymobile2011@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -257,10 +355,10 @@ CREATE TABLE `pbsanpham` (
 --
 
 INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `giaNhap`, `giaXuat`, `trangThai`) VALUES
-(1, 1, 6, 128, 'Đen', 4, 15000000, 22990000, 1),
+(1, 1, 6, 128, 'Đen', 6, 15000000, 22990000, 1),
 (2, 1, 6, 256, 'Đen', 0, 20000000, 25990000, 1),
-(3, 1, 6, 512, 'Đen', 0, 26000000, 31990000, 1),
-(4, 2, 6, 128, 'Đen', 0, 20000000, 25990000, 1),
+(3, 1, 6, 512, 'Đen', 2, 26000000, 31990000, 1),
+(4, 2, 6, 128, 'Đen', 1, 20000000, 25990000, 1),
 (5, 2, 6, 256, 'Đen', 0, 23000000, 28990000, 1),
 (6, 2, 6, 512, 'Đen', 0, 29000000, 34990000, 1),
 (7, 3, 8, 128, 'Titan đen', 0, 23000000, 28990000, 1),
@@ -268,11 +366,11 @@ INSERT INTO `pbsanpham` (`id`, `sanPham_id`, `ram`, `rom`, `mau`, `soLuong`, `gi
 (9, 3, 8, 512, 'Titan đen', 0, 32000000, 37990000, 1),
 (10, 8, 8, 256, 'Tím', 0, 4000000, 8990000, 1),
 (11, 8, 8, 256, 'Xanh', 0, 4000000, 8990000, 1),
-(12, 8, 8, 256, 'Đen', 0, 4000000, 8990000, 1),
+(12, 8, 8, 256, 'Đen', 4, 4000000, 8990000, 1),
 (13, 9, 8, 256, 'Đen', 0, 5000000, 10990000, 1),
 (14, 9, 8, 256, 'Tím', 0, 5000000, 10990000, 1),
 (15, 9, 8, 256, 'Trắng', 0, 5000000, 10990000, 1),
-(16, 10, 8, 256, 'Vàng', 0, 14000000, 22990000, 1),
+(16, 10, 8, 256, 'Vàng', 13, 14000000, 22990000, 1),
 (17, 10, 8, 256, 'Xám', 0, 14000000, 22990000, 1),
 (18, 10, 8, 256, 'Đen', 0, 14000000, 22990000, 1),
 (19, 10, 8, 256, 'Tím', 0, 14000000, 22990000, 1),
@@ -292,7 +390,7 @@ CREATE TABLE `phieunhap` (
   `nhaCungCap_id` int(11) DEFAULT NULL,
   `nhanVien_id` int(11) DEFAULT NULL,
   `ngayNhap` datetime DEFAULT NULL,
-  `tongTien` int(11) DEFAULT NULL
+  `tongTien` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -300,7 +398,13 @@ CREATE TABLE `phieunhap` (
 --
 
 INSERT INTO `phieunhap` (`id`, `nhaCungCap_id`, `nhanVien_id`, `ngayNhap`, `tongTien`) VALUES
-(1, 1, 1, '2024-04-16 13:32:01', 60000000);
+(1, 1, 1, '2024-04-16 13:32:01', 60000000),
+(2, 1, 1, '2024-04-24 14:44:19', 15000000),
+(3, 1, 1, '2024-04-24 14:44:57', 168000000),
+(4, 2, 1, '2024-04-24 14:47:17', 20000000),
+(5, 1, 1, '2024-04-24 14:56:26', 110000000),
+(8, 1, 1, '2024-04-24 15:10:24', 20000000),
+(9, 1, 1, '2024-04-24 15:11:26', 13000000);
 
 -- --------------------------------------------------------
 
@@ -321,7 +425,8 @@ CREATE TABLE `quyen` (
 INSERT INTO `quyen` (`id`, `ten`, `trangThai`) VALUES
 (1, 'Quản lý', 1),
 (2, 'Nhân viên nhập hàng', 1),
-(3, 'Nhân viên bán hàng', 1);
+(3, 'Nhân viên bán hàng', 1),
+(4, 'abc', 1);
 
 -- --------------------------------------------------------
 
@@ -352,7 +457,7 @@ INSERT INTO `sanpham` (`id`, `ten`, `hinhAnh`, `kichThuocMan`, `cameraSau`, `cam
 (2, 'iPhone 15 Plus', 'iphone15plus.jpg', 6.7, 'Chính 48 MP & Phụ 12 MP', '12 MP ', 'Apple A16 Bionic', 'iOS', 4383, 1, 1),
 (3, 'iPhone 15 Pro', 'iphone15pro.jpg', 6.1, 'Chính 48 MP & Phụ 12 MP, 12 MP', '12 MP', 'Apple A17 Pro', 'iOS', 3274, 1, 1),
 (4, 'iPhone 15 Pro Max', 'iphone15promax.jpg', 6.7, 'Chính 48 MP & Phụ 12 MP, 12 MP', '12 MP', 'Apple A17 Pro', 'iOS', 4422, 1, 1),
-(5, 'Xiaomi 14 5G', 'xiaomi14.jpg', 6.36, 'Chính 50 MP & Phụ 50 MP, 50 MP', '32 MP', 'Snapdragon 8 Gen 3', 'Android', 4610, 3, 1),
+(5, 'Xiaomi 14 5G', 'xiaomi14.jpg', 6.36, 'Chính 50 MP & Phụ 50 MP, 50 MP', '32 MP', 'Snapdragon 8 Gen 3', 'Android', 4610, 3, 0),
 (6, 'Xiaomi Redmi Note 13', 'redminote13.jpg', 6.67, 'Chính 108 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 685', 'Android', 5000, 3, 1),
 (7, 'Xiaomi Redmi Note 13 Pro', 'redminote13pro.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'MediaTek Helio G99-Ultra', 'Android', 5000, 3, 1),
 (8, 'Xiaomi Redmi Note 13 Pro 5G', '181xiaomi-redmi-note-13-pro-5g-violet-thumb-600x600.jpg', 6.67, 'Chính 200 MP & Phụ 8 MP, 2 MP', '16 MP', 'Snapdragon 7s Gen 2 8 nhân', 'Android', 5100, 3, 1),
@@ -446,7 +551,7 @@ ALTER TABLE `ctphieunhap`
 -- Indexes for table `ctquyen`
 --
 ALTER TABLE `ctquyen`
-  ADD PRIMARY KEY (`quyen_id`,`chucNang_id`),
+  ADD PRIMARY KEY (`quyen_id`,`chucNang_id`,`hanhDong`) USING BTREE,
   ADD KEY `chucNang_id` (`chucNang_id`);
 
 --
@@ -456,8 +561,7 @@ ALTER TABLE `ctsanpham`
   ADD PRIMARY KEY (`imei`),
   ADD KEY `hoaDon_id` (`hoaDon_id`),
   ADD KEY `sanPham_id` (`sanPham_id`),
-  ADD KEY `pbSanPham_id` (`pbSanPham_id`),
-  ADD KEY `phieuNhap_id` (`phieuNhap_id`);
+  ADD KEY `pbSanPham_id` (`pbSanPham_id`);
 
 --
 -- Indexes for table `hoadon`
@@ -543,25 +647,25 @@ ALTER TABLE `thuonghieu`
 -- AUTO_INCREMENT for table `baohanh`
 --
 ALTER TABLE `baohanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `chucnang`
 --
 ALTER TABLE `chucnang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `ctbaohanh`
 --
 ALTER TABLE `ctbaohanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `khachhang`
@@ -597,13 +701,13 @@ ALTER TABLE `pbsanpham`
 -- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `quyen`
 --
 ALTER TABLE `quyen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sanpham`
@@ -662,8 +766,7 @@ ALTER TABLE `ctquyen`
 ALTER TABLE `ctsanpham`
   ADD CONSTRAINT `ctsanpham_ibfk_1` FOREIGN KEY (`hoaDon_id`) REFERENCES `hoadon` (`id`),
   ADD CONSTRAINT `ctsanpham_ibfk_2` FOREIGN KEY (`sanPham_id`) REFERENCES `sanpham` (`id`),
-  ADD CONSTRAINT `ctsanpham_ibfk_3` FOREIGN KEY (`pbSanPham_id`) REFERENCES `pbsanpham` (`id`),
-  ADD CONSTRAINT `ctsanpham_ibfk_4` FOREIGN KEY (`phieuNhap_id`) REFERENCES `phieunhap` (`id`);
+  ADD CONSTRAINT `ctsanpham_ibfk_3` FOREIGN KEY (`pbSanPham_id`) REFERENCES `pbsanpham` (`id`);
 
 --
 -- Constraints for table `hoadon`

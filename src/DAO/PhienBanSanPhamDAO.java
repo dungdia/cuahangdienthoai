@@ -78,6 +78,32 @@ public class PhienBanSanPhamDAO {
         return result;
     }
     
+    public PhienBanSanPhamDTO selectById(int pbspId) {
+        PhienBanSanPhamDTO pbsp = null;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "SELECT * FROM pbsanpham WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, pbspId);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int idSanPham = rs.getInt("sanPham_id");
+                int ram = rs.getInt("ram");
+                int rom = rs.getInt("rom");
+                String mau = rs.getString("mau");
+                int soLuong = rs.getInt("soLuong");
+                int giaNhap = rs.getInt("giaNhap");
+                int giaXuat = rs.getInt("giaXuat");
+                int trangThai = rs.getInt("trangThai");
+                pbsp = new PhienBanSanPhamDTO(id, idSanPham, ram, rom, mau, soLuong, giaNhap, giaXuat, trangThai);
+            }
+            DBConnector.closeConnection(con);
+        } catch (SQLException e) {
+        }
+        return pbsp;
+    }
+    
     public int getAutoIncrement() {
         int result = -1;
         try {
@@ -178,4 +204,39 @@ public class PhienBanSanPhamDAO {
         return result;
     }
     
+    public int tangSoLuong(int id, int soLuong) {
+        PhienBanSanPhamDTO pbsp = this.selectById(id);
+        int result = 0;
+        int newSoLuong = pbsp.getSoLuong()+ soLuong;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "UPDATE `pbsanpham` SET `soLuong`=? WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, newSoLuong);
+            pst.setInt(2, pbsp.getId());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public int giamSoLuong(int id, int soLuong){
+        PhienBanSanPhamDTO pbsp = this.selectById(id);
+        int result = 0;
+        int newSoLuong = pbsp.getSoLuong()- soLuong;
+        try {
+            Connection con = (Connection) DBConnector.getConnection();
+            String sql = "UPDATE `pbsanpham` SET `soLuong`=? WHERE id = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, newSoLuong);
+            pst.setInt(2, pbsp.getId());
+            result = pst.executeUpdate();
+            DBConnector.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }

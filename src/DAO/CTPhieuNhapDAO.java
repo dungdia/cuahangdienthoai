@@ -9,8 +9,11 @@ import config.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,7 +37,7 @@ public class CTPhieuNhapDAO {
                 int idPBSP = rs.getInt("pbsanPham_id");
                 int soLuong = rs.getInt("soLuong");
                 int donGia = rs.getInt("donGia");
-                int tongTien = rs.getInt("tongTien");
+                long tongTien = rs.getLong("tongTien");
                 CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO(idPhieuNhap, idPBSP, soLuong, donGia, tongTien);
                 result.add(ctpn);
             }
@@ -56,7 +59,7 @@ public class CTPhieuNhapDAO {
                 int idPBSP = rs.getInt("pbsanPham_id");
                 int soLuong = rs.getInt("soLuong");
                 int donGia = rs.getInt("donGia");
-                int tongTien = rs.getInt("tongTien");
+                long tongTien = rs.getLong("tongTien");
                 CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO(idPhieuNhap, idPBSP, soLuong, donGia, tongTien);
                 result.add(ctpn);
             }
@@ -65,5 +68,28 @@ public class CTPhieuNhapDAO {
         }
         return result;
     }
+    
+    public int insert(ArrayList<CTPhieuNhapDTO> ctpnList) {
+        int result = 0;
+        for (int i = 0; i < ctpnList.size(); i++) {
+            try {
+                Connection con = (Connection) DBConnector.getConnection();
+                String sql = "INSERT INTO `ctphieunhap`(`phieuNhap_id`, `pbsanPham_id`, `soLuong`, `donGia`, `tongTien`) VALUES (?,?,?,?,?)";
+                PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                pst.setInt(1, ctpnList.get(i).getIdPhieuNhap());
+                pst.setInt(2, ctpnList.get(i).getIdPBSanPham());
+                pst.setInt(3, ctpnList.get(i).getSoLuong());
+                pst.setInt(4, ctpnList.get(i).getDonGia());
+                pst.setLong(5, ctpnList.get(i).getTongTien());
+                result = pst.executeUpdate();
+                DBConnector.closeConnection(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(CTPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            PhienBanSanPhamDAO.getInstance().tangSoLuong(ctpnList.get(i).getIdPBSanPham(), ctpnList.get(i).getSoLuong());
+        }
+        return result;
+    }
+
     
 }
