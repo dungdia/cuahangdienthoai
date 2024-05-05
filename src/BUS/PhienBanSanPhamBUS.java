@@ -32,6 +32,15 @@ public class PhienBanSanPhamBUS {
         return false;
     }
     
+    public boolean addNewPBSPList(ArrayList<PhienBanSanPhamDTO> pbspList) {
+        if(pbspDAO.insert(pbspList) != 0) {
+            for(PhienBanSanPhamDTO i : pbspList)
+                pbSPList.add(i);
+            return true;
+        }
+        return false;
+    }
+    
     public int getIndexByID(int id) {
         for(int i=0; i<pbSPList.size(); i++) {
             if(pbSPList.get(i).getId() == id)
