@@ -63,6 +63,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
     private int newSPID;
     private int newPBSPID;
     private String mode;
+    private boolean newPBAdded = false;
     private boolean imageChanged = false;
 
     /**
@@ -204,6 +205,9 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         int giaNhap = Integer.parseInt(txtGiaNhap.getText());
         int giaXuat = Integer.parseInt(txtGiaBan.getText());
         newPBSPID++;
+        if(mode.equals("edit")) {
+            return new PhienBanSanPhamDTO(newPBSPID, spEdit.getId(), ram, rom, mau, 0, giaNhap, giaXuat, 1);
+        }
         return new PhienBanSanPhamDTO(newPBSPID, newSPID, ram, rom, mau, 0, giaNhap, giaXuat, 1);
     }
 
@@ -335,6 +339,8 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
 
     public void editSPEvent() {
         setEditedSP();
+        if(newPBAdded == true)
+            pbspBUS.addNewPBSPList(newPBSPList);
         if(panelSanPham.spBUS.updateWithPBSPList(spEdit, pbspEditList)) {
             JOptionPane.showMessageDialog(this, "Sửa sản phẩm thành công !");
             dispose();
@@ -848,6 +854,8 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         if (mode.equals("edit")) {
             this.pbspEditList.add(getNewPBSP());
             loadPBSPListToTable(this.pbspEditList);
+            this.newPBAdded = true;
+            this.newPBSPList.add(getNewPBSP());
         }
         emptyPBSPInput();
     }//GEN-LAST:event_thempbBtnMousePressed
