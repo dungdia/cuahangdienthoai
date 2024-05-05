@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import GUI.Dialog.HoaDonDialog;
 import BUS.HoaDonBUS;
 import BUS.KhachHangBUS;
+import BUS.KhuyenMaiBUS;
 import BUS.NhanVienBUS;
 import BUS.QuyenBUS;
 import DAO.CTBaoHanhDAO;
@@ -51,6 +52,7 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
     public HoaDonBUS hdBUS = new HoaDonBUS();
     public KhachHangBUS khBUS = new KhachHangBUS();
     public NhanVienBUS nvBUS = new NhanVienBUS();
+    public KhuyenMaiBUS kmBUS = new KhuyenMaiBUS();
     public CTHoaDonDAO cthdDAO = new CTHoaDonDAO();
     public CTSanPhamDAO ctspDAO = new CTSanPhamDAO();
     public CTSanPhamBUS ctspBUS = new CTSanPhamBUS();
@@ -125,7 +127,7 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
                 i.getId(),
                 khBUS.getNameById(i.getIdKhachHang()),
                 nvBUS.getNameByID(i.getIdNhanVien()),
-                "Không khuyến mãi",
+                kmBUS.getObjectById(i.getIdKhuyenMai()).getTen(),
                 Formatter.FormatVND(i.getTongTien()),
                 Formatter.FormatDateTime(i.getNgayXuat())
             });

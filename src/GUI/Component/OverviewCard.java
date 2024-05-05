@@ -123,7 +123,6 @@ public class OverviewCard extends javax.swing.JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         setBackground(new Color(191, 216, 219));
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     @Override

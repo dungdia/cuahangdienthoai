@@ -13,6 +13,7 @@ import BUS.SanPhamBUS;
 import BUS.NhanVienBUS;
 import BUS.HoaDonBUS;
 import BUS.CTBaoHanhBUS;
+import BUS.KhuyenMaiBUS;
 import BUS.NhanVienBUS;
 import DTO.CTBaoHanhDTO;
 import DTO.CTHoaDonDTO;
@@ -22,6 +23,7 @@ import DTO.PhienBanSanPhamDTO;
 import DTO.TaiKhoanDTO;
 import DTO.CTSanPhamDTO;
 import DTO.KhachHangDTO;
+import DTO.KhuyenMaiDTO;
 import DTO.SanPhamDTO;
 import GUI.Panel.HoaDon;
 import helper.Formatter;
@@ -49,6 +51,8 @@ public class HoaDonDialog extends javax.swing.JDialog {
     private KhachHangBUS khBUS = new KhachHangBUS();
     private CTSanPhamBUS ctspBUS = new CTSanPhamBUS();
     private PhienBanSanPhamBUS pbspBUS = new PhienBanSanPhamBUS();
+    private KhuyenMaiBUS kmBUS = new KhuyenMaiBUS();
+    private ArrayList<KhuyenMaiDTO> kmList = kmBUS.getAll();
     public ArrayList<SanPhamDTO> spList;
     public ArrayList<PhienBanSanPhamDTO> pbspList;
     private ArrayList<CTHoaDonDTO> newCTHDList = new ArrayList<>();
@@ -103,12 +107,10 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
         txtMa.setText(Integer.toString(hoadon.getId()));
         txtMa.setFocusable(false);
-//        khComboBox.removeAllItems();
-//        khComboBox.addItem(khBUS.getNameById(hoadon.getIdKhachHang()));
-//        khComboBox.setFocusable(false);
         txtKhachHang.setText(khBUS.getObjectById(hoadon.getIdKhachHang()).getHo()+" "+khBUS.getObjectById(hoadon.getIdKhachHang()).getTen());
         chonKHBtn.setVisible(false);
         kmComboBox.removeAllItems();
+        kmComboBox.addItem(kmBUS.getObjectById(hoadon.getIdKhuyenMai()).getTen());
         kmComboBox.setFocusable(false);
         txtNv1.setText(nvBUS.getNameByID(hoadon.getIdNhanVien()));
         txtNv1.setFocusable(false);
@@ -120,6 +122,8 @@ public class HoaDonDialog extends javax.swing.JDialog {
         xuatHangBtn.setVisible(false);
         themSPBtn.setVisible(false);
         xoaSPBtn.setVisible(false);
+        lbl_km.setVisible(false);
+        txtKM.setVisible(false);
         loadDataToTable(CTHDList,CTSPList,CTBHList);
     }
     
@@ -175,6 +179,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
                 pbspIndex.getRom(),
                 pbspIndex.getMau(),
                 displayDate,
+                Formatter.FormatVND(cthdList.get(i).getGiaBanRa()),
                 Formatter.FormatVND(cthdList.get(i).getTongTien()),
             });
         }
@@ -227,7 +232,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public void setTongTien() {
         long sum=0;
         for(CTHoaDonDTO i : newCTHDList) {
-            sum += i.getTongTien();
+            sum += i.getGiaBanRa();
         }
         this.tongTien = sum;
     }
@@ -237,11 +242,22 @@ public class HoaDonDialog extends javax.swing.JDialog {
         return this.tongTien;
     }
     
+    public long sumTongTien() {
+        long res = 0;
+        try {
+            for(CTHoaDonDTO i : newCTHDList) {
+                res += i.getTongTien();
+            }
+        } catch (Exception e) {
+        }
+        return res;
+    }
+    
     public HoaDonDTO getNewHoaDon(){
 //        int khid = khBUS.getByIndex(khComboBox.getSelectedIndex()).getId();
         long now = System.currentTimeMillis();
         Timestamp ngayXuat = new Timestamp(now);
-        int kmid =kmComboBox.getSelectedIndex();
+        int kmid = kmList.get(kmComboBox.getSelectedIndex()).getId();
         return new HoaDonDTO(this.newhdId , this.kh.getId(), this.currentUser.getIdNhanVien(), ngayXuat, this.tongTien, kmid);
     }
     
@@ -250,12 +266,65 @@ public class HoaDonDialog extends javax.swing.JDialog {
         txtTt.setText(Formatter.FormatVND(getTongTien()));
     }
     
+    public CTHoaDonDTO getCTHDByImei(String imei) {
+        for(CTHoaDonDTO i : newCTHDList) {
+            if(i.getImeiSanPham().equals(imei))
+                return i;
+        }
+        return null;
+    }
+    
+    public void khuyenMai() {
+        newHoaDon = getNewHoaDon();
+        KhuyenMaiDTO km = kmList.get(kmComboBox.getSelectedIndex());
+        if(km.getId() == 1) {
+            newHoaDon.setTongTien(getTongTien());
+            for(CTSanPhamDTO i : newCTSPList) {
+                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+                cthd.setTongTien(cthd.getGiaBanRa());
+            }
+        }
+        if(getTongTien() >= km.getDieuKien() && km.getDieuKien() != 0) {
+            for(CTSanPhamDTO i : newCTSPList) {
+                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+                cthd.setTongTien(cthd.getGiaBanRa());
+            }
+            newHoaDon.setTongTien(getTongTien());
+            long newGia = (long) (getTongTien() - getTongTien() * km.getTiLe());
+            newHoaDon.setTongTien(newGia);
+            return;
+        }
+        for(CTSanPhamDTO i : newCTSPList) {
+            if(i.getIdSanPham()== km.getIdSanPham()) {
+                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+                long newGia2 = (long) ((long) cthd.getGiaBanRa() - cthd.getGiaBanRa() * km.getTiLe());
+                cthd.setTongTien((int) newGia2);
+            }
+        }
+        newHoaDon.setTongTien(sumTongTien());
+    }
+    
+    public void updateKhuyenMai() {
+        khuyenMai();
+        KhuyenMaiDTO km = kmList.get(kmComboBox.getSelectedIndex());
+        if(km.getDieuKien() == 0)
+            txtKM.setText(Formatter.FormatVND(sumTongTien()));
+        if(km.getDieuKien() != 0)
+            try {
+                txtKM.setText(Formatter.FormatVND(newHoaDon.getTongTien()));
+            } catch (Exception e) {
+
+            }
+                
+    }
+    
     public void addHdEvent(){
         if(this.kh == null) {
             JOptionPane.showMessageDialog(null, "Chưa chọn khách hàng");
             return;
         }
         newHoaDon = getNewHoaDon();
+        khuyenMai();
         if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,newCTSPList,newBaoHanhList)) {
             JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
             dispose();
@@ -289,9 +358,11 @@ public class HoaDonDialog extends javax.swing.JDialog {
         xoaSPBtn = new javax.swing.JButton();
         txtNv1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        kmComboBox = new javax.swing.JComboBox<>();
+        kmComboBox = new javax.swing.JComboBox(kmBUS.getStringList());
         chonKHBtn = new javax.swing.JButton();
         txtKhachHang = new javax.swing.JTextField();
+        txtKM = new javax.swing.JTextField();
+        lbl_km = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -360,11 +431,11 @@ public class HoaDonDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "STT", "IMEI", "Tên sản phẩm", "RAM", "ROM", "Màu", "Bảo hành đến", "Giá bán"
+                "STT", "IMEI", "Tên sản phẩm", "RAM", "ROM", "Màu", "Bảo hành đến", "Giá bán", "Giá khuyến mãi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -384,7 +455,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
             ctpnTable.getColumnModel().getColumn(1).setResizable(false);
             ctpnTable.getColumnModel().getColumn(1).setPreferredWidth(150);
             ctpnTable.getColumnModel().getColumn(2).setResizable(false);
-            ctpnTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            ctpnTable.getColumnModel().getColumn(2).setPreferredWidth(280);
             ctpnTable.getColumnModel().getColumn(3).setResizable(false);
             ctpnTable.getColumnModel().getColumn(3).setPreferredWidth(80);
             ctpnTable.getColumnModel().getColumn(4).setResizable(false);
@@ -394,7 +465,9 @@ public class HoaDonDialog extends javax.swing.JDialog {
             ctpnTable.getColumnModel().getColumn(6).setResizable(false);
             ctpnTable.getColumnModel().getColumn(6).setPreferredWidth(150);
             ctpnTable.getColumnModel().getColumn(7).setResizable(false);
-            ctpnTable.getColumnModel().getColumn(7).setPreferredWidth(200);
+            ctpnTable.getColumnModel().getColumn(7).setPreferredWidth(150);
+            ctpnTable.getColumnModel().getColumn(8).setResizable(false);
+            ctpnTable.getColumnModel().getColumn(8).setPreferredWidth(150);
         }
 
         themSPBtn.setBackground(new java.awt.Color(102, 204, 255));
@@ -424,6 +497,21 @@ public class HoaDonDialog extends javax.swing.JDialog {
         jLabel4.setText("Khuyến mãi");
 
         kmComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        kmComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kmComboBoxItemStateChanged(evt);
+            }
+        });
+        kmComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kmComboBoxMousePressed(evt);
+            }
+        });
+        kmComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kmComboBoxActionPerformed(evt);
+            }
+        });
 
         chonKHBtn.setBackground(new java.awt.Color(126, 189, 194));
         chonKHBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -439,13 +527,17 @@ public class HoaDonDialog extends javax.swing.JDialog {
 
         txtKhachHang.setFocusable(false);
 
+        txtKM.setFocusable(false);
+
+        lbl_km.setText("Tổng tiền sau khi khuyến mãi");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblMa)
@@ -471,13 +563,12 @@ public class HoaDonDialog extends javax.swing.JDialog {
                             .addComponent(lblNn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(80, 80, 80))
-                            .addComponent(txtTt, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addComponent(txtTt, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(themSPBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -486,7 +577,13 @@ public class HoaDonDialog extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 486, Short.MAX_VALUE)
                                 .addComponent(xuatHangBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_km)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKM, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -509,21 +606,23 @@ public class HoaDonDialog extends javax.swing.JDialog {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtTt)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(txtNn))
                         .addComponent(lblNn)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(kmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtNv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4))))
+                            .addComponent(jLabel4))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(23, 23, 23)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNn)
+                                .addComponent(kmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtKM, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_km, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(themSPBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(xoaSPBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -582,6 +681,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
             newBaoHanhList.add(new CTBaoHanhDTO(this.newctbhId++,bhBUS.getIdBySoThang(soThang),this.newhdId,imei,bhTime));
             loadDataToTable(newCTHDList,newCTSPList,newBaoHanhList);
             txtTt.setText(Formatter.FormatVND(getTongTien()));
+            updateKhuyenMai();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_themSPBtnMousePressed
@@ -603,6 +703,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
                 newCTSPList.remove(index);
                 newBaoHanhList.remove(index);
                 reloadEvent();
+                updateKhuyenMai();
             }
         }
     }//GEN-LAST:event_xoaSPBtnMousePressed
@@ -629,6 +730,30 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_chonKHBtnMousePressed
 
+    private void kmComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kmComboBoxActionPerformed
+        if(mode.equals("detail"))
+            return;
+        if(newCTHDList.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào");
+            kmComboBox.setSelectedIndex(0);
+            return;
+        }
+        try {
+            updateKhuyenMai();
+            KhuyenMaiDTO km = kmList.get(kmComboBox.getSelectedIndex());
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_kmComboBoxActionPerformed
+
+    private void kmComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kmComboBoxItemStateChanged
+        
+    }//GEN-LAST:event_kmComboBoxItemStateChanged
+
+    private void kmComboBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kmComboBoxMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kmComboBoxMousePressed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -646,7 +771,9 @@ public class HoaDonDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> kmComboBox;
     private javax.swing.JLabel lblMa;
     private javax.swing.JLabel lblNn;
+    private javax.swing.JLabel lbl_km;
     private javax.swing.JButton themSPBtn;
+    private javax.swing.JTextField txtKM;
     private javax.swing.JTextField txtKhachHang;
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtNn;
