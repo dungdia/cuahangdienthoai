@@ -76,23 +76,39 @@ public class KhachHang extends javax.swing.JPanel implements ActionListener {
     }
 
     public void initComponentsCustom() {
+<<<<<<< HEAD
         searchBar = new SearchBar(
                 new String[] { "Tất cả", "Mã", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ" });
         searchBar.txtSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 // searchEvent();
+=======
+        searchBar = new SearchBar(new String[]{"Tất cả", "Mã", "Tên","Số điện thoại"});
+        searchBar.txtSearch.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                searchEvent();
+>>>>>>> 2cab92019da6ff4d803afab870541356d77050ea
             }
         });
         searchBar.lamMoiBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+<<<<<<< HEAD
                 // reloadEvent();
+=======
+                reloadEvent();
+>>>>>>> 2cab92019da6ff4d803afab870541356d77050ea
             }
         });
         searchBar.cbxType.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
+<<<<<<< HEAD
                 // searchEvent();
+=======
+                searchEvent();
+>>>>>>> 2cab92019da6ff4d803afab870541356d77050ea
             }
         });
         topPanel.add(searchBar, BorderLayout.CENTER);
