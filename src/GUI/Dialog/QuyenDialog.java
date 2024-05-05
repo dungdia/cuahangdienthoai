@@ -95,6 +95,9 @@ public class QuyenDialog extends javax.swing.JDialog {
                 if(cnList.get(i).getTen().equals("Hóa đơn"))
                     if(maHanhDong[j].equals("edit"))
                         checkBoxList[i][j].setEnabled(false);
+                if(cnList.get(i).getTen().equals("Thống kê"))
+                    if(maHanhDong[j].equals("add") || maHanhDong[j].equals("edit") || maHanhDong[j].equals("delete"))
+                        checkBoxList[i][j].setEnabled(false);
             }
         }
     }
