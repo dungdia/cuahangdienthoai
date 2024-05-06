@@ -58,7 +58,7 @@ public class QuyenDialog extends javax.swing.JDialog {
     public void initComponentsCustom() {
         setLocationRelativeTo(null);
         newQuyenId = QuyenDAO.getInstance().getAutoIncrement();
-        sizeCN = this.cnList.size();
+        sizeCN = this.cnList.size()-1;
         sizeHD = maHanhDong.length;
         this.checkBoxList = new JCheckBox[sizeCN][sizeHD];
         
@@ -66,7 +66,7 @@ public class QuyenDialog extends javax.swing.JDialog {
         tenCN.setHorizontalAlignment(SwingConstants.CENTER);
         tenCN.setFont(new Font("Segoe UI", Font.BOLD, 12));
         pnl_chucNang.add(tenCN);
-        for(int i=0; i<sizeCN-1; i++) {
+        for(int i=0; i<sizeCN; i++) {
             JLabel jlb = new JLabel(cnList.get(i).getTen());
             jlb.setHorizontalAlignment(SwingConstants.CENTER);
             jlb.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -78,7 +78,7 @@ public class QuyenDialog extends javax.swing.JDialog {
             jlb.setFont(new Font("Segoe UI", Font.BOLD, 12));
             pnl_hanhdong.add(jlb);
         }
-        for(int i=0; i<sizeCN-1; i++) {
+        for(int i=0; i<sizeCN; i++) {
             for(int j=0; j<sizeHD; j++) {
                 checkBoxList[i][j] = new JCheckBox();
                 checkBoxList[i][j].setHorizontalAlignment(SwingConstants.CENTER);

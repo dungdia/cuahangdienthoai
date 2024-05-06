@@ -7,6 +7,7 @@ package GUI.Panel;
 import BUS.CTQuyenBUS;
 import BUS.ChucNangBUS;
 import BUS.QuyenBUS;
+import DAO.QuyenDAO;
 import DTO.CTQuyenDTO;
 import DTO.ChucNangDTO;
 import DTO.QuyenDTO;
@@ -40,6 +41,7 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
     public QuyenBUS qBUS = new QuyenBUS();
     public CTQuyenBUS ctqBUS = new CTQuyenBUS();
     public ArrayList<QuyenDTO> qList = qBUS.getAll();
+    public QuyenDAO qDAO = new QuyenDAO();
     public Main main;
     
     private TaiKhoanDTO taiKhoan;
@@ -223,6 +225,7 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == themBtn) {
             QuyenDialog qDialog = new QuyenDialog(main, true, null, null, "add");
             qDialog.setVisible(true);
+            qList = qDAO.selectAll();
             loadDataToTable(qList);
         }
         
