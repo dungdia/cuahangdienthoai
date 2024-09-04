@@ -96,6 +96,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     public void initAddMode() {
         NhanVienDTO currentNhanVien = NhanVienDAO.getInstance().selectByAccountId(Integer.toString(currentUser.getId()));
         newPNId = pnDAO.getAutoIncrement();
+        headerLabel.setText("Nhập hàng");
         lblMa.setText("");
         txtMa.setFocusable(false);
         txtMa.setBorder(null);
