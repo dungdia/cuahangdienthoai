@@ -130,6 +130,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public void initAddMode(){
         NhanVienDTO currentNhanVien = nvBUS.getAccountById(Integer.toString(currentUser.getId()));
         newhdId = hdBUS.getAutoIncrement();
+        headerLabel.setText("Tạo hóa đơn");
         lblMa.setText("");
         txtMa.setFocusable(false);
         txtMa.setBorder(null);

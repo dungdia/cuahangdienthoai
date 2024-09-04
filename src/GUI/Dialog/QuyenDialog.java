@@ -58,7 +58,7 @@ public class QuyenDialog extends javax.swing.JDialog {
     public void initComponentsCustom() {
         setLocationRelativeTo(null);
         newQuyenId = QuyenDAO.getInstance().getAutoIncrement();
-        sizeCN = this.cnList.size()-1;
+        sizeCN = this.cnList.size();
         sizeHD = maHanhDong.length;
         this.checkBoxList = new JCheckBox[sizeCN][sizeHD];
         
