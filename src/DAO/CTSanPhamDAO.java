@@ -36,9 +36,9 @@ public class CTSanPhamDAO {
                 String imei = rs.getString("imei");
                 int idSanPham = rs.getInt("sanPham_id");
                 int idPBSanPham = rs.getInt("pbSanPham_id");
-                int idHoaDon = rs.getInt("hoaDon_id");
+                int idPhieuNhap = rs.getInt("phieuNhap_id");
                 int trangThai = rs.getInt("trangThai");
-                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idHoaDon, trangThai);
+                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, trangThai);
                 result.add(ctsp);
             }
             DBConnector.closeConnection(conn);
@@ -53,12 +53,12 @@ public class CTSanPhamDAO {
         for (int i = 0; i < ctspList.size(); i++) {
             try {
                 Connection con = (Connection) DBConnector.getConnection();
-                String sql = "INSERT INTO `ctsanpham`(`imei`, `sanPham_id`, `pbSanPham_id`, `hoaDon_id`) VALUES (?,?,?,?)";
+                String sql = "INSERT INTO `ctsanpham`(`imei`, `sanPham_id`, `pbSanPham_id`, `phieuNhap_id`) VALUES (?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setString(1, ctspList.get(i).getImei());
                 pst.setInt(2, ctspList.get(i).getIdSanPham());
                 pst.setInt(3, ctspList.get(i).getIdPBSanPham());
-                pst.setInt(4, ctspList.get(i).getIdHoaDon());
+                pst.setInt(4, ctspList.get(i).getIdPhieuNhap());
                 result = pst.executeUpdate();
                 PhienBanSanPhamDAO.getInstance().giamSoLuong(ctspList.get(i).getIdPBSanPham(), 1);
                 DBConnector.closeConnection(con);
@@ -74,7 +74,7 @@ public class CTSanPhamDAO {
         int result = 0;
         try {
             Connection con = (Connection) DBConnector.getConnection();
-            String sql = "DELETE FROM `ctsanpham` WHERE hoaDon_id = ?";
+            String sql = "DELETE FROM `ctsanpham` WHERE phieuNhap_id = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, hdId);
             result = pst.executeUpdate();
@@ -89,16 +89,16 @@ public class CTSanPhamDAO {
         ArrayList<CTSanPhamDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM ctsanpham WHERE hoaDon_id="+hdId;
+            String query = "SELECT * FROM ctsanpham WHERE phieuNhap_id="+hdId;
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 String imei = rs.getString("imei");
                 int idSanPham = rs.getInt("sanPham_id");
                 int idPBSanPham = rs.getInt("pbSanPham_id");
-                int idHoaDon = rs.getInt("hoaDon_id");
+                int idPhieuNhap = rs.getInt("phieuNhap_id");
                 int trangThai = rs.getInt("trangThai");
-                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idHoaDon, trangThai);
+                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, trangThai);
                 result.add(ctsp);
             }
         } catch (Exception e) {

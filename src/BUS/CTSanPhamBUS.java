@@ -26,11 +26,11 @@ public class CTSanPhamBUS {
         return this.chiTietSPList;
     }
     
-    public ArrayList<CTSanPhamDTO> getAllByHDId(int hdId) {
+    public ArrayList<CTSanPhamDTO> getAllByHDId(int pnId) {
         chiTietSPList = ctspDAO.getAll();
         ArrayList<CTSanPhamDTO> result = new ArrayList<>();
         for(CTSanPhamDTO i : chiTietSPList){
-            if(i.getIdHoaDon() == hdId)
+            if(i.getIdPhieuNhap()== pnId)
                 result.add(i);
         }
         return result;
