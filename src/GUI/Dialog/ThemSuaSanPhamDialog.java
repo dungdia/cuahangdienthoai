@@ -8,6 +8,7 @@ import BUS.PhienBanSanPhamBUS;
 import BUS.SanPhamBUS;
 import BUS.ThuongHieuBUS;
 import DAO.PhienBanSanPhamDAO;
+import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import DTO.ThuongHieuDTO;
@@ -65,6 +66,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
     private String mode;
     private boolean newPBAdded = false;
     private boolean imageChanged = false;
+    private NhanVienDTO nhanvien;
 
     /**
      * Creates new form ThemSanPhamDialog
@@ -142,7 +144,8 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
             txtChipXL.setText(this.spEdit.getChipXuLy());
             txtHDH.setText(this.spEdit.getHeDieuHanh());
             loadPBSPListToTable(this.pbspEditList);
-
+            txtTenSP.setEnabled(false);
+            cbxThuongHieu.setEnabled(false);
             themSPBtn.setText("Lưu thông tin");
             themPBSPBtn.setText("Sửa phiên bản sản phẩm");
             jLabel1.setText("Sửa thông tin sản phẩm");
@@ -875,13 +878,13 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
                 loadPBSPListToTable(this.newPBSPList);
             }
             if (mode.equals("edit")) {
-                this.pbspEditList.get(index).setRam(Integer.parseInt(txtRam.getText()));
-                this.pbspEditList.get(index).setRom(Integer.parseInt(txtRom.getText()));
-                this.pbspEditList.get(index).setMau(txtMau.getText());
-                this.pbspEditList.get(index).setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
-                this.pbspEditList.get(index).setGiaXuat(Integer.parseInt(txtGiaBan.getText()));
-                loadPBSPListToTable(this.pbspEditList);
-            }
+                    this.pbspEditList.get(index).setRam(Integer.parseInt(txtRam.getText()));
+                    this.pbspEditList.get(index).setRom(Integer.parseInt(txtRom.getText()));
+                    this.pbspEditList.get(index).setMau(txtMau.getText());
+                    this.pbspEditList.get(index).setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
+                    this.pbspEditList.get(index).setGiaXuat(Integer.parseInt(txtGiaBan.getText()));
+                    loadPBSPListToTable(this.pbspEditList);
+                }
             emptyPBSPInput();
         }
     }//GEN-LAST:event_suapbBtnMousePressed
@@ -902,6 +905,8 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
                 txtMau.setText(this.pbspEditList.get(index).getMau());
                 txtGiaNhap.setText(Integer.toString(this.pbspEditList.get(index).getGiaNhap()));
                 txtGiaBan.setText(Integer.toString(this.pbspEditList.get(index).getGiaXuat()));
+                txtGiaNhap.setEnabled(false);
+                txtGiaBan.setEnabled(false);
             }
         }
     }//GEN-LAST:event_pbspTableMousePressed
