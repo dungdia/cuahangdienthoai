@@ -12,14 +12,14 @@ public class CTSanPhamDTO {
     private String imei;
     private int idSanPham;
     private int idPBSanPham;
-    private int idHoaDon;
+    private int idPhieuNhap;
     private int trangThai;
 
-    public CTSanPhamDTO(String imei, int idSanPham, int idPBSanPham, int idHoaDon, int trangThai) {
+    public CTSanPhamDTO(String imei, int idSanPham, int idPBSanPham, int idPhieuNhap, int trangThai) {
         this.imei = imei;
         this.idSanPham = idSanPham;
         this.idPBSanPham = idPBSanPham;
-        this.idHoaDon = idHoaDon;
+        this.idPhieuNhap = idPhieuNhap;
         this.trangThai = trangThai;
     }
 
@@ -47,12 +47,12 @@ public class CTSanPhamDTO {
         this.idPBSanPham = idPBSanPham;
     }
 
-    public int getIdHoaDon() {
-        return idHoaDon;
+    public int getIdPhieuNhap() {
+        return idPhieuNhap;
     }
 
-    public void setIdHoaDon(int idHoaDon) {
-        this.idHoaDon = idHoaDon;
+    public void setIdPhieuNhap(int idPhieuNhap) {
+        this.idPhieuNhap = idPhieuNhap;
     }
 
     public int getTrangThai() {
@@ -65,7 +65,7 @@ public class CTSanPhamDTO {
 
     @Override
     public String toString() {
-        return "CTSanPhamDTO{" + "imei=" + imei + ", idSanPham=" + idSanPham + ", idPBSanPham=" + idPBSanPham + ", idHoaDon=" + idHoaDon + ", trangThai=" + trangThai + '}';
+        return "CTSanPhamDTO{" + "imei=" + imei + ", idSanPham=" + idSanPham + ", idPBSanPham=" + idPBSanPham + ", idPhieuNhap=" + idPhieuNhap + ", trangThai=" + trangThai + '}';
     }
     
     
