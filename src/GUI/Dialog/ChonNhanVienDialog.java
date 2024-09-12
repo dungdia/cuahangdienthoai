@@ -38,7 +38,7 @@ public class ChonNhanVienDialog extends javax.swing.JDialog {
     public void loadDataToTable(ArrayList<NhanVienDTO> nvList){
         tableModel.setRowCount(0);
         for(NhanVienDTO i : nvList){
-            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail(), i.getChucVu()});
+            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail()});
         }
     }
     
@@ -81,11 +81,11 @@ public class ChonNhanVienDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã", "Họ", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"
+                "Mã", "Họ", "Tên", "Giới tính", "Số điện thoại", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -112,8 +112,6 @@ public class ChonNhanVienDialog extends javax.swing.JDialog {
             nvTable.getColumnModel().getColumn(4).setPreferredWidth(150);
             nvTable.getColumnModel().getColumn(5).setResizable(false);
             nvTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-            nvTable.getColumnModel().getColumn(6).setResizable(false);
-            nvTable.getColumnModel().getColumn(6).setPreferredWidth(150);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

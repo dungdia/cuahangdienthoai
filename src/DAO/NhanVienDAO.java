@@ -28,7 +28,7 @@ public class NhanVienDAO {
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM nhanvien WHERE trangThai=1";
+            String query = "SELECT * FROM nhanvien";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -38,9 +38,8 @@ public class NhanVienDAO {
                 String gioiTinh = rs.getString("gioitinh");
                 String sdt = rs.getString("soDienThoai");
                 String email = rs.getString("email");
-                String chucVu = rs.getString("chucVu");
                 int trangThai = rs.getInt("trangThai");
-                NhanVienDTO nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, email, chucVu, trangThai);
+                NhanVienDTO nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, email, trangThai);
                 result.add(nv);
             }
             DBConnector.closeConnection(conn);
@@ -65,9 +64,8 @@ public class NhanVienDAO {
                 String gioiTinh = rs.getString("gioitinh");
                 String sdt = rs.getString("soDienThoai");
                 String email = rs.getString("email");
-                String chucVu = rs.getString("chucVu");
                 int trangThai = rs.getInt("trangThai");
-                nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, email, chucVu, trangThai);
+                nv = new NhanVienDTO(id, ho, ten, gioiTinh, sdt, email, trangThai);
             }
             DBConnector.closeConnection(con);
         } catch (Exception e) {
@@ -108,7 +106,6 @@ public class NhanVienDAO {
             pst.setString(3, nv.getGioiTinh());
             pst.setString(4, nv.getSoDienThoai());
             pst.setString(5, nv.getEmail());
-            pst.setString(6, nv.getChucVu());
             result = pst.executeUpdate();
             DBConnector.closeConnection(conn);
         } catch (SQLException e) {
@@ -128,7 +125,6 @@ public class NhanVienDAO {
             pst.setString(3, nv.getGioiTinh());
             pst.setString(4, nv.getSoDienThoai());
             pst.setString(5, nv.getEmail());
-            pst.setString(6, nv.getChucVu());
             pst.setInt(7, nv.getId());
             result = pst.executeUpdate();
             DBConnector.closeConnection(conn);

@@ -63,7 +63,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
         txtSDT.setFocusable(false);
         txtEmail.setText(this.nhanVien.getEmail());
         txtEmail.setFocusable(false);
-        txtChucVu.setText(this.nhanVien.getChucVu());
         txtChucVu.setFocusable(false);
     }
     
@@ -84,7 +83,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
         }
         txtSDT.setText(this.nhanVien.getSoDienThoai());
         txtEmail.setText(this.nhanVien.getEmail());
-        txtChucVu.setText(this.nhanVien.getChucVu());
     }
     
     public boolean ValidateInput() {
@@ -151,8 +149,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
             gioiTinh = radioNu.getText();
         String sdt = txtSDT.getText();
         String email = txtEmail.getText();
-        String chucVu = txtChucVu.getText();
-        return new NhanVienDTO(nvDAO.getAutoIncrement(), ho, ten, gioiTinh, sdt, email, chucVu, 1);
+        return new NhanVienDTO(nvDAO.getAutoIncrement(), ho, ten, gioiTinh, sdt, email, 1);
     }
     
     public void setEditedNV() {
@@ -164,7 +161,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
             nhanVien.setGioiTinh("Nữ");
         nhanVien.setSoDienThoai(txtSDT.getText());
         nhanVien.setEmail(txtEmail.getText());
-        nhanVien.setChucVu(txtChucVu.getText());
     }
     
     public void addEvent() {

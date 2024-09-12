@@ -115,7 +115,7 @@ public class SideMenu extends javax.swing.JPanel {
         
         NhanVienDTO currentNhanVien = NhanVienDAO.getInstance().selectByAccountId(Integer.toString(taiKhoan.getId()));
         userName.setText(currentNhanVien.getHo()+" "+currentNhanVien.getTen());
-        userRole.setText(currentNhanVien.getChucVu());
+        userRole.setText(qBUS.getNameById(taiKhoan.getIdQuyen()));
     }
         
     public void selectingMenuItem(MouseEvent evt) {
