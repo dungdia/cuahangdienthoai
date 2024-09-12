@@ -21,7 +21,7 @@ public class NhanVienBUS {
     }
     
     public ArrayList<NhanVienDTO> getAll(){
-        return this.nhanVienList;
+        return nvDAO.selectAll();
     }
     
     public int getIndexByID(int id) {
@@ -87,7 +87,7 @@ public class NhanVienBUS {
         switch (type) {
             case "Tất cả":
                 for(NhanVienDTO i : nhanVienList){
-                    if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getGioiTinh().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text) || i.getChucVu().toLowerCase().contains(text)) {
+                    if(Integer.toString(i.getId()).toLowerCase().contains(text) || i.getHo().toLowerCase().contains(text) || i.getTen().toLowerCase().contains(text) || i.getGioiTinh().toLowerCase().contains(text) || i.getSoDienThoai().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)) {
                         result.add(i);
                     }
                 }
@@ -130,13 +130,6 @@ public class NhanVienBUS {
             case "Email":
                 for(NhanVienDTO i : nhanVienList) {
                     if(i.getEmail().toLowerCase().contains(text)){
-                        result.add(i);
-                    }
-                }
-                break;
-            case "Chức vụ":
-                for(NhanVienDTO i : nhanVienList) {
-                    if(i.getChucVu().toLowerCase().contains(text)){
                         result.add(i);
                     }
                 }

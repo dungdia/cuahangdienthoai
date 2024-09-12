@@ -54,7 +54,7 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
     ToolBarButton chiTietBtn = new ToolBarButton("Chi tiết", "toolBar_detail.svg", "detail");
     ToolBarButton themBtn = new ToolBarButton("Thêm", "toolBar_add.svg", "add");
     ToolBarButton suaBtn = new ToolBarButton("Sửa", "toolBar_edit.svg", "edit");
-    ToolBarButton xoaBtn = new ToolBarButton("Xóa", "toolBar_delete.svg", "delete");
+    ToolBarButton xoaBtn = new ToolBarButton("Cho nghỉ việc", "toolBar_delete.svg", "delete");
     public ToolBarButton exportBtn = new ToolBarButton("Xuất excel", "toolBar_export.svg", "export");
     /**
      * Creates new form NhanVien
@@ -106,9 +106,11 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
     }
     
     public void loadDataToTable(ArrayList<NhanVienDTO> nvList){
+        nvList = nvBUS.getAll();
         tableModel.setRowCount(0);
         for(NhanVienDTO i : nvList){
-            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail(), i.getChucVu()});
+            if(i.getTrangThai() == 1)
+            tableModel.addRow(new Object[] {i.getId(), i.getHo(), i.getTen(), i.getGioiTinh(), i.getSoDienThoai(), i.getEmail(), "Đang làm việc"});
         }
     }
     
@@ -168,7 +170,7 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
 
             },
             new String [] {
-                "Mã", "Họ", "Tên", "Giới tính", "Số điện thoại", "Email", "Chức vụ"
+                "Mã", "Họ", "Tên", "Giới tính", "Số điện thoại", "Email", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -196,11 +198,11 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
             nvTable.getColumnModel().getColumn(3).setResizable(false);
             nvTable.getColumnModel().getColumn(3).setPreferredWidth(100);
             nvTable.getColumnModel().getColumn(4).setResizable(false);
-            nvTable.getColumnModel().getColumn(4).setPreferredWidth(170);
+            nvTable.getColumnModel().getColumn(4).setPreferredWidth(120);
             nvTable.getColumnModel().getColumn(5).setResizable(false);
-            nvTable.getColumnModel().getColumn(5).setPreferredWidth(250);
+            nvTable.getColumnModel().getColumn(5).setPreferredWidth(200);
             nvTable.getColumnModel().getColumn(6).setResizable(false);
-            nvTable.getColumnModel().getColumn(6).setPreferredWidth(150);
+            nvTable.getColumnModel().getColumn(6).setPreferredWidth(100);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -252,9 +254,10 @@ public class NhanVien extends javax.swing.JPanel implements ActionListener {
         }
         if(e.getSource() == xoaBtn) {            
             int index = getSelectedRow();
+            int id = Integer.parseInt(nvTable.getValueAt(index, 0).toString());
             if(index != -1) {
                 if(JOptionPane.showConfirmDialog(main, "Bạn có chắc muốn xóa nhân viên này không?", "", JOptionPane.YES_NO_OPTION) == 0)
-                    nvBUS.delete(nhanVienList.get(index));
+                    nvBUS.delete(nhanVienList.get(nvBUS.getIndexByID(id)));
                 loadDataToTable(nhanVienList);
             }
         }
