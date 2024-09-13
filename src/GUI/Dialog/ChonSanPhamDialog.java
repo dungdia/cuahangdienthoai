@@ -142,11 +142,11 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã", "RAM", "ROM", "Màu", "Số lượng", "Giá nhập"
+                "Mã", "RAM", "ROM", "Màu", "Số lượng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -163,7 +163,6 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
             pbspTable.getColumnModel().getColumn(2).setResizable(false);
             pbspTable.getColumnModel().getColumn(3).setResizable(false);
             pbspTable.getColumnModel().getColumn(4).setResizable(false);
-            pbspTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         chonSPBtn.setBackground(new java.awt.Color(102, 204, 255));
@@ -227,7 +226,6 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
                             i.getRom(),
                             i.getMau(),
                             i.getSoLuong(),
-                            Formatter.FormatVND(i.getGiaNhap())
                         });
                     }
                 if(mode.equals("nhap")) {
@@ -237,7 +235,6 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
                         i.getRom(),
                         i.getMau(),
                         i.getSoLuong(),
-                        Formatter.FormatVND(i.getGiaNhap())
                     });
                 }
             }

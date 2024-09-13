@@ -13,13 +13,15 @@ public class CTSanPhamDTO {
     private int idSanPham;
     private int idPBSanPham;
     private int idPhieuNhap;
+    private int giaNhap;
     private int trangThai;
 
-    public CTSanPhamDTO(String imei, int idSanPham, int idPBSanPham, int idPhieuNhap, int trangThai) {
+    public CTSanPhamDTO(String imei, int idSanPham, int idPBSanPham, int idPhieuNhap, int giaNhap, int trangThai) {
         this.imei = imei;
         this.idSanPham = idSanPham;
         this.idPBSanPham = idPBSanPham;
         this.idPhieuNhap = idPhieuNhap;
+        this.giaNhap = giaNhap;
         this.trangThai = trangThai;
     }
 
@@ -55,6 +57,14 @@ public class CTSanPhamDTO {
         this.idPhieuNhap = idPhieuNhap;
     }
 
+    public int getGiaNhap() {
+        return giaNhap;
+    }
+
+    public void setGiaNhap(int giaNhap) {
+        this.giaNhap = giaNhap;
+    }
+    
     public int getTrangThai() {
         return trangThai;
     }

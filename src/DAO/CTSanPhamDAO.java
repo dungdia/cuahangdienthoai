@@ -37,8 +37,9 @@ public class CTSanPhamDAO {
                 int idSanPham = rs.getInt("sanPham_id");
                 int idPBSanPham = rs.getInt("pbSanPham_id");
                 int idPhieuNhap = rs.getInt("phieuNhap_id");
+                int giaNhap = rs.getInt("giaNhap");
                 int trangThai = rs.getInt("trangThai");
-                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, trangThai);
+                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, giaNhap, trangThai);
                 result.add(ctsp);
             }
             DBConnector.closeConnection(conn);
@@ -53,12 +54,13 @@ public class CTSanPhamDAO {
         for (int i = 0; i < ctspList.size(); i++) {
             try {
                 Connection con = (Connection) DBConnector.getConnection();
-                String sql = "INSERT INTO `ctsanpham`(`imei`, `sanPham_id`, `pbSanPham_id`, `phieuNhap_id`) VALUES (?,?,?,?)";
+                String sql = "INSERT INTO `ctsanpham`(`imei`, `sanPham_id`, `pbSanPham_id`, `phieuNhap_id`, `giaNhap`) VALUES (?,?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setString(1, ctspList.get(i).getImei());
                 pst.setInt(2, ctspList.get(i).getIdSanPham());
                 pst.setInt(3, ctspList.get(i).getIdPBSanPham());
                 pst.setInt(4, ctspList.get(i).getIdPhieuNhap());
+                pst.setInt(5, ctspList.get(i).getGiaNhap());
                 result = pst.executeUpdate();
                 PhienBanSanPhamDAO.getInstance().giamSoLuong(ctspList.get(i).getIdPBSanPham(), 1);
                 DBConnector.closeConnection(con);
@@ -97,8 +99,9 @@ public class CTSanPhamDAO {
                 int idSanPham = rs.getInt("sanPham_id");
                 int idPBSanPham = rs.getInt("pbSanPham_id");
                 int idPhieuNhap = rs.getInt("phieuNhap_id");
+                int giaNhap = rs.getInt("giaNhap");
                 int trangThai = rs.getInt("trangThai");
-                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, trangThai);
+                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, giaNhap, trangThai);
                 result.add(ctsp);
             }
         } catch (Exception e) {

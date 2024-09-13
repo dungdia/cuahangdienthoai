@@ -32,6 +32,5 @@ public class ChucNangDTO {
     public void setTen(String ten) {
         this.ten = ten;
     }
-    
-    
+
 }
