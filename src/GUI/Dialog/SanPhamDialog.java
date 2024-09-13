@@ -98,7 +98,7 @@ public class SanPhamDialog extends javax.swing.JDialog {
         pbSPTableModel.setRowCount(0);
         for(int i=0; i<pbSPList.size(); i++) {
             PhienBanSanPhamDTO pbspIndex = pbspList.get(i);
-            pbSPTableModel.addRow(new Object[] {i+1, pbspIndex.getRam()+"GB", pbspIndex.getRom()+"GB", pbspIndex.getMau(), pbspIndex.getSoLuong(), String.format(Locale.US, "%,d", pbspIndex.getGiaNhap())+"đ" , String.format(Locale.US, "%,d", pbspIndex.getGiaXuat())+"đ" });
+            pbSPTableModel.addRow(new Object[] {i+1, pbspIndex.getRam()+"GB", pbspIndex.getRom()+"GB", pbspIndex.getMau(), pbspIndex.getSoLuong()});
         }
     }
 
@@ -311,11 +311,11 @@ public class SanPhamDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "STT", "Ram", "Rom", "Màu", "Số lượng", "Giá nhập", "Giá bán"
+                "STT", "Ram", "Rom", "Màu", "Số lượng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -340,10 +340,6 @@ public class SanPhamDialog extends javax.swing.JDialog {
             pbSPTable.getColumnModel().getColumn(3).setPreferredWidth(40);
             pbSPTable.getColumnModel().getColumn(4).setResizable(false);
             pbSPTable.getColumnModel().getColumn(4).setPreferredWidth(60);
-            pbSPTable.getColumnModel().getColumn(5).setResizable(false);
-            pbSPTable.getColumnModel().getColumn(5).setPreferredWidth(120);
-            pbSPTable.getColumnModel().getColumn(6).setResizable(false);
-            pbSPTable.getColumnModel().getColumn(6).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

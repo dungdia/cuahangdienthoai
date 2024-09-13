@@ -38,10 +38,8 @@ public class PhienBanSanPhamDAO {
                 int rom = rs.getInt("rom");
                 String mau = rs.getString("mau");
                 int soLuong = rs.getInt("soLuong");
-                int giaNhap = rs.getInt("giaNhap");
-                int giaXuat = rs.getInt("giaXuat");
                 int trangThai = rs.getInt("trangThai");
-                PhienBanSanPhamDTO sp = new PhienBanSanPhamDTO(id, sanPham_id, ram, rom, mau, soLuong, giaNhap, giaXuat, trangThai);
+                PhienBanSanPhamDTO sp = new PhienBanSanPhamDTO(id, sanPham_id, ram, rom, mau, soLuong, trangThai);
                 result.add(sp);
             }
             DBConnector.closeConnection(conn);
@@ -65,10 +63,8 @@ public class PhienBanSanPhamDAO {
                 int rom = rs.getInt("rom");
                 String mau = rs.getString("mau");
                 int soLuong = rs.getInt("soLuong");
-                int giaNhap = rs.getInt("giaNhap");
-                int giaXuat = rs.getInt("giaXuat");
                 int trangThai = rs.getInt("trangThai");
-                PhienBanSanPhamDTO sp = new PhienBanSanPhamDTO(id, sanPham_id, ram, rom, mau, soLuong, giaNhap, giaXuat, trangThai);
+                PhienBanSanPhamDTO sp = new PhienBanSanPhamDTO(id, sanPham_id, ram, rom, mau, soLuong, trangThai);
                 result.add(sp);
             }
             DBConnector.closeConnection(conn);
@@ -93,10 +89,8 @@ public class PhienBanSanPhamDAO {
                 int rom = rs.getInt("rom");
                 String mau = rs.getString("mau");
                 int soLuong = rs.getInt("soLuong");
-                int giaNhap = rs.getInt("giaNhap");
-                int giaXuat = rs.getInt("giaXuat");
                 int trangThai = rs.getInt("trangThai");
-                pbsp = new PhienBanSanPhamDTO(id, idSanPham, ram, rom, mau, soLuong, giaNhap, giaXuat, trangThai);
+                pbsp = new PhienBanSanPhamDTO(id, idSanPham, ram, rom, mau, soLuong, trangThai);
             }
             DBConnector.closeConnection(con);
         } catch (SQLException e) {
@@ -128,14 +122,12 @@ public class PhienBanSanPhamDAO {
         int result = 0;
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String sql = "INSERT INTO `pbsanpham`(`sanPham_id`, `ram`, `rom`, `mau`, `giaNhap`, `giaXuat`) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO `pbsanpham`(`sanPham_id`, `ram`, `rom`, `mau`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sql);
             pst.setInt(1, pbsp.getIdSanPham());
             pst.setInt(2, pbsp.getRam());
             pst.setInt(3, pbsp.getRom());
             pst.setString(4, pbsp.getMau());
-            pst.setInt(5, pbsp.getGiaNhap());
-            pst.setInt(6, pbsp.getGiaXuat());
             result = pst.executeUpdate();
             DBConnector.closeConnection(conn);
         } catch (SQLException ex) {
@@ -149,14 +141,12 @@ public class PhienBanSanPhamDAO {
         for(PhienBanSanPhamDTO i : pbspList) {
             try {
                 Connection conn = (Connection) DBConnector.getConnection();
-                String sql = "INSERT INTO `pbsanpham`(`sanPham_id`, `ram`, `rom`, `mau`, `giaNhap`, `giaXuat`) VALUES (?,?,?,?,?,?)";
+                String sql = "INSERT INTO `pbsanpham`(`sanPham_id`, `ram`, `rom`, `mau`) VALUES (?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sql);
                 pst.setInt(1, i.getIdSanPham());
                 pst.setInt(2, i.getRam());
                 pst.setInt(3, i.getRom());
                 pst.setString(4, i.getMau());
-                pst.setInt(5, i.getGiaNhap());
-                pst.setInt(6, i.getGiaXuat());
                 result = pst.executeUpdate();
                 DBConnector.closeConnection(conn);
             } catch (SQLException ex) {
@@ -171,15 +161,13 @@ public class PhienBanSanPhamDAO {
         for (PhienBanSanPhamDTO i : pbspList) {
             try {
                 Connection conn = (Connection) DBConnector.getConnection();
-                String query = "UPDATE `pbsanpham` SET `ram`=?,`rom`=?,`mau`=?,`giaNhap`=?,`giaXuat`=?, `trangThai`=? WHERE id=?";
+                String query = "UPDATE `pbsanpham` SET `ram`=?,`rom`=?,`mau`=?,`trangThai`=? WHERE id=?";
                 PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
                 pst.setInt(1, i.getRam());
                 pst.setInt(2, i.getRom());
                 pst.setString(3, i.getMau());
-                pst.setInt(4, i.getGiaNhap());
-                pst.setInt(5, i.getGiaXuat());
-                pst.setInt(6, i.getTrangThai());
-                pst.setInt(7, i.getId());
+                pst.setInt(4, i.getTrangThai());
+                pst.setInt(5, i.getId());
                 result = pst.executeUpdate();
                 DBConnector.closeConnection(conn);
             } catch (SQLException ex) {

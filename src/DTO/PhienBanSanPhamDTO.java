@@ -15,19 +15,15 @@ public class PhienBanSanPhamDTO {
     private int rom;
     private String mau;
     private int soLuong;
-    private int giaNhap;
-    private int giaXuat;
     private int trangThai;
 
-    public PhienBanSanPhamDTO(int id, int idSanPham, int ram, int rom, String mau, int soLuong, int giaNhap, int giaXuat, int trangThai) {
+    public PhienBanSanPhamDTO(int id, int idSanPham, int ram, int rom, String mau, int soLuong, int trangThai) {
         this.id = id;
         this.idSanPham = idSanPham;
         this.ram = ram;
         this.rom = rom;
         this.mau = mau;
         this.soLuong = soLuong;
-        this.giaNhap = giaNhap;
-        this.giaXuat = giaXuat;
         this.trangThai = trangThai;
     }
 
@@ -79,22 +75,6 @@ public class PhienBanSanPhamDTO {
         this.soLuong = soLuong;
     }
 
-    public int getGiaNhap() {
-        return giaNhap;
-    }
-
-    public void setGiaNhap(int giaNhap) {
-        this.giaNhap = giaNhap;
-    }
-
-    public int getGiaXuat() {
-        return giaXuat;
-    }
-
-    public void setGiaXuat(int giaXuat) {
-        this.giaXuat = giaXuat;
-    }
-
     public int getTrangThai() {
         return trangThai;
     }
@@ -105,7 +85,7 @@ public class PhienBanSanPhamDTO {
 
     @Override
     public String toString() {
-        return "PhienBanSanPhamDTO{" + "id=" + id + ", idSanPham=" + idSanPham + ", ram=" + ram + ", rom=" + rom + ", mau=" + mau + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", giaXuat=" + giaXuat + ", trangThai=" + trangThai + '}';
+        return "PhienBanSanPhamDTO{" + "id=" + id + ", idSanPham=" + idSanPham + ", ram=" + ram + ", rom=" + rom + ", mau=" + mau + ", soLuong=" + soLuong + ", trangThai=" + trangThai + '}';
     }
     
 }

@@ -56,7 +56,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public ArrayList<SanPhamDTO> spList;
     public ArrayList<PhienBanSanPhamDTO> pbspList;
     private ArrayList<CTHoaDonDTO> newCTHDList = new ArrayList<>();
-    private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
+//    private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     private ArrayList<CTBaoHanhDTO> newBaoHanhList = new ArrayList<>();
     private ArrayList<CTHoaDonDTO> CTHDList = new ArrayList<>();
     private ArrayList<CTSanPhamDTO> CTSPList = new ArrayList<>();
@@ -124,7 +124,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
         xoaSPBtn.setVisible(false);
         lbl_km.setVisible(false);
         txtKM.setVisible(false);
-        loadDataToTable(CTHDList,CTSPList,CTBHList);
+        loadDataToTable(CTHDList,CTBHList);
     }
     
     public void initAddMode(){
@@ -163,10 +163,10 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
     }
     
-    public void loadDataToTable(ArrayList<CTHoaDonDTO> cthdList,ArrayList<CTSanPhamDTO> ctspList,ArrayList<CTBaoHanhDTO> ctbhList) {
+    public void loadDataToTable(ArrayList<CTHoaDonDTO> cthdList,ArrayList<CTBaoHanhDTO> ctbhList) {
         cthdTableModel.setRowCount(0);
         for(int i=0; i<cthdList.size(); i++) {
-            PhienBanSanPhamDTO pbspIndex = pbspBUS.getObjectById(ctspList.get(i).getIdPBSanPham());
+//            PhienBanSanPhamDTO pbspIndex = pbspBUS.getObjectById(ctspList.get(i).getIdPBSanPham());
             Timestamp ngayKetThuc = ctbhList.get(i).getNgayKetThuc();
             int ngay = ngayKetThuc.getDate();
             int thang = ngayKetThuc.getMonth() +1;
@@ -174,11 +174,11 @@ public class HoaDonDialog extends javax.swing.JDialog {
             String displayDate = (ngay < 10 ? "0"+ngay : ngay) + "/" + (thang < 10 ? "0"+thang : thang) + "/" + nam;
             cthdTableModel.addRow(new Object[]{
                 i+1,
-                ctspList.get(i).getImei(),
-                spBUS.getNameByID(ctspList.get(i).getIdSanPham()),
-                pbspIndex.getRam(),
-                pbspIndex.getRom(),
-                pbspIndex.getMau(),
+//                ctspList.get(i).getImei(),
+//                spBUS.getNameByID(ctspList.get(i).getIdSanPham()),
+//                pbspIndex.getRam(),
+//                pbspIndex.getRom(),
+//                pbspIndex.getMau(),
                 displayDate,
                 Formatter.FormatVND(cthdList.get(i).getGiaBanRa()),
                 Formatter.FormatVND(cthdList.get(i).getTongTien()),
@@ -263,7 +263,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     }
     
     public void reloadEvent() {
-        loadDataToTable(newCTHDList,newCTSPList,newBaoHanhList);
+        loadDataToTable(newCTHDList,newBaoHanhList);
         txtTt.setText(Formatter.FormatVND(getTongTien()));
     }
     
@@ -280,28 +280,28 @@ public class HoaDonDialog extends javax.swing.JDialog {
         KhuyenMaiDTO km = kmList.get(kmComboBox.getSelectedIndex());
         if(km.getId() == 1) {
             newHoaDon.setTongTien(getTongTien());
-            for(CTSanPhamDTO i : newCTSPList) {
-                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
-                cthd.setTongTien(cthd.getGiaBanRa());
-            }
+//            for(CTSanPhamDTO i : newCTSPList) {
+//                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+//                cthd.setTongTien(cthd.getGiaBanRa());
+//            }
         }
         if(getTongTien() >= km.getDieuKien() && km.getDieuKien() != 0) {
-            for(CTSanPhamDTO i : newCTSPList) {
-                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
-                cthd.setTongTien(cthd.getGiaBanRa());
-            }
+//            for(CTSanPhamDTO i : newCTSPList) {
+//                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+//                cthd.setTongTien(cthd.getGiaBanRa());
+//            }
             newHoaDon.setTongTien(getTongTien());
             long newGia = (long) (getTongTien() - getTongTien() * km.getTiLe());
             newHoaDon.setTongTien(newGia);
             return;
         }
-        for(CTSanPhamDTO i : newCTSPList) {
-            if(i.getIdSanPham()== km.getIdSanPham()) {
-                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
-                long newGia2 = (long) ((long) cthd.getGiaBanRa() - cthd.getGiaBanRa() * km.getTiLe());
-                cthd.setTongTien((int) newGia2);
-            }
-        }
+//        for(CTSanPhamDTO i : newCTSPList) {
+//            if(i.getIdSanPham()== km.getIdSanPham()) {
+//                CTHoaDonDTO cthd = getCTHDByImei(i.getImei());
+//                long newGia2 = (long) ((long) cthd.getGiaBanRa() - cthd.getGiaBanRa() * km.getTiLe());
+//                cthd.setTongTien((int) newGia2);
+//            }
+//        }
         newHoaDon.setTongTien(sumTongTien());
     }
     
@@ -326,10 +326,10 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
         newHoaDon = getNewHoaDon();
         khuyenMai();
-        if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,newCTSPList,newBaoHanhList)) {
-            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
-            dispose();
-        }
+//        if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,newCTSPList,newBaoHanhList)) {
+//            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
+//            dispose();
+//        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -676,11 +676,11 @@ public class HoaDonDialog extends javax.swing.JDialog {
                     break;
                 }
             }
-            this.tongTien += (long) pbsp.getGiaXuat();
-            newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, pbsp.getGiaXuat(), pbsp.getGiaXuat()));
-            newCTSPList.add(new CTSanPhamDTO(imei, pbsp.getIdSanPham(), pbspId, this.newhdId, 1));
+//            this.tongTien += (long) pbsp.getGiaXuat();
+            newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, 0, 0));
+//            newCTSPList.add(new CTSanPhamDTO(imei, pbsp.getIdSanPham(), pbspId, this.newhdId, 1));
             newBaoHanhList.add(new CTBaoHanhDTO(this.newctbhId++,bhBUS.getIdBySoThang(soThang),this.newhdId,imei,bhTime));
-            loadDataToTable(newCTHDList,newCTSPList,newBaoHanhList);
+            loadDataToTable(newCTHDList,newBaoHanhList);
             txtTt.setText(Formatter.FormatVND(getTongTien()));
             updateKhuyenMai();
         } catch (Exception e) {
@@ -695,13 +695,13 @@ public class HoaDonDialog extends javax.swing.JDialog {
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này không?", "", JOptionPane.YES_NO_OPTION) == 0) {
                 for(PhienBanSanPhamDTO i : this.pbspList) {
-                    if(i.getId() == newCTSPList.get(index).getIdPBSanPham()) {
-                        i.setSoLuong(i.getSoLuong() + 1);
-                        break;
-                    }
+//                    if(i.getId() == newCTSPList.get(index).getIdPBSanPham()) {
+//                        i.setSoLuong(i.getSoLuong() + 1);
+//                        break;
+//                    }
                 }
                 newCTHDList.remove(index);
-                newCTSPList.remove(index);
+//                newCTSPList.remove(index);
                 newBaoHanhList.remove(index);
                 reloadEvent();
                 updateKhuyenMai();

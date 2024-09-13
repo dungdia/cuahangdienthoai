@@ -5,8 +5,11 @@
 package BUS;
 
 import DAO.CTPhieuNhapDAO;
+import DAO.CTSanPhamDAO;
+import DAO.PhienBanSanPhamDAO;
 import DAO.PhieuNhapDAO;
 import DTO.CTPhieuNhapDTO;
+import DTO.CTSanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
@@ -20,6 +23,8 @@ import java.util.ArrayList;
 public class PhieuNhapBUS {
     private PhieuNhapDAO pnDAO = new PhieuNhapDAO();
     private CTPhieuNhapDAO ctpnDAO = new CTPhieuNhapDAO();
+    private CTSanPhamDAO ctspDAO = new CTSanPhamDAO();
+    private PhienBanSanPhamDAO pbspDAO = new PhienBanSanPhamDAO();
     private NhanVienBUS nvBUS = new NhanVienBUS();
     private NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     public ArrayList<PhieuNhapDTO> phieuNhapList = new ArrayList<>();
@@ -48,10 +53,14 @@ public class PhieuNhapBUS {
         return false;
     }
     
-    public boolean addNewPNWithCTPNList(PhieuNhapDTO pn, ArrayList<CTPhieuNhapDTO> ctpnList) {
+    public boolean addNewPNWithCTSPList(PhieuNhapDTO pn, ArrayList<CTPhieuNhapDTO> ctpnList, ArrayList<CTSanPhamDTO> ctspList) {
         if(pnDAO.insert(pn) != 0) {
             phieuNhapList.add(pn);
             ctpnDAO.insert(ctpnList);
+            ctspDAO.insert(ctspList);
+            for(CTPhieuNhapDTO i : ctpnList) {
+                pbspDAO.tangSoLuong(i.getIdPBSanPham(), i.getSoLuong());
+            }
             return true;
         }
         return false;

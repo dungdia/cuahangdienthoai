@@ -13,6 +13,7 @@ import BUS.SanPhamBUS;
 import DAO.NhanVienDAO;
 import DAO.PhieuNhapDAO;
 import DTO.CTPhieuNhapDTO;
+import DTO.CTSanPhamDTO;
 import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,7 +41,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     private SanPhamBUS spBUS = new SanPhamBUS();
     private PhienBanSanPhamBUS pbspBUS = new PhienBanSanPhamBUS();
     private PhieuNhapDAO pnDAO = new PhieuNhapDAO();
-    private int pbspId;
+//    private int pbspId;
     private ArrayList<CTPhieuNhapDTO> newCTPNList = new ArrayList<>();
     private PhieuNhapDTO phieuNhap;
     private TaiKhoanDTO currentUser;
@@ -48,6 +51,8 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     private int newPNId;
     private String mode;
     private PhieuNhap pnPanel;
+    
+    private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     
     private DefaultTableModel ctpnTableModel;
     /**
@@ -147,28 +152,49 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         return this.tongTien;
     }
     
-    public int getSoLuong() {
+    public int getNumberInput(String target) {
         boolean inputAccepted = false;
         int result = 0;
         while(!inputAccepted) {
             try {
-                String input = JOptionPane.showInputDialog("Nhập số lượng");
+                String input = JOptionPane.showInputDialog("Nhập " + target);
                 if(input == null)
                     return 0;
                 result = Integer.parseInt(input);
                 if (result<=0) {
-                    JOptionPane.showMessageDialog(this, "Số lượng phải là số lớn hơn 0");
+                    JOptionPane.showMessageDialog(this, target + " phải là số lớn hơn 0");
                     break;
                 } else {
                     inputAccepted = true;
                     return result;
                 }
             } catch(NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Số lượng phải là số lớn hơn 0");
+                JOptionPane.showMessageDialog(this, target + " phải là số lớn hơn 0");
                 break;
             }    
         }
         return 0;
+    }
+    
+    public String getImei(){
+        boolean inputAccepted = false;
+        String result = "";
+        while(!inputAccepted){
+                String input = JOptionPane.showInputDialog("Nhập IMEI cho lô sản phẩm này");
+                if(input == null)
+                    return "";
+                Pattern pattern = Pattern.compile("^[1-9]{1}[0-9]{14}$", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(input);
+                boolean matchFound = matcher.find();
+                if(!matchFound){
+                    JOptionPane.showMessageDialog(this, "Imei phải là số có 15 chữ số và không bắt đầu bằng số 0");
+                }else{
+                    inputAccepted = true;
+                    return input;
+                } 
+        }
+        
+        return result;
     }
     
     public int getCTPNIndexByPBSPId(int id) {
@@ -194,7 +220,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     
     public void addPNEvent() {
         newPhieuNhap = getNewPN();
-        if (pnPanel.pnBUS.addNewPNWithCTPNList(newPhieuNhap, newCTPNList)) {
+        if (pnPanel.pnBUS.addNewPNWithCTSPList(newPhieuNhap, newCTPNList, newCTSPList)) {
             JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
             dispose();
         }
@@ -334,7 +360,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         themSPBtn.setBackground(new java.awt.Color(102, 204, 255));
         themSPBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         themSPBtn.setForeground(new java.awt.Color(255, 255, 255));
-        themSPBtn.setText("Thêm sản phẩm");
+        themSPBtn.setText("Thêm lô sản phẩm");
         themSPBtn.setBorder(null);
         themSPBtn.setPreferredSize(new java.awt.Dimension(120, 40));
         themSPBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -358,7 +384,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         xoaSPBtn.setBackground(new java.awt.Color(26, 83, 92));
         xoaSPBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         xoaSPBtn.setForeground(new java.awt.Color(255, 255, 255));
-        xoaSPBtn.setText("Xóa sản phẩm");
+        xoaSPBtn.setText("Xóa lô sản phẩm");
         xoaSPBtn.setBorder(null);
         xoaSPBtn.setPreferredSize(new java.awt.Dimension(120, 40));
         xoaSPBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -461,33 +487,49 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void themSPBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_themSPBtnMousePressed
-        ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
-        dialog.setVisible(true);
-        try {
-            int pbspId = dialog.getSelectedId();
-            if(pbspId == -1)
-                return;
-            int soLuong = getSoLuong();
-            if(soLuong == 0)
-                return;
-            if(isExisted(pbspId)) {
-                CTPhieuNhapDTO duplicatedSP = newCTPNList.get(getCTPNIndexByPBSPId(pbspId));
-                int newSoLuong =  duplicatedSP.getSoLuong() + soLuong;
-                long newTongTien = duplicatedSP.getDonGia() * newSoLuong;
-                duplicatedSP.setSoLuong(newSoLuong);
-                duplicatedSP.setTongTien(newTongTien);
-//                newCTPNList.set(getCTPNIndexByPBSPId(pbspId), duplicatedSP);
-                reloadEvent();
-                return;
+        String[] option = {"Tạo sản phẩm mới", "Chọn sản phẩm", "Hủy"};
+        int selection = JOptionPane.showOptionDialog(null, "Bạn muốn nhập sản phẩm mới hay chọn sản phẩm có sẵn?", "", 0, 3, null, option, option[2]);
+        if(selection == 0) {
+            ThemSuaSanPhamDialog addSpDialog = new ThemSuaSanPhamDialog(null, true, "Thêm sản phẩm", null, "add", null, null);
+            addSpDialog.setVisible(true);
+        }
+        if(selection == 1) {
+            ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
+            dialog.setVisible(true);
+            try {
+                int pbspId = dialog.getSelectedId();
+                if(pbspId == -1)
+                    return;
+                int soLuong = getNumberInput("Số lượng");
+                if(soLuong == 0)
+                    return;
+                if(isExisted(pbspId)) {
+                    CTPhieuNhapDTO duplicatedSP = newCTPNList.get(getCTPNIndexByPBSPId(pbspId));
+                    int newSoLuong =  duplicatedSP.getSoLuong() + soLuong;
+                    long newTongTien = duplicatedSP.getDonGia() * newSoLuong;
+                    duplicatedSP.setSoLuong(newSoLuong);
+                    duplicatedSP.setTongTien(newTongTien);
+                    newCTPNList.set(getCTPNIndexByPBSPId(pbspId), duplicatedSP);
+                    reloadEvent();
+                    return;
+                }
+                int giaNhap = getNumberInput("Giá nhập");
+                String imei = getImei();
+                PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
+                for(int i=0; i<soLuong; i++) {
+                    String newimei = String.valueOf(Long.parseLong(imei) + i);
+                    CTSanPhamDTO newCTSP = new CTSanPhamDTO(newimei, pbsp.getIdSanPham(), pbspId, this.newPNId, giaNhap, 1);
+                    this.newCTSPList.add(newCTSP);
+                }
+                
+                this.tongTien += (long) giaNhap*soLuong;
+                newCTPNList.add(new CTPhieuNhapDTO(this.newPNId, pbspId, soLuong, giaNhap, giaNhap*soLuong));
+                loadDataToTable(newCTPNList);
+                txtTt.setText(Formatter.FormatVND(getTongTien()));
+            } catch (NumberFormatException e) {
+//                System.out.println(e);
+//                return;
             }
-            PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
-            this.tongTien += (long)pbsp.getGiaNhap()*soLuong;
-            newCTPNList.add(new CTPhieuNhapDTO(this.newPNId, pbspId, soLuong, pbsp.getGiaNhap(), (long)pbsp.getGiaNhap()*soLuong));
-            loadDataToTable(newCTPNList);
-            txtTt.setText(Formatter.FormatVND(getTongTien()));
-        } catch (Exception e) {
-            System.out.println(e);
-            return;
         }
     }//GEN-LAST:event_themSPBtnMousePressed
 
@@ -498,7 +540,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
             return;
         } else {
             try {
-                int soLuong = getSoLuong();
+                int soLuong = getNumberInput("Số lượng");
                 if(soLuong == 0)
                     return;
                 newCTPNList.get(index).setSoLuong(soLuong);

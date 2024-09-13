@@ -99,7 +99,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
     }
 
     public void initComponentsCustom() {
-        newSPID = panelSanPham.spBUS.spDAO.getAutoIncrement();
+        newSPID = spBUS.spDAO.getAutoIncrement();
         newPBSPID = PhienBanSanPhamDAO.getInstance().getAutoIncrement();
         cardLayout = (CardLayout) contentPanel.getLayout();
         pbspModel = (DefaultTableModel) pbspTable.getModel();
@@ -156,7 +156,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         pbspModel.setRowCount(0);
         for (int i = 0; i < pbspList.size(); i++) {
             if (pbspList.get(i).getTrangThai() == 1) {
-                pbspModel.addRow(new Object[]{i + 1, pbspList.get(i).getRam()+"GB", pbspList.get(i).getRom()+"GB", pbspList.get(i).getMau(), String.format(Locale.US, "%,d", pbspList.get(i).getGiaNhap()) + "đ", String.format(Locale.US, "%,d", pbspList.get(i).getGiaXuat()) + "đ"});
+                pbspModel.addRow(new Object[]{i + 1, pbspList.get(i).getRam()+"GB", pbspList.get(i).getRom()+"GB", pbspList.get(i).getMau()});
             }
         }
     }
@@ -205,13 +205,11 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         int ram = Integer.parseInt(txtRam.getText());
         int rom = Integer.parseInt(txtRom.getText());
         String mau = txtMau.getText();
-        int giaNhap = Integer.parseInt(txtGiaNhap.getText());
-        int giaXuat = Integer.parseInt(txtGiaBan.getText());
         newPBSPID++;
         if(mode.equals("edit")) {
-            return new PhienBanSanPhamDTO(newPBSPID, spEdit.getId(), ram, rom, mau, 0, giaNhap, giaXuat, 1);
+            return new PhienBanSanPhamDTO(newPBSPID, spEdit.getId(), ram, rom, mau, 0, 1);
         }
-        return new PhienBanSanPhamDTO(newPBSPID, newSPID, ram, rom, mau, 0, giaNhap, giaXuat, 1);
+        return new PhienBanSanPhamDTO(newPBSPID, newSPID, ram, rom, mau, 0, 1);
     }
 
     public void setEditedSP() {
@@ -285,28 +283,12 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập màu");
             return false;
         }
-        if (Validator.isEmpty(txtGiaNhap.getText())) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá nhập");
-            return false;
-        }
-        if (Validator.isEmpty(txtGiaBan.getText())) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá bán");
-            return false;
-        }
         if (!Validator.isInteger(txtRam.getText())) {
             JOptionPane.showMessageDialog(this, "Dung lượng ram phải là số nguyên dương");
             return false;
         }
         if (!Validator.isInteger(txtRom.getText())) {
             JOptionPane.showMessageDialog(this, "Dung lượng rom phải là số nguyên dương");
-            return false;
-        }
-        if (!Validator.isInteger(txtGiaNhap.getText())) {
-            JOptionPane.showMessageDialog(this, "Giá nhập phải là số nguyên dương");
-            return false;
-        }
-        if (!Validator.isInteger(txtGiaBan.getText())) {
-            JOptionPane.showMessageDialog(this, "Giá bán phải là số nguyên dương");
             return false;
         }
         return true;
@@ -334,7 +316,7 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
 
     public void addSPEvent() {
         this.newSP = getNewSP();
-        if (panelSanPham.spBUS.addNewSPWithPBSPList(newSP, this.newPBSPList)) {
+        if (spBUS.addNewSPWithPBSPList(newSP, this.newPBSPList)) {
             JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công !");
             dispose();
         }
@@ -621,8 +603,12 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
         jLabel19.setText("Giá nhập");
         jLabel19.setPreferredSize(new java.awt.Dimension(80, 20));
 
+        txtGiaNhap.setEditable(false);
+
         jLabel20.setText("Giá bán");
         jLabel20.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        txtGiaBan.setEditable(false);
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(800, 0));
@@ -632,11 +618,11 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "STT", "Dung lượng RAM", "Dung lượng ROM", "Màu", "Giá nhập", "Giá bán"
+                "STT", "Dung lượng RAM", "Dung lượng ROM", "Màu"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -664,10 +650,6 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
             pbspTable.getColumnModel().getColumn(2).setPreferredWidth(150);
             pbspTable.getColumnModel().getColumn(3).setResizable(false);
             pbspTable.getColumnModel().getColumn(3).setPreferredWidth(150);
-            pbspTable.getColumnModel().getColumn(4).setResizable(false);
-            pbspTable.getColumnModel().getColumn(4).setPreferredWidth(210);
-            pbspTable.getColumnModel().getColumn(5).setResizable(false);
-            pbspTable.getColumnModel().getColumn(5).setPreferredWidth(210);
         }
 
         thempbBtn.setBackground(new java.awt.Color(78, 205, 196));
@@ -873,16 +855,12 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
                 this.newPBSPList.get(index).setRam(Integer.parseInt(txtRam.getText()));
                 this.newPBSPList.get(index).setRom(Integer.parseInt(txtRom.getText()));
                 this.newPBSPList.get(index).setMau(txtMau.getText());
-                this.newPBSPList.get(index).setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
-                this.newPBSPList.get(index).setGiaXuat(Integer.parseInt(txtGiaBan.getText()));
                 loadPBSPListToTable(this.newPBSPList);
             }
             if (mode.equals("edit")) {
                     this.pbspEditList.get(index).setRam(Integer.parseInt(txtRam.getText()));
                     this.pbspEditList.get(index).setRom(Integer.parseInt(txtRom.getText()));
                     this.pbspEditList.get(index).setMau(txtMau.getText());
-                    this.pbspEditList.get(index).setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
-                    this.pbspEditList.get(index).setGiaXuat(Integer.parseInt(txtGiaBan.getText()));
                     loadPBSPListToTable(this.pbspEditList);
                 }
             emptyPBSPInput();
@@ -896,15 +874,11 @@ public class ThemSuaSanPhamDialog extends javax.swing.JDialog {
                 txtRam.setText(Integer.toString(this.newPBSPList.get(index).getRam()));
                 txtRom.setText(Integer.toString(this.newPBSPList.get(index).getRom()));
                 txtMau.setText(this.newPBSPList.get(index).getMau());
-                txtGiaNhap.setText(Integer.toString(this.newPBSPList.get(index).getGiaNhap()));
-                txtGiaBan.setText(Integer.toString(this.newPBSPList.get(index).getGiaXuat()));
             }
             if (mode.equals("edit")) {
                 txtRam.setText(Integer.toString(this.pbspEditList.get(index).getRam()));
                 txtRom.setText(Integer.toString(this.pbspEditList.get(index).getRom()));
                 txtMau.setText(this.pbspEditList.get(index).getMau());
-                txtGiaNhap.setText(Integer.toString(this.pbspEditList.get(index).getGiaNhap()));
-                txtGiaBan.setText(Integer.toString(this.pbspEditList.get(index).getGiaXuat()));
                 txtGiaNhap.setEnabled(false);
                 txtGiaBan.setEnabled(false);
             }
