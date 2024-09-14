@@ -118,6 +118,7 @@ public class HoaDon extends javax.swing.JPanel implements ActionListener {
         exportBtn.addActionListener(this);
         hdTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         tableModel = (DefaultTableModel) hdTable.getModel();
+        xoaBtn.setVisible(false);
     }
 
     public void loadDataToTable(ArrayList<HoaDonDTO> hdList) {

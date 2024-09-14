@@ -126,7 +126,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         loadDataToTable(spBUS.search(searchText, (String) searchBar.cbxType.getSelectedItem()));
     }
     
-    public void reloadEvent() {                                       
+    public void reloadEvent() {
         searchBar.txtSearch.setText("");
         loadDataToTable(sanPhamList);
     }
@@ -252,6 +252,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
         if(e.getSource() == themBtn) {
             ThemSuaSanPhamDialog addSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "add", null, null);
             addSpDialog.setVisible(true);
+            sanPhamList = spBUS.getAll();
             loadDataToTable(sanPhamList);
         }
         
@@ -271,6 +272,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             if(index != -1) {
                 ThemSuaSanPhamDialog editSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "edit", sanPhamList.get(index), pbspBUS.getAllPBSPBySPId(sanPhamList.get(index).getId()));
                 editSpDialog.setVisible(true);
+                sanPhamList = spBUS.getAll();
                 loadDataToTable(sanPhamList);
             }
         }

@@ -43,8 +43,10 @@ public class PhienBanSanPhamBUS {
     
     public int getIndexByID(int id) {
         for(int i=0; i<pbSPList.size(); i++) {
-            if(pbSPList.get(i).getId() == id)
+            if(pbSPList.get(i).getId() == id){
                 return i;
+            }
+                
         }
         return -1;
     }
