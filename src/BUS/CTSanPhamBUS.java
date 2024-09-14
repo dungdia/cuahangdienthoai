@@ -45,7 +45,7 @@ public class CTSanPhamBUS {
         return false;
     }
     
-    public CTSanPhamDTO getBySanPhamByImei(String imei){
+    public CTSanPhamDTO getSanPhamByImei(String imei){
         for(CTSanPhamDTO i : chiTietSPList){
             if(i.getImei().equals(imei))
                 return i;
