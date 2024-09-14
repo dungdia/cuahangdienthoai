@@ -92,8 +92,8 @@ public class PhanQuyen extends javax.swing.JPanel implements ActionListener {
             toolBar.add(themBtn);
         if(qBUS.checkQuyen(ctqList, 7, "edit"))
             toolBar.add(suaBtn);
-        if(qBUS.checkQuyen(ctqList, 7, "delete"))
-            toolBar.add(xoaBtn);
+//        if(qBUS.checkQuyen(ctqList, 7, "delete"))
+//            toolBar.add(xoaBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);
         suaBtn.addActionListener(this);

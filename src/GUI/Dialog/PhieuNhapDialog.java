@@ -18,6 +18,7 @@ import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Main;
 import GUI.Panel.PhieuNhap;
 import helper.Formatter;
 import java.awt.Color;
@@ -51,6 +52,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     private int newPNId;
     private String mode;
     private PhieuNhap pnPanel;
+    private Main main;
     
     private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     
@@ -64,12 +66,14 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         this.phieuNhap = phieuNhap;
         this.currentUser = currentUser;
         this.mode = mode;
+        this.main = (Main) parent;
         initComponents();
         initComponentsCustom();
     }
 
     public void initComponentsCustom() {
         this.setLocationRelativeTo(null);
+        suaSLBtn.setVisible(false);
         ctpnTableModel = (DefaultTableModel) ctpnTable.getModel();
         if(mode.equals("detail"))
             initDetailMode();
@@ -512,6 +516,8 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
             pbspBUS = newPbspBUS;
             SanPhamBUS newspBUS = new SanPhamBUS();
             spBUS = newspBUS;
+            main.sanPham.sanPhamList = spBUS.getAll();
+            main.sanPham.loadDataToTable(main.sanPham.sanPhamList);
         }
         if(selection == 1) {
             ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
@@ -555,25 +561,6 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_themSPBtnMousePressed
 
-    private void suaSLBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suaSLBtnMousePressed
-        int index = ctpnTable.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm để sửa");
-            return;
-        } else {
-            try {
-                int soLuong = getNumberInput("Số lượng");
-                if(soLuong == 0)
-                    return;
-                newCTPNList.get(index).setSoLuong(soLuong);
-                newCTPNList.get(index).setTongTien(soLuong * newCTPNList.get(index).getDonGia());
-                reloadEvent();
-            } catch (Exception e) {
-                return;
-            }
-        }
-    }//GEN-LAST:event_suaSLBtnMousePressed
-
     private void xoaSPBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xoaSPBtnMousePressed
         int index = ctpnTable.getSelectedRow();
         if (index == -1) {
@@ -595,6 +582,25 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         if(JOptionPane.showConfirmDialog(this, "Phiếu nhập sẽ không thể hủy, bạn có chắc muốn nhập hàng không?", "", JOptionPane.YES_NO_OPTION)== 0)
             addPNEvent();
     }//GEN-LAST:event_nhapHangBtnMousePressed
+
+    private void suaSLBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suaSLBtnMousePressed
+        int index = ctpnTable.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm để sửa");
+            return;
+        } else {
+            try {
+                int soLuong = getNumberInput("Số lượng");
+                if(soLuong == 0)
+                return;
+                newCTPNList.get(index).setSoLuong(soLuong);
+                newCTPNList.get(index).setTongTien(soLuong * newCTPNList.get(index).getDonGia());
+                reloadEvent();
+            } catch (Exception e) {
+                return;
+            }
+        }
+    }//GEN-LAST:event_suaSLBtnMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
