@@ -65,7 +65,7 @@ public class HoaDonBUS {
     public boolean addNewHDWithCTHDList(HoaDonDTO hd, ArrayList<CTHoaDonDTO> cthdList,ArrayList<CTSanPhamDTO> ctsp,ArrayList<CTBaoHanhDTO> ctbh) {
         if(hdDAO.insert(hd) != 0) {
             hoaDonList.add(hd);
-            ctspDAO.insert(ctsp);
+            ctspDAO.setTrangThaiTo0(ctsp);
             cthdDAO.insert(cthdList);
             ctbhDAO.insert(ctbh);
             return true;

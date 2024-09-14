@@ -28,7 +28,7 @@ public class SanPhamBUS {
     }
 
     public ArrayList<SanPhamDTO> getAll() {
-        return this.sanPhamList;
+        return spDAO.selectAll();
     }
 
     public int getLength() {

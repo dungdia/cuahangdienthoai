@@ -176,8 +176,8 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         return 0;
     }
     
-    public String getImei(){
-        boolean inputAccepted = false;
+    public String getImei(ArrayList<CTSanPhamDTO> ctsp,int soLuong){
+        boolean inputAccepted = false; 
         String result = "";
         while(!inputAccepted){
                 String input = JOptionPane.showInputDialog("Nhập IMEI cho lô sản phẩm này");
@@ -190,9 +190,25 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Imei phải là số có 15 chữ số và không bắt đầu bằng số 0");
                 }else{
                     inputAccepted = true;
-                    return input;
+                    //check imei exsited
+                    
+                 for(int i=0; i<soLuong; i++) {
+                    String newimei = String.valueOf(Long.parseLong(input) + i);
+                    for(CTSanPhamDTO j : ctsp){
+                        if(j.getImei().equals(newimei)){
+                            JOptionPane.showMessageDialog(this, "Imei '" + newimei + "' đã tồn tại");
+                            inputAccepted = false;
+                            break;
+                        }
+                    if(!inputAccepted)
+                        break;
+                }
+                    }
+                    if(inputAccepted)
+                        return input;
                 } 
         }
+        
         
         return result;
     }
@@ -492,6 +508,10 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         if(selection == 0) {
             ThemSuaSanPhamDialog addSpDialog = new ThemSuaSanPhamDialog(null, true, "Thêm sản phẩm", null, "add", null, null);
             addSpDialog.setVisible(true);
+            PhienBanSanPhamBUS newPbspBUS = new PhienBanSanPhamBUS();
+            pbspBUS = newPbspBUS;
+            SanPhamBUS newspBUS = new SanPhamBUS();
+            spBUS = newspBUS;
         }
         if(selection == 1) {
             ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
@@ -514,7 +534,9 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
                     return;
                 }
                 int giaNhap = getNumberInput("Giá nhập");
-                String imei = getImei();
+                if (giaNhap == 0)
+                    return;
+                String imei = getImei(newCTSPList,soLuong);
                 PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
                 for(int i=0; i<soLuong; i++) {
                     String newimei = String.valueOf(Long.parseLong(imei) + i);
