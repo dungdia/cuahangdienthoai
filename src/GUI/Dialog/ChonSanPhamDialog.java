@@ -31,7 +31,7 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
     public int selectedId;
     private String mode;
     
-    public ChonSanPhamDialog(java.awt.Frame parent,boolean modal, ArrayList<SanPhamDTO> spList, ArrayList<PhienBanSanPhamDTO> pbspList, String mode) {
+    public ChonSanPhamDialog(java.awt.Frame parent, boolean modal, ArrayList<SanPhamDTO> spList, ArrayList<PhienBanSanPhamDTO> pbspList, String mode) {
         super(parent, modal);
         this.mode = mode;
         if(mode.equals("nhap")) {
@@ -170,11 +170,6 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
         chonSPBtn.setForeground(new java.awt.Color(255, 255, 255));
         chonSPBtn.setText("Chọn sản phẩm này");
         chonSPBtn.setBorder(null);
-        chonSPBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                chonSPBtnMousePressed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -240,10 +235,6 @@ public class ChonSanPhamDialog extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_spTableMousePressed
-
-    private void chonSPBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chonSPBtnMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chonSPBtnMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

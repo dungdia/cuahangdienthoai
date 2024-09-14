@@ -26,6 +26,7 @@ import DTO.KhachHangDTO;
 import DTO.KhuyenMaiDTO;
 import DTO.SanPhamDTO;
 import GUI.Panel.HoaDon;
+import helper.Calculator;
 import helper.Formatter;
 import java.sql.Timestamp;
 import javax.swing.JOptionPane;
@@ -56,7 +57,6 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public ArrayList<SanPhamDTO> spList;
     public ArrayList<PhienBanSanPhamDTO> pbspList;
     private ArrayList<CTHoaDonDTO> newCTHDList = new ArrayList<>();
-//    private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     private ArrayList<CTBaoHanhDTO> newBaoHanhList = new ArrayList<>();
     private ArrayList<CTHoaDonDTO> CTHDList = new ArrayList<>();
     private ArrayList<CTSanPhamDTO> CTSPList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
         CTHDList = cthdBUS.getAllByID(hoadon.getId());
         CTBHList = ctBhBUS.getAllByHoaDonId(hoadon.getId());
         for(CTHoaDonDTO i : CTHDList){
-            CTSanPhamDTO tempSp = ctspBUS.getBySanPhamByImei(i.getImeiSanPham());
+            CTSanPhamDTO tempSp = ctspBUS.getSanPhamByImei(i.getImeiSanPham());
             CTSPList.add(tempSp);
         }
         txtMa.setText(Integer.toString(hoadon.getId()));
@@ -166,7 +166,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
     public void loadDataToTable(ArrayList<CTHoaDonDTO> cthdList,ArrayList<CTBaoHanhDTO> ctbhList) {
         cthdTableModel.setRowCount(0);
         for(int i=0; i<cthdList.size(); i++) {
-//            PhienBanSanPhamDTO pbspIndex = pbspBUS.getObjectById(ctspList.get(i).getIdPBSanPham());
+            PhienBanSanPhamDTO pbspIndex = pbspBUS.getObjectById(CTSPList.get(i).getIdPBSanPham());
             Timestamp ngayKetThuc = ctbhList.get(i).getNgayKetThuc();
             int ngay = ngayKetThuc.getDate();
             int thang = ngayKetThuc.getMonth() +1;
@@ -174,37 +174,16 @@ public class HoaDonDialog extends javax.swing.JDialog {
             String displayDate = (ngay < 10 ? "0"+ngay : ngay) + "/" + (thang < 10 ? "0"+thang : thang) + "/" + nam;
             cthdTableModel.addRow(new Object[]{
                 i+1,
-//                ctspList.get(i).getImei(),
-//                spBUS.getNameByID(ctspList.get(i).getIdSanPham()),
-//                pbspIndex.getRam(),
-//                pbspIndex.getRom(),
-//                pbspIndex.getMau(),
+                CTSPList.get(i).getImei(),
+                spBUS.getNameByID(CTSPList.get(i).getIdSanPham()),
+                pbspIndex.getRam(),
+                pbspIndex.getRom(),
+                pbspIndex.getMau(),
                 displayDate,
-                Formatter.FormatVND(cthdList.get(i).getGiaBanRa()),
-                Formatter.FormatVND(cthdList.get(i).getTongTien()),
+                Formatter.FormatVND(Calculator.calculatePrice(CTSPList.get(i).getGiaNhap())),
+                Formatter.FormatVND(Calculator.calculatePrice(CTSPList.get(i).getGiaNhap())),
             });
         }
-    }
-
-    public String getImei(){
-        boolean inputAccepted = false;
-        String result = "";
-        while(!inputAccepted){
-                String input = JOptionPane.showInputDialog("Nhập IMEI");
-                if(input == null)
-                    return "";
-                Pattern pattern = Pattern.compile("^[0-9]{15}$", Pattern.CASE_INSENSITIVE);
-                Matcher matcher = pattern.matcher(input);
-                boolean matchFound = matcher.find();
-                if(!matchFound){
-                    JOptionPane.showMessageDialog(this, "Imei phải là số có 15 chữ số");
-                }else{
-                    inputAccepted = true;
-                    return input;
-                } 
-        }
-        
-        return result;
     }
     
     public int getSoThang(){
@@ -258,7 +237,14 @@ public class HoaDonDialog extends javax.swing.JDialog {
 //        int khid = khBUS.getByIndex(khComboBox.getSelectedIndex()).getId();
         long now = System.currentTimeMillis();
         Timestamp ngayXuat = new Timestamp(now);
-        int kmid = kmList.get(kmComboBox.getSelectedIndex()).getId();
+        int kmid;
+        try {
+            kmid = kmList.get(kmComboBox.getSelectedIndex()).getId();
+        } catch (Exception e) {
+            kmid = 0;
+        }
+        if(this.kh == null)
+            return null;
         return new HoaDonDTO(this.newhdId , this.kh.getId(), this.currentUser.getIdNhanVien(), ngayXuat, this.tongTien, kmid);
     }
     
@@ -277,6 +263,8 @@ public class HoaDonDialog extends javax.swing.JDialog {
     
     public void khuyenMai() {
         newHoaDon = getNewHoaDon();
+        if(newHoaDon == null)
+            return;
         KhuyenMaiDTO km = kmList.get(kmComboBox.getSelectedIndex());
         if(km.getId() == 1) {
             newHoaDon.setTongTien(getTongTien());
@@ -326,10 +314,10 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
         newHoaDon = getNewHoaDon();
         khuyenMai();
-//        if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,newCTSPList,newBaoHanhList)) {
-//            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
-//            dispose();
-//        }
+        if (hdPanel.hdBUS.addNewHDWithCTHDList(newHoaDon, newCTHDList,CTSPList,newBaoHanhList)) {
+            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công !");
+            dispose();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -654,15 +642,15 @@ public class HoaDonDialog extends javax.swing.JDialog {
             }
             if(pbspId == -1)
             return;
-            String imei = getImei();
 
+            ChonCTSPDialog ctspDialog = new ChonCTSPDialog(null, true, pbspId);
+            ctspDialog.setVisible(true);
+            
+            String imei = ctspDialog.getSelectedIMEI();
             if(imei.equals(""))
-            return;
-
-            if(ctspBUS.checkExisted(imei) || isExisted(imei)){
-                JOptionPane.showMessageDialog(this, "Sản phẩm đã có trong hóa đơn hoặc bán ra");
                 return;
-            }
+            CTSanPhamDTO ctsp = ctspBUS.getSanPhamByImei(imei);
+            
             int soThang = getSoThang();
             long now = System.currentTimeMillis();
             Date nowDate = new Date(now);
@@ -676,9 +664,10 @@ public class HoaDonDialog extends javax.swing.JDialog {
                     break;
                 }
             }
-//            this.tongTien += (long) pbsp.getGiaXuat();
-            newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, 0, 0));
-//            newCTSPList.add(new CTSanPhamDTO(imei, pbsp.getIdSanPham(), pbspId, this.newhdId, 1));
+            int price = (int) Calculator.calculatePrice(ctsp.getGiaNhap());
+            this.tongTien += price;
+            newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, price, price));
+            CTSPList.add(ctsp);
             newBaoHanhList.add(new CTBaoHanhDTO(this.newctbhId++,bhBUS.getIdBySoThang(soThang),this.newhdId,imei,bhTime));
             loadDataToTable(newCTHDList,newBaoHanhList);
             txtTt.setText(Formatter.FormatVND(getTongTien()));
@@ -695,13 +684,13 @@ public class HoaDonDialog extends javax.swing.JDialog {
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này không?", "", JOptionPane.YES_NO_OPTION) == 0) {
                 for(PhienBanSanPhamDTO i : this.pbspList) {
-//                    if(i.getId() == newCTSPList.get(index).getIdPBSanPham()) {
-//                        i.setSoLuong(i.getSoLuong() + 1);
-//                        break;
-//                    }
+                    if(i.getId() == CTSPList.get(index).getIdPBSanPham()) {
+                        i.setSoLuong(i.getSoLuong() + 1);
+                        break;
+                    }
                 }
                 newCTHDList.remove(index);
-//                newCTSPList.remove(index);
+                CTSPList.remove(index);
                 newBaoHanhList.remove(index);
                 reloadEvent();
                 updateKhuyenMai();

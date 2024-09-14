@@ -29,7 +29,7 @@ public class CTSanPhamDAO {
         ArrayList<CTSanPhamDTO> result = new ArrayList<>();
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "SELECT * FROM ctsanpham WHERE trangThai=1";
+            String query = "SELECT * FROM ctsanpham";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -106,6 +106,50 @@ public class CTSanPhamDAO {
             }
         } catch (Exception e) {
             System.out.println(e);
+        }
+        return result;
+    }
+    
+    public ArrayList<CTSanPhamDTO> selectAvailableByPBSPId(int pbspId) {
+        ArrayList<CTSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection conn = (Connection) DBConnector.getConnection();
+            String query = "SELECT * FROM ctsanpham WHERE pbSanPham_id=" + pbspId;
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                String imei = rs.getString("imei");
+                int idSanPham = rs.getInt("sanPham_id");
+                int idPBSanPham = rs.getInt("pbSanPham_id");
+                int idPhieuNhap = rs.getInt("phieuNhap_id");
+                int giaNhap = rs.getInt("giaNhap");
+                int trangThai = rs.getInt("trangThai");
+                CTSanPhamDTO ctsp = new CTSanPhamDTO(imei, idSanPham, idPBSanPham, idPhieuNhap, giaNhap, trangThai);
+                result.add(ctsp);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int setTrangThaiTo0(ArrayList<CTSanPhamDTO> ctspList) {
+        int result = 0;
+        for (CTSanPhamDTO i : ctspList) {
+            try {
+                Connection conn = (Connection) DBConnector.getConnection();
+                String query = "UPDATE `ctsanpham` SET `trangThai`=0 WHERE imei LIKE ?";
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
+                pst.setString(1, i.getImei());
+                result = pst.executeUpdate();
+                String query2 = "UPDATE `pbsanpham` SET `soLuong`=soLuong-1 WHERE id = " + i.getIdPBSanPham();
+                PreparedStatement pst2 = (PreparedStatement) conn.prepareStatement(query2);
+                pst.setString(1, i.getImei());
+                result = pst2.executeUpdate();
+                DBConnector.closeConnection(conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return result;
     }
