@@ -18,6 +18,7 @@ import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Main;
 import GUI.Panel.PhieuNhap;
 import helper.Formatter;
 import java.awt.Color;
@@ -51,6 +52,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     private int newPNId;
     private String mode;
     private PhieuNhap pnPanel;
+    private Main main;
     
     private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     
@@ -64,12 +66,14 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         this.phieuNhap = phieuNhap;
         this.currentUser = currentUser;
         this.mode = mode;
+        this.main = (Main) parent;
         initComponents();
         initComponentsCustom();
     }
 
     public void initComponentsCustom() {
         this.setLocationRelativeTo(null);
+        suaSLBtn.setVisible(false);
         ctpnTableModel = (DefaultTableModel) ctpnTable.getModel();
         if(mode.equals("detail"))
             initDetailMode();
@@ -512,6 +516,8 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
             pbspBUS = newPbspBUS;
             SanPhamBUS newspBUS = new SanPhamBUS();
             spBUS = newspBUS;
+            main.sanPham.sanPhamList = spBUS.getAll();
+            main.sanPham.loadDataToTable(main.sanPham.sanPhamList);
         }
         if(selection == 1) {
             ChonSanPhamDialog dialog = new ChonSanPhamDialog(pnPanel.main, true, null, null, "nhap");
