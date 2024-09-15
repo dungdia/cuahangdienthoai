@@ -102,8 +102,8 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             toolBar.add(themBtn);
         if(qBUS.checkQuyen(ctqList, 1, "edit"))
             toolBar.add(suaBtn);
-        if(qBUS.checkQuyen(ctqList, 1, "delete"))
-            toolBar.add(xoaBtn);
+//        if(qBUS.checkQuyen(ctqList, 1, "delete"))
+//            toolBar.add(xoaBtn);
         toolBar.add(exportBtn);
         chiTietBtn.addActionListener(this);
         themBtn.addActionListener(this);

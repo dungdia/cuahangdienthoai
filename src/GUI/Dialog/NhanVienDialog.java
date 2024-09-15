@@ -63,7 +63,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
         txtSDT.setFocusable(false);
         txtEmail.setText(this.nhanVien.getEmail());
         txtEmail.setFocusable(false);
-        txtChucVu.setFocusable(false);
     }
     
     public void initAddMode() {
@@ -104,10 +103,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
         }
         if(Validator.isEmpty(txtEmail.getText())) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập email của nhân viên");
-            return false;
-        }
-        if(Validator.isEmpty(txtChucVu.getText())) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa nhập chức vụ của nhân viên");
             return false;
         }
         if(!Validator.isPhoneNumber(txtSDT.getText())) {
@@ -213,8 +208,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
         txtSDT = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtChucVu = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
 
@@ -270,8 +263,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
 
         jLabel6.setText("Email");
 
-        jLabel7.setText("Chức vụ");
-
         addBtn.setBackground(new java.awt.Color(78, 205, 196));
         addBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -314,7 +305,6 @@ public class NhanVienDialog extends javax.swing.JDialog {
                         .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7)
                     .addComponent(jLabel4)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(radioNam)
@@ -331,8 +321,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
                             .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel5)
-                    .addComponent(txtEmail)
-                    .addComponent(txtChucVu))
+                    .addComponent(txtEmail))
                 .addGap(91, 91, 91))
         );
         jPanel2Layout.setVerticalGroup(
@@ -362,11 +351,7 @@ public class NhanVienDialog extends javax.swing.JDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
@@ -408,12 +393,10 @@ public class NhanVienDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton radioNam;
     private javax.swing.JRadioButton radioNu;
-    private javax.swing.JTextField txtChucVu;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHo;
     private javax.swing.JTextField txtSDT;

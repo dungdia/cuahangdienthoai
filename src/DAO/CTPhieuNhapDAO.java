@@ -79,7 +79,7 @@ public class CTPhieuNhapDAO {
                 pst.setInt(1, ctpnList.get(i).getIdPhieuNhap());
                 pst.setInt(2, ctpnList.get(i).getIdPBSanPham());
                 pst.setInt(3, ctpnList.get(i).getSoLuong());
-                pst.setInt(4, ctpnList.get(i).getDonGia());
+                pst.setLong(4, ctpnList.get(i).getDonGia());
                 pst.setLong(5, ctpnList.get(i).getTongTien());
                 result = pst.executeUpdate();
                 DBConnector.closeConnection(con);

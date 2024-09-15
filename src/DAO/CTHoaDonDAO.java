@@ -36,8 +36,8 @@ public class CTHoaDonDAO {
                 int idHoaDon = rs.getInt("hoaDon_id");
                 String imei = rs.getString("imei");
                 int soLuong = rs.getInt("soLuong");
-                int giaBanRa = rs.getInt("giaBanRa");
-                int tongTien = rs.getInt("tongTien");
+                long giaBanRa = rs.getLong("giaBanRa");
+                long tongTien = rs.getLong("tongTien");
                 CTHoaDonDTO ctpn = new CTHoaDonDTO(idHoaDon, imei, soLuong, giaBanRa, tongTien);
                 result.add(ctpn);
             }
@@ -58,8 +58,8 @@ public class CTHoaDonDAO {
                 int idHoaDon = rs.getInt("hoaDon_id");
                 String imei = rs.getString("imei");
                 int soLuong = rs.getInt("soLuong");
-                int giaBanRa = rs.getInt("giaBanRa");
-                int tongTien = rs.getInt("tongTien");
+                long giaBanRa = rs.getLong("giaBanRa");
+                long tongTien = rs.getLong("tongTien");
                 CTHoaDonDTO ctpn = new CTHoaDonDTO(idHoaDon, imei, soLuong, giaBanRa, tongTien);
                 result.add(ctpn);
             }
@@ -79,7 +79,7 @@ public class CTHoaDonDAO {
                 pst.setInt(1, cthdList.get(i).getIdHoaDon());
                 pst.setString(2, cthdList.get(i).getImeiSanPham());
                 pst.setInt(3, cthdList.get(i).getSoLuong());
-                pst.setInt(4, cthdList.get(i).getGiaBanRa());
+                pst.setLong(4, cthdList.get(i).getGiaBanRa());
                 pst.setLong(5, cthdList.get(i).getTongTien());
                 result = pst.executeUpdate();
                 DBConnector.closeConnection(con);

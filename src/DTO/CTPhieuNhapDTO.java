@@ -12,10 +12,10 @@ public class CTPhieuNhapDTO {
     private int idPhieuNhap;
     private int idPBSanPham;
     private int soLuong;
-    private int donGia;
+    private long donGia;
     private long tongTien;
 
-    public CTPhieuNhapDTO(int idPhieuNhap, int idPBSanPham, int soLuong, int donGia, long tongTien) {
+    public CTPhieuNhapDTO(int idPhieuNhap, int idPBSanPham, int soLuong, long donGia, long tongTien) {
         this.idPhieuNhap = idPhieuNhap;
         this.idPBSanPham = idPBSanPham;
         this.soLuong = soLuong;
@@ -47,7 +47,7 @@ public class CTPhieuNhapDTO {
         this.soLuong = soLuong;
     }
 
-    public int getDonGia() {
+    public long getDonGia() {
         return donGia;
     }
 

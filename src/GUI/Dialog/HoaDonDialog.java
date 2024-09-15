@@ -245,7 +245,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
         }
         if(this.kh == null)
             return null;
-        return new HoaDonDTO(this.newhdId , this.kh.getId(), this.currentUser.getIdNhanVien(), ngayXuat, this.tongTien, kmid);
+        return new HoaDonDTO(this.newhdId , this.kh.getId(), this.currentUser.getIdNhanVien(), ngayXuat, (long) this.tongTien, kmid);
     }
     
     public void reloadEvent() {
@@ -664,7 +664,7 @@ public class HoaDonDialog extends javax.swing.JDialog {
                     break;
                 }
             }
-            int price = (int) Calculator.calculatePrice(ctsp.getGiaNhap());
+            long price = Calculator.calculatePrice(ctsp.getGiaNhap());
             this.tongTien += price;
             newCTHDList.add(new CTHoaDonDTO(this.newhdId, imei, 1, price, price));
             CTSPList.add(ctsp);

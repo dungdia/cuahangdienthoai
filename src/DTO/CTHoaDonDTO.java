@@ -12,10 +12,10 @@ public class CTHoaDonDTO {
     private int idHoaDon;
     private String imei;
     private int soLuong;
-    private int giaBanRa;
-    private int tongTien;
+    private long giaBanRa;
+    private long tongTien;
 
-    public CTHoaDonDTO(int idHoaDon, String imei,int soLuong, int giaBanRa, int tongTien) {
+    public CTHoaDonDTO(int idHoaDon, String imei,int soLuong, long giaBanRa, long tongTien) {
         this.idHoaDon = idHoaDon;
         this.imei = imei;
         this.soLuong = soLuong;
@@ -47,7 +47,7 @@ public class CTHoaDonDTO {
         this.soLuong = soLuong;
     }
 
-    public int getGiaBanRa() {
+    public long getGiaBanRa() {
         return giaBanRa;
     }
 
@@ -55,7 +55,7 @@ public class CTHoaDonDTO {
         this.giaBanRa = giaBanRa;
     }
 
-    public int getTongTien() {
+    public long getTongTien() {
         return tongTien;
     }
 
