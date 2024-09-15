@@ -138,7 +138,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     public void setTongTien() {
         long sum=0;
         for(CTPhieuNhapDTO i : newCTPNList) {
-            sum += i.getTongTien();
+            sum += (long) i.getTongTien();
         }
         this.tongTien = sum;
     }
@@ -148,7 +148,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         int nccId = nccBUS.getByIndex(cbxNcc.getSelectedIndex()).getId();
         long now = System.currentTimeMillis();
         Timestamp ngayNhap = new Timestamp(now);
-        return new PhieuNhapDTO(this.newPNId, nccId, this.currentUser.getIdNhanVien(), ngayNhap, this.tongTien);
+        return new PhieuNhapDTO(this.newPNId, nccId, this.currentUser.getIdNhanVien(), ngayNhap, (long) this.tongTien);
     }
     
     public long getTongTien() {
@@ -551,7 +551,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
                 }
                 
                 this.tongTien += (long) giaNhap*soLuong;
-                newCTPNList.add(new CTPhieuNhapDTO(this.newPNId, pbspId, soLuong, giaNhap, giaNhap*soLuong));
+                newCTPNList.add(new CTPhieuNhapDTO(this.newPNId, pbspId, soLuong, giaNhap, (long) giaNhap*soLuong));
                 loadDataToTable(newCTPNList);
                 txtTt.setText(Formatter.FormatVND(getTongTien()));
             } catch (NumberFormatException e) {

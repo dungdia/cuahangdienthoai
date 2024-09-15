@@ -11,7 +11,7 @@ import config.Constants;
  * @author Duc3m
  */
 public class Calculator {
-    public static final long calculatePrice(int giaNhap) {
+    public static final long calculatePrice(long giaNhap) {
         return (long)((long) giaNhap * Constants.PROFIT);
     }
 }
