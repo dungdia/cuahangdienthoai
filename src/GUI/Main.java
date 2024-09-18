@@ -16,7 +16,7 @@ import config.DBConnector;
 import java.sql.*;
 
 /**
- *
+ *cc
  * @author Admin
  */
 public class Main extends javax.swing.JFrame {
