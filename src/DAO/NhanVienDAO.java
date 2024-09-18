@@ -99,7 +99,7 @@ public class NhanVienDAO {
         int result = 0;
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "INSERT INTO `nhanvien`(`ho`, `ten`, `gioiTinh`, `soDienThoai`, `email`, `chucVu`) VALUES (?,?,?,?,?,?)";
+            String query = "INSERT INTO `nhanvien`(`ho`, `ten`, `gioiTinh`, `soDienThoai`, `email`) VALUES (?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             pst.setString(1, nv.getHo());
             pst.setString(2, nv.getTen());
@@ -118,7 +118,7 @@ public class NhanVienDAO {
         int result = 0;
         try {
             Connection conn = (Connection) DBConnector.getConnection();
-            String query = "UPDATE `nhanvien` SET `ho`=?,`ten`=?,`gioiTinh`=?,`soDienThoai`=?,`email`=?,`chucVu`=? WHERE `id`=?";
+            String query = "UPDATE `nhanvien` SET `ho`=?,`ten`=?,`gioiTinh`=?,`soDienThoai`=?,`email`=? WHERE `id`=?";
             PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query);
             pst.setString(1, nv.getHo());
             pst.setString(2, nv.getTen());
