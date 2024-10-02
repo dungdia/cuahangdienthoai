@@ -517,6 +517,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
             SanPhamBUS newspBUS = new SanPhamBUS();
             spBUS = newspBUS;
             main.sanPham.sanPhamList = spBUS.getAll();
+            main.sanPham.spBUS = new SanPhamBUS();
             main.sanPham.loadDataToTable(main.sanPham.sanPhamList);
         }
         if(selection == 1) {
