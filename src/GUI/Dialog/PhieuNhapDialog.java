@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -53,6 +54,7 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
     private String mode;
     private PhieuNhap pnPanel;
     private Main main;
+    private HashMap<Integer, String> imeiList = new HashMap<>();
     
     private ArrayList<CTSanPhamDTO> newCTSPList = new ArrayList<>();
     
@@ -237,6 +239,18 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
         loadDataToTable(newCTPNList);
         txtTt.setText(Formatter.FormatVND(getTongTien()));
     }
+    
+        public void generateNewCTSPList() {
+        for (CTPhieuNhapDTO i : this.newCTPNList) {
+            String imei = imeiList.get(i.getIdPBSanPham());
+            PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(i.getIdPBSanPham());
+            for (int j = 0; j < i.getSoLuong(); j++) {
+                String newimei = String.valueOf(Long.parseLong(imei) + j);
+                CTSanPhamDTO newCTSP = new CTSanPhamDTO(newimei, pbsp.getIdSanPham(), pbsp.getId(), this.newPNId, i.getDonGia(), 1);
+                this.newCTSPList.add(newCTSP);
+            }
+        }
+    }   
     
     public void addPNEvent() {
         newPhieuNhap = getNewPN();
@@ -544,12 +558,13 @@ public class PhieuNhapDialog extends javax.swing.JDialog {
                 if (giaNhap == 0)
                     return;
                 String imei = getImei(newCTSPList,soLuong);
-                PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
-                for(int i=0; i<soLuong; i++) {
-                    String newimei = String.valueOf(Long.parseLong(imei) + i);
-                    CTSanPhamDTO newCTSP = new CTSanPhamDTO(newimei, pbsp.getIdSanPham(), pbspId, this.newPNId, giaNhap, 1);
-                    this.newCTSPList.add(newCTSP);
-                }
+                this.imeiList.put(pbspId, imei);
+//                PhienBanSanPhamDTO pbsp = pbspBUS.getObjectById(pbspId);
+//                for(int i=0; i<soLuong; i++) {
+//                    String newimei = String.valueOf(Long.parseLong(imei) + i);
+//                    CTSanPhamDTO newCTSP = new CTSanPhamDTO(newimei, pbsp.getIdSanPham(), pbspId, this.newPNId, giaNhap, 1);
+//                    this.newCTSPList.add(newCTSP);
+//                }
                 
                 this.tongTien += (long) giaNhap*soLuong;
                 newCTPNList.add(new CTPhieuNhapDTO(this.newPNId, pbspId, soLuong, giaNhap, (long) giaNhap*soLuong));
