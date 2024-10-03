@@ -253,6 +253,7 @@ public class SanPham extends javax.swing.JPanel implements ActionListener {
             ThemSuaSanPhamDialog addSpDialog = new ThemSuaSanPhamDialog(main, true, "Thêm sản phẩm", this, "add", null, null);
             addSpDialog.setVisible(true);
             sanPhamList = spBUS.getAll();
+            spBUS = new SanPhamBUS();
             loadDataToTable(sanPhamList);
         }
         

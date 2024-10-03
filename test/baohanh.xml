@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.2.1
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Sep 18, 2024 at 04:52 AM
+- Server version: 10.4.32-MariaDB
+- PHP Version: 8.2.12
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="cuahangdienthoai" collation="utf8mb4_general_ci" charset="utf8mb4">
+            <pma:table name="baohanh">
+                CREATE TABLE `baohanh` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `soThang` int(11) DEFAULT NULL,
+                  `trangthai` int(11) NOT NULL DEFAULT 1,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'cuahangdienthoai'
+    -->
+    <database name="cuahangdienthoai">
+        <!-- Table baohanh -->
+        <table name="baohanh">
+            <column name="id">1</column>
+            <column name="soThang">12</column>
+            <column name="trangthai">1</column>
+        </table>
+        <table name="baohanh">
+            <column name="id">2</column>
+            <column name="soThang">24</column>
+            <column name="trangthai">1</column>
+        </table>
+        <table name="baohanh">
+            <column name="id">3</column>
+            <column name="soThang">36</column>
+            <column name="trangthai">1</column>
+        </table>
+        <table name="baohanh">
+            <column name="id">4</column>
+            <column name="soThang">6</column>
+            <column name="trangthai">1</column>
+        </table>
+        <table name="baohanh">
+            <column name="id">5</column>
+            <column name="soThang">8</column>
+            <column name="trangthai">1</column>
+        </table>
+    </database>
+</pma_xml_export>
