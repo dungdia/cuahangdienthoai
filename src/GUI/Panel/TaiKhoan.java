@@ -111,6 +111,7 @@ public class TaiKhoan extends javax.swing.JPanel implements ActionListener {
     
     public void loadDataToTable(ArrayList<TaiKhoanDTO> tkList) {
         tableModel.setRowCount(0);
+        nvBUS.nhanVienList = nvBUS.getAll();
         for(TaiKhoanDTO i : tkList) {
             tableModel.addRow(new Object[]{
                 i.getId(), 
